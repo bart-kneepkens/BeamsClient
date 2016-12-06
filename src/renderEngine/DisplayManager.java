@@ -27,7 +27,7 @@ public class DisplayManager {
     
     private static long lastFrameTime;
     private static float delta;
-    private static final String TITLE = "Terrain Viewer";
+    private static final String TITLE = "Beams";
 
     /**
      * Creates a new display, with width, height and the title specified as

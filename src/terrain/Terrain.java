@@ -5,13 +5,13 @@
  */
 package terrain;
 
-import DataAccess.ModelData;
+import DataAccess.lwjgl.ModelData;
 import java.awt.image.BufferedImage;
 import models.RawModel;
 import org.lwjgl.util.vector.Vector3f;
 import DataAccess.lwjgl.Loader;
-import textures.TerrainTexture;
-import textures.TerrainTexturePack;
+import terrain.texture.TerrainTexture;
+import terrain.texture.TerrainTexturePack;
 
 /**
  *

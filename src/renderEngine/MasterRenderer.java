@@ -10,12 +10,10 @@ import terrain.lwjgl.TerrainRenderer;
 import GUI.lwjgl.GUIRenderer;
 import Game.Scene;
 import entity.Entity;
-import entity.Light;
 import entity.lwjgl.EntityRenderer;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
 import terrain.Terrain;
 import toolbox.Maths;
 

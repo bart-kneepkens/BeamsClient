@@ -5,9 +5,6 @@
  */
 package models;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /**
  * An instance of this class represents the raw data of a model. This includes
  * the VAO ID and the amount of vertices.

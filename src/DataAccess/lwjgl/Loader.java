@@ -6,7 +6,6 @@
 package DataAccess.lwjgl;
 
 import toolbox.Convert;
-import DataAccess.ModelData;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -18,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.RawModel;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
@@ -39,9 +39,9 @@ public class Loader {
      * Keeps track of all VAO's, VBO's and textures, so they can be deleted from
      * memory once the program exits.
      */
-    private static List<Integer> vaos = new ArrayList<>();
-    private static List<Integer> vbos = new ArrayList<>();
-    private static List<Integer> textures = new ArrayList<>();
+    private static final List<Integer> vaos = new ArrayList<>();
+    private static final List<Integer> vbos = new ArrayList<>();
+    private static final List<Integer> textures = new ArrayList<>();
 
 
     /**
@@ -70,8 +70,8 @@ public class Loader {
         try {
             texture = TextureLoader.getTexture("PNG", new FileInputStream("res/textures/" + fileName + ".png"));
             GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
-            //GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
-            //GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.5f);
+            GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
+            GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.5f);
         } catch (IOException ex) {
             Logger.getLogger(Loader.class.getName()).log(Level.SEVERE, null, ex);
         }

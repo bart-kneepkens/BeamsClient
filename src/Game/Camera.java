@@ -13,12 +13,17 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class Camera {
 
-    private Vector3f position = new Vector3f(-40, 100, 150);
-    private float pitch = 30;
+    private Vector3f position;
+    private float pitch;
     private float yaw;
     private float roll;
 
-    public Camera() {
+    
+    public Camera(Vector3f position, float pitch, float yaw, float roll) {
+        this.position = position;
+        this.pitch = pitch;
+        this.yaw = yaw;
+        this.roll = roll;
     }
 
     public void increasePosition(Vector3f amount) {
@@ -43,24 +48,12 @@ public class Camera {
         return roll;
     }
 
-    public void reset() {
-        this.position = new Vector3f(-40, 100, 150);
-        this.pitch = 30;
-        this.yaw = 0;
-        this.roll = 0;
-    }
-
     public void turnHorizontally(float amount) {
         this.yaw += amount;
-
-        float newX = 0;
-        float newZ = 0;
-
-        newX = (float) Math.sin(-yaw * (Math.PI / 180)) * 150 - 40;
-        newZ = (float) Math.cos(-yaw * (Math.PI / 180)) * 150;
-
-        this.position.setX(newX);
-        this.position.setZ(newZ);
+    }
+    
+    public void turnVertically(float amount){
+        this.pitch += amount;
     }
 
 }

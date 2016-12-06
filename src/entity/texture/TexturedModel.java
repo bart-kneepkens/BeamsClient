@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package models;
+package entity.texture;
 
-import textures.ModelTexture;
+import entity.texture.ModelTexture;
+import models.RawModel;
 
 /**
  * An instance of this class contains a raw model and a model texture.

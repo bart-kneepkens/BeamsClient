@@ -6,6 +6,7 @@
 package GUI;
 
 import GUI.lib.GUIElement;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +27,7 @@ public class GUI {
     }
 
     public Map<GUIElement, Integer> getGuiElements() {
-        return guiElements;
+        return Collections.unmodifiableMap(guiElements);
     }
     
     

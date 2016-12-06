@@ -7,7 +7,7 @@ package terrain.lwjgl;
 
 import entity.Light;
 import org.lwjgl.util.vector.Matrix4f;
-import shaders.ShaderProgram;
+import renderEngine.ShaderProgram;
 import static toolbox.AttributeListPosition.NORMAL_VECTORS;
 import static toolbox.AttributeListPosition.TEXTURE_COORDS;
 import static toolbox.AttributeListPosition.VERTEX_POSITIONS;

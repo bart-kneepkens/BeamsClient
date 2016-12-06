@@ -15,7 +15,6 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import static toolbox.AttributeListPosition.TEXTURE_COORDS;
 import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
-import GUI.shaders.GUIShader;
 import renderEngine.Renderer;
 import toolbox.Maths;
 
@@ -25,12 +24,9 @@ import toolbox.Maths;
  *
  * @author Blackened
  */
-public class GUIRenderer implements Renderer<GUIElement> {
+public class GUIRenderer extends GUIShader implements Renderer<GUIElement> {
     
-    private final GUIShader shader;
-
     public GUIRenderer() {
-        this.shader = new GUIShader();
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
     }
@@ -53,7 +49,7 @@ public class GUIRenderer implements Renderer<GUIElement> {
                 element.getRotation(),
                 element.getWidth() / (float) (Display.getWidth() / 2),
                 element.getHeight() / (float) (Display.getHeight() / 2));
-        shader.loadUniformMatrix("transformationMatrix", transformationMatrix);
+        this.loadUniformMatrix("transformationMatrix", transformationMatrix);
 
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, element.getActiveTextureID());
@@ -62,22 +58,6 @@ public class GUIRenderer implements Renderer<GUIElement> {
         GL20.glDisableVertexAttribArray(VERTEX_POSITIONS.getNumVal());
         GL20.glDisableVertexAttribArray(TEXTURE_COORDS.getNumVal());
         GL30.glBindVertexArray(0);
-    }
-
-    @Override
-    public void cleanUp(){
-        this.shader.cleanUp();
-    }
-    
-    @Override
-    public void start(){
-        this.shader.start();
-    }
-    
-    @Override
-    public void stop(){
-        this.shader.stop();
-    }
-    
+    }   
     
 }

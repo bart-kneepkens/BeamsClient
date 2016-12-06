@@ -5,6 +5,7 @@
  */
 package terrain.lwjgl;
 
+import terrain.texture.TerrainTexturePack;
 import models.RawModel;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -19,7 +20,6 @@ import static toolbox.AttributeListPosition.TEXTURE_COORDS;
 import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
 import renderEngine.Renderer;
 import terrain.Terrain;
-import textures.TerrainTexturePack;
 import toolbox.Maths;
 
 /**

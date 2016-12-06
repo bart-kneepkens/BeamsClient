@@ -20,11 +20,6 @@ public class Scene {
     private Light light;
     
     private Terrain terrain;
-    
-    
-    public void resetCamera(){
-        this.camera.reset();
-    }
 
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
@@ -42,10 +37,13 @@ public class Scene {
         return terrain;
     }
 
-    public Scene() {
-        this.camera = new Camera();
-        this.light = new Light(new Vector3f(50, 50, 50), new Vector3f(1, 1, 1));
+    public Scene(Camera camera, Light light, Terrain terrain) {
+        this.camera = camera;
+        this.light = light;
+        this.terrain = terrain;
     }
+    
+    
     
     
     

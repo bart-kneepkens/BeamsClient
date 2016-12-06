@@ -65,10 +65,10 @@ public class InvisibleListener extends MouseActor {
     }
 
     public boolean inRange(MouseState mouseState) {
-        if (mouseState.getX() > this.position.x - (this.width / 2)
-                && mouseState.getX() < this.position.x + (this.width / 2)) {
-            return mouseState.getY() > this.position.y - (this.height / 2)
-                    && mouseState.getY() < this.position.y + (this.height / 2);
+        if (mouseState.getX() > this.position.x
+                && mouseState.getX() < this.position.x + this.width) {
+            return mouseState.getY() > this.position.y
+                    && mouseState.getY() < this.position.y + this.height;
         }
         return false;
     }

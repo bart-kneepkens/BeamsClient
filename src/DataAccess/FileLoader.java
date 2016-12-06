@@ -6,7 +6,6 @@
 package DataAccess;
 
 import DataAccess.lwjgl.Loader;
-import beamsClient.BeamsClient;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,8 +15,8 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import models.RawModel;
 import terrain.Terrain;
-import textures.TerrainTexture;
-import textures.TerrainTexturePack;
+import terrain.texture.TerrainTexture;
+import terrain.texture.TerrainTexturePack;
 
 /**
  *
@@ -26,7 +25,7 @@ import textures.TerrainTexturePack;
 public class FileLoader {
 
     /**
-     * Loads a file with .ter extension Creates a terrain object with all
+     * Loads a file with .ter extension. Creates a terrain object with all
      * information found in this file.
      *
      * @param file

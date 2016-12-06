@@ -26,7 +26,7 @@ public class MouseInput {
     private static boolean btn2Pressed;
 
     public static void checkInputs() {
-        MouseState mouseState = new MouseState(false, false, Mouse.getX(), Mouse.getY(), Mouse.getDWheel());
+        MouseState mouseState = new MouseState(false, false, Mouse.getX(), Mouse.getY(), Mouse.getDX(), Mouse.getDY(), Mouse.getDWheel());
 
         // Checks for main 2 mouse buttons
         if (Mouse.isButtonDown(0) && !btn1Pressed) {

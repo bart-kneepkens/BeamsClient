@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package GUI.shaders;
+package GUI.lwjgl;
 
 import org.lwjgl.util.vector.Matrix4f;
 import static toolbox.AttributeListPosition.TEXTURE_COORDS;
 import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
-import shaders.ShaderProgram;
+import renderEngine.ShaderProgram;
 
 /**
  *
@@ -20,8 +20,8 @@ public class GUIShader extends ShaderProgram{
     /**
      * The locations of the shader files.
      */
-    private static final String VERTEX_FILE = "src/GUI/shaders/vertexShaderGUI";
-    private static final String FRAGMENT_FILE = "src/GUI/shaders/fragmentShaderGUI";
+    private static final String VERTEX_FILE = "src/GUI/lwjgl/vertexShaderGUI";
+    private static final String FRAGMENT_FILE = "src/GUI/lwjgl/fragmentShaderGUI";
 
     public GUIShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);

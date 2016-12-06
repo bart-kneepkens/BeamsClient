@@ -7,6 +7,7 @@ package GUI;
 
 import DataAccess.FileLoader;
 import GUI.objects.Button;
+import GUI.objects.InvisibleListener;
 import beamsClient.BeamsClient;
 import java.awt.FileDialog;
 import java.io.File;
@@ -16,6 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.JDialog;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 import userInput.Event;
 import userInput.MouseInput;
 
@@ -33,7 +35,7 @@ public class GUIManager {
 
         //<editor-fold defaultstate="collapsed" desc="Buttons">
         // Button 1
-        Button buttonExit = new Button(75, 75, new Vector2f(Display.getWidth() / 2 - 225, 50));
+        Button buttonExit = new Button(30, 30, new Vector2f(10, Display.getHeight() - 40));
         buttonExit.load();
         buttonExit.onClick(x -> this.buttonExit_Click(x));
         buttonExit.loadMainTexture("buttons/exit_main");
@@ -42,16 +44,7 @@ public class GUIManager {
         buttonExit.subscribe(MouseInput.getMouseSubject());
         this.gui.addElement(buttonExit.getGUIElement(), 0);
 
-        Button buttonResetCamera = new Button(75, 75, new Vector2f(Display.getWidth() / 2 - 150, 50));
-        buttonResetCamera.load();
-        buttonResetCamera.onClick(x -> this.buttonResetCamera_Click(x));
-        buttonResetCamera.loadMainTexture("buttons/camera_main");
-        buttonResetCamera.loadHoverTexture("buttons/camera_hover");
-        buttonResetCamera.loadClickTexture("buttons/camera_click");
-        buttonResetCamera.subscribe(MouseInput.getMouseSubject());
-        this.gui.addElement(buttonResetCamera.getGUIElement(), 0);
-
-        Button buttonLoadTerrain = new Button(75, 75, new Vector2f(Display.getWidth() / 2 - 75, 50));
+        Button buttonLoadTerrain = new Button(30, 30, new Vector2f(50, Display.getHeight() - 40));
         buttonLoadTerrain.load();
         buttonLoadTerrain.onClick(x -> this.buttonLoadTerrain_Click(x));
         buttonLoadTerrain.loadMainTexture("buttons/camera_main");
@@ -61,6 +54,10 @@ public class GUIManager {
         this.gui.addElement(buttonLoadTerrain.getGUIElement(), 0);
 
         //</editor-fold>
+        
+        InvisibleListener listener = new InvisibleListener(Display.getWidth() - 2, Display.getHeight() - 2, new Vector2f(1, 1), new Vector3f(0,0,0));
+        listener.onPress(x -> this.listener_Press(x));
+        listener.subscribe(MouseInput.getMouseSubject());
     }
 
     /**
@@ -74,10 +71,6 @@ public class GUIManager {
 
     private void buttonExit_Click(Event event) {
         BeamsClient.keepRunning = false;
-    }
-
-    private void buttonResetCamera_Click(Event event) {
-        BeamsClient.scene.resetCamera();
     }
 
     private void buttonLoadTerrain_Click(Event event) {
@@ -99,6 +92,13 @@ public class GUIManager {
             }
         }
         dialog.dispose();
+    }
+    
+    private void listener_Press(Event event){
+        if (event.getMouseState().isButton1Down()) {
+            BeamsClient.scene.getCamera().turnHorizontally((float)event.getMouseState().getdX() / 8f);
+            BeamsClient.scene.getCamera().turnVertically((float)event.getMouseState().getdY() / -8f);
+        }
     }
 
 }

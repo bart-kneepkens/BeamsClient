@@ -6,18 +6,11 @@
 package beamsClient;
 
 import GUI.GUIManager;
-import entities.Camera;
-import entities.Light;
 import org.lwjgl.opengl.Display;
 import renderEngine.DisplayManager;
 import renderEngine.Loader;
-import org.lwjgl.util.vector.Matrix4f;
-import org.lwjgl.util.vector.Vector3f;
-import GUI.lwjgl.GUIRenderer;
-import GUI.shaders.GUIShader;
-import renderEngine.Renderer;
-import shaders.TerrainShader;
-import toolbox.Maths;
+import Game.Scene;
+import renderEngine.MasterRenderer;
 import userInput.MouseInput;
 
 /**
@@ -27,6 +20,7 @@ import userInput.MouseInput;
 public class BeamsClient {
 
     public static boolean keepRunning = true;
+    public static Scene scene = new Scene();
     /**
      * @param args the command line arguments
      */
@@ -34,34 +28,14 @@ public class BeamsClient {
         DisplayManager.createDisplay();
 
         Loader loader = new Loader();
-        GUIShader shaderGUI = new GUIShader();
-        GUIRenderer rendererGUI = new GUIRenderer();
-
-        TerrainShader terrainShader = new TerrainShader();
-        Renderer renderer = new Renderer(terrainShader);
         
+        MasterRenderer masterRenderer = new MasterRenderer();
         
-        Camera camera = new Camera();
-        Light light = new Light(new Vector3f(50, 50, 50), new Vector3f(1, 1, 1));
-        GUIManager guiManager = new GUIManager(camera, loader);
-
-        Matrix4f viewMatrix;
+        GUIManager guiManager = new GUIManager(loader);
 
         while (!Display.isCloseRequested() && keepRunning) {
-            rendererGUI.prepare();
 
-            shaderGUI.start();
-            guiManager.getAllGUIElements().forEach(x -> rendererGUI.render(x, shaderGUI));
-            shaderGUI.stop();
-
-            terrainShader.start();
-            terrainShader.loadLight(light);
-            viewMatrix = Maths.createViewMatrix(camera);
-            terrainShader.loadUniformMatrix("viewMatrix", viewMatrix);
-            renderer.render(guiManager.getTerrain());
-            terrainShader.stop();
-            
-            
+            masterRenderer.render(guiManager.getGUI());            
 
             MouseInput.checkInputs();
 
@@ -69,8 +43,7 @@ public class BeamsClient {
         }
 
         loader.cleanUp();
-        shaderGUI.cleanUp();
-        terrainShader.cleanUp();
+        masterRenderer.cleanUp();
         DisplayManager.closeDisplay();
 
     }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package terrains;
+package terrain;
 
 import DataAccess.ModelData;
 import java.awt.image.BufferedImage;

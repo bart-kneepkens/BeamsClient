@@ -5,7 +5,7 @@
  */
 package shaders;
 
-import entities.Light;
+import entity.Light;
 import org.lwjgl.util.vector.Matrix4f;
 import static renderEngine.AttributeListPosition.NORMAL_VECTORS;
 import static renderEngine.AttributeListPosition.TEXTURE_COORDS;

@@ -3,9 +3,8 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package renderEngine;
+package terrain.lwjgl;
 
-import java.util.List;
 import models.RawModel;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -14,11 +13,12 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
+import renderEngine.AttributeListPosition;
 import static renderEngine.AttributeListPosition.NORMAL_VECTORS;
 import static renderEngine.AttributeListPosition.TEXTURE_COORDS;
 import static renderEngine.AttributeListPosition.VERTEX_POSITIONS;
 import shaders.TerrainShader;
-import terrains.Terrain;
+import terrain.Terrain;
 import textures.TerrainTexturePack;
 import toolbox.Maths;
 
@@ -26,7 +26,7 @@ import toolbox.Maths;
  *
  * @author Blackened
  */
-public class Renderer {
+public class TerrainRenderer {
 
     private static final float FOV = 70;
     private static final float NEAR_PLANE = 0.1f;
@@ -36,7 +36,7 @@ public class Renderer {
 
     private TerrainShader shader;
 
-    public Renderer(TerrainShader shader) {
+    public TerrainRenderer(TerrainShader shader) {
         this.shader = shader;
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);

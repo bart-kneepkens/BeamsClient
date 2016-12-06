@@ -16,7 +16,6 @@ import org.lwjgl.util.vector.Vector2f;
 import static renderEngine.AttributeListPosition.TEXTURE_COORDS;
 import static renderEngine.AttributeListPosition.VERTEX_POSITIONS;
 import GUI.shaders.GUIShader;
-import renderEngine.AttributeListPosition;
 import toolbox.Maths;
 
 /**
@@ -26,11 +25,17 @@ import toolbox.Maths;
  * @author Blackened
  */
 public class GUIRenderer {
+    
+    private final GUIShader shader;
+
+    public GUIRenderer() {
+        this.shader = new GUIShader();
+    }
 
     /**
      * Clears the display and sets its background colour.
      */
-    public void prepare() {
+    private void prepare() {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glClearColor(0, 0, 0, 1);
@@ -40,9 +45,8 @@ public class GUIRenderer {
      * Renders an instance of RawModel to the screen.
      *
      * @param element
-     * @param shader The shader that is being used while rendering.
      */
-    public void render(GUIElement element, GUIShader shader) {
+    public void render(GUIElement element) {
 
         GL30.glBindVertexArray(element.getVaoID());
         GL20.glEnableVertexAttribArray(VERTEX_POSITIONS.getNumVal());
@@ -60,10 +64,23 @@ public class GUIRenderer {
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, element.getActiveTextureID());
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 6);
 
-        
         GL20.glDisableVertexAttribArray(VERTEX_POSITIONS.getNumVal());
         GL20.glDisableVertexAttribArray(TEXTURE_COORDS.getNumVal());
         GL30.glBindVertexArray(0);
     }
 
+    public void cleanUp(){
+        this.shader.cleanUp();
+    }
+    
+    public void start(){
+        this.prepare();
+        this.shader.start();
+    }
+    
+    public void stop(){
+        this.shader.stop();
+    }
+    
+    
 }

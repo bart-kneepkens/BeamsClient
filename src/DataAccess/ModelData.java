@@ -24,6 +24,11 @@ public class ModelData {
     private float[] textureCoords;
     
     /**
+     * The normal vectors.
+     */
+    private float[] normals;
+    
+    /**
      * The indices of the model.
      */
     private int[] indices;
@@ -31,11 +36,14 @@ public class ModelData {
     /**
      * Creates a new instance of the ModelData class.
      * @param vertexPositions The positions of all vertices.
+     * @param textureCoords
+     * @param normals
      * @param indices The indices for this model.
      */
-    public ModelData(float[] vertexPositions, float[] textureCoords, int[] indices) {
+    public ModelData(float[] vertexPositions, float[] textureCoords, float[] normals, int[] indices) {
         this.vertexPositions = vertexPositions;
         this.textureCoords = textureCoords;
+        this.normals = normals;
         this.indices = indices;
     }
 
@@ -58,6 +66,12 @@ public class ModelData {
     public float[] getTextureCoords() {
         return textureCoords;
     }
+
+    public float[] getNormals() {
+        return normals;
+    }
+    
+    
     
     
     

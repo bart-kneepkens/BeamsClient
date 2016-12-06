@@ -35,12 +35,13 @@ public class Maths {
         return matrix;
     }
     
-    public static Matrix4f createTransformationMatrix(Vector2f translation, Vector2f rotation, float scaleX, float scaleY){
+    public static Matrix4f createTransformationMatrix(Vector2f translation, Vector3f rotation, float scaleX, float scaleY){
         Matrix4f matrix = new Matrix4f();
         matrix.setIdentity();
         matrix.translate(translation);
         Matrix4f.rotate(rotation.x, new Vector3f(1,0,0), matrix, matrix);
         Matrix4f.rotate(rotation.y, new Vector3f(0,1,0), matrix, matrix);
+        Matrix4f.rotate(rotation.z, new Vector3f(0,0,1), matrix, matrix);
         Matrix4f.scale(new Vector3f(scaleX, scaleY, 1.0f), matrix, matrix);
         
         return matrix;

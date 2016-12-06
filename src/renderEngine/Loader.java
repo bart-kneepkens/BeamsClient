@@ -5,10 +5,9 @@
  */
 package renderEngine;
 
-import models.RawModel;
 import DataAccess.ModelData;
+import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -16,13 +15,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import models.RawModel;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
-import static renderEngine.AttributeListName.*;
+import static renderEngine.AttributeListPosition.NORMAL_VECTORS;
+import static renderEngine.AttributeListPosition.TEXTURE_COORDS;
+import static renderEngine.AttributeListPosition.VERTEX_POSITIONS;
 
 /**
  * An instance of this class is responsible for loading data into a VAO and
@@ -33,12 +36,13 @@ import static renderEngine.AttributeListName.*;
 public class Loader {
 
     /**
-     * Keeps track of all VAO's, VBO's and textures, so they can be deleted from memory
-     * once the program exits.
+     * Keeps track of all VAO's, VBO's and textures, so they can be deleted from
+     * memory once the program exits.
      */
     private List<Integer> vaos = new ArrayList<>();
     private List<Integer> vbos = new ArrayList<>();
     private List<Integer> textures = new ArrayList<>();
+
 
     /**
      * Creates a new VAO, binds the data to one of the attribute lists.
@@ -53,24 +57,41 @@ public class Loader {
         bindIndicesBuffer(vaoID, modelData.getIndices());
         storeDataInAttributeList(vaoID, VERTEX_POSITIONS.getNumVal(), 3, modelData.getVertexPositions());
         storeDataInAttributeList(vaoID, TEXTURE_COORDS.getNumVal(), 2, modelData.getTextureCoords());
-        
+        storeDataInAttributeList(vaoID, NORMAL_VECTORS.getNumVal(), 3, modelData.getNormals());
+
         RawModel rawModel = new RawModel(vaoID, modelData.getIndices().length);
-        
+
         return rawModel;
     }
-
-    public int loadTexture(String fileName){
+    
+    
+    public int loadTexture(String fileName) {
         Texture texture = null;
         try {
-            texture = TextureLoader.getTexture("PNG", new FileInputStream("res/" + fileName + ".png"));
+            texture = TextureLoader.getTexture("PNG", new FileInputStream("res/textures/" + fileName + ".png"));
+            GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+            //GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
+            //GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.5f);
         } catch (IOException ex) {
             Logger.getLogger(Loader.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         int textureID = texture.getTextureID();
         return textureID;
     }
-    
+
+    public int loadTexture(File file) {
+        Texture texture = null;
+        try {
+            texture = TextureLoader.getTexture("PNG", new FileInputStream(file));
+        } catch (IOException ex) {
+            Logger.getLogger(Loader.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        int textureID = texture.getTextureID();
+        return textureID;
+    }
+
     /**
      * Creates a new VAO.
      *
@@ -122,7 +143,7 @@ public class Loader {
         unbindVAO();
     }
 
-        /**
+    /**
      * Stores data in an attribute list of a VAO.
      *
      * @param vaoID The id of the VAO to which data will be added.
@@ -153,11 +174,10 @@ public class Loader {
 
         // Unbind the VBO.
         //unbindElementArrayBuffer();
-
         // unbind VAO so that another may be bound.
         unbindVAO();
     }
-    
+
     /**
      * Unbinds the VAO.
      */
@@ -182,8 +202,8 @@ public class Loader {
     private void bindArrayBuffer(int vboID) {
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
     }
-    
-        /**
+
+    /**
      * Binds the VBO, so that it can be modified.
      *
      * @param vboID The ID of the VBO that will be bound.

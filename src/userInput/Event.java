@@ -5,7 +5,7 @@
  */
 package userInput;
 
-import GUI.GUIElement;
+import GUI.lib.GUIElement;
 import userInput.MouseState;
 
 /**
@@ -16,9 +16,9 @@ public class Event {
     
     private MouseState mouseState;
     
-    private GUIElement sender;
+    private Object sender;
 
-    public Event(MouseState mouseState, GUIElement sender) {
+    public Event(MouseState mouseState, Object sender) {
         this.mouseState = mouseState;
         this.sender = sender;
     }
@@ -27,7 +27,7 @@ public class Event {
         return mouseState;
     }
 
-    public GUIElement getSender() {
+    public Object getSender() {
         return sender;
     }
     

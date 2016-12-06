@@ -13,10 +13,12 @@
         </data>
         <spellchecker-wordlist xmlns="http://www.netbeans.org/ns/spellchecker-wordlist/1">
             <word>colour</word>
+            <word>delegator</word>
             <word>fps</word>
             <word>lwjgl</word>
             <word>shaders</word>
             <word>Unbinds</word>
+            <word>vbo's</word>
         </spellchecker-wordlist>
     </configuration>
 </project>

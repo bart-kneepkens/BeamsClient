@@ -84,21 +84,21 @@ public abstract class ShaderProgram {
     /**
      * Starts the program.
      */
-    public void start(){
+    public final void start(){
         GL20.glUseProgram(programID);
     }
     
     /**
      * Stops the program.
      */
-    public void stop(){
+    public final void stop(){
         GL20.glUseProgram(0);
     }
     
     /**
      * Cleans the memory from all shaders and the program itself.
      */
-    public void cleanUp(){
+    public final void cleanUp(){
         stop();
         GL20.glDetachShader(programID, vertexShaderID);
         GL20.glDetachShader(programID, fragmentShaderID);

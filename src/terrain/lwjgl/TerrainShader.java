@@ -3,13 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package shaders;
+package terrain.lwjgl;
 
 import entity.Light;
 import org.lwjgl.util.vector.Matrix4f;
-import static renderEngine.AttributeListPosition.NORMAL_VECTORS;
-import static renderEngine.AttributeListPosition.TEXTURE_COORDS;
-import static renderEngine.AttributeListPosition.VERTEX_POSITIONS;
+import shaders.ShaderProgram;
+import static toolbox.AttributeListPosition.NORMAL_VECTORS;
+import static toolbox.AttributeListPosition.TEXTURE_COORDS;
+import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
 
 /**
  *
@@ -20,15 +21,15 @@ public class TerrainShader extends ShaderProgram{
     /**
      * The locations of the shader files.
      */
-    private static final String VERTEX_FILE = "src/shaders/vertexShader";
-    private static final String FRAGMENT_FILE = "src/shaders/fragmentShader";
+    private static final String VERTEX_FILE = "src/terrain/lwjgl/vertexShader";
+    private static final String FRAGMENT_FILE = "src/terrain/lwjgl/fragmentShader";
     
     
 
     /**
      * Creates a new instance of the static shader class.
      */
-    public TerrainShader() {
+    protected TerrainShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
     }
 
@@ -61,7 +62,7 @@ public class TerrainShader extends ShaderProgram{
         uniformLocations.put("blendMap", super.getUniformLocation("blendMap"));
     }
     
-    public void connectTextureUnits(){
+    protected final void connectTextureUnits(){
         super.loadInt(uniformLocations.get("backgroundTexture"), 0);
         super.loadInt(uniformLocations.get("rTexture"), 1);
         super.loadInt(uniformLocations.get("gTexture"), 2);
@@ -70,7 +71,7 @@ public class TerrainShader extends ShaderProgram{
         
     }
     
-    public void loadUniformFloat(String uniformName, float value){
+    protected void loadUniformFloat(String uniformName, float value){
         super.loadFloat(uniformLocations.get(uniformName), value);
     }
     
@@ -80,7 +81,7 @@ public class TerrainShader extends ShaderProgram{
      * @param uniformName The name of the uniform variable.
      * @param matrix The matrix to be loaded into the uniform variable.
      */
-    public void loadUniformMatrix(String uniformName, Matrix4f matrix){
+    public final void loadUniformMatrix(String uniformName, Matrix4f matrix){
         super.loadMatrix(uniformLocations.get(uniformName), matrix);
     }
     

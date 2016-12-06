@@ -6,6 +6,7 @@
 package Game;
 
 import entity.Light;
+import org.lwjgl.util.vector.Vector3f;
 import terrain.Terrain;
 
 /**
@@ -28,6 +29,27 @@ public class Scene {
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
     }
+
+    public Camera getCamera() {
+        return camera;
+    }
+
+    public Light getLight() {
+        return light;
+    }
+
+    public Terrain getTerrain() {
+        return terrain;
+    }
+
+    public Scene() {
+        this.camera = new Camera();
+        this.light = new Light(new Vector3f(50, 50, 50), new Vector3f(1, 1, 1));
+    }
+    
+    
+    
+    
     
     
     

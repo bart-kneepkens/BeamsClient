@@ -6,8 +6,8 @@
 package GUI.shaders;
 
 import org.lwjgl.util.vector.Matrix4f;
-import static renderEngine.AttributeListPosition.TEXTURE_COORDS;
-import static renderEngine.AttributeListPosition.VERTEX_POSITIONS;
+import static toolbox.AttributeListPosition.TEXTURE_COORDS;
+import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
 import shaders.ShaderProgram;
 
 /**

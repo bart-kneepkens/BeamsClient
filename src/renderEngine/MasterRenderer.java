@@ -8,44 +8,106 @@ package renderEngine;
 import GUI.GUI;
 import terrain.lwjgl.TerrainRenderer;
 import GUI.lwjgl.GUIRenderer;
+import Game.Scene;
 import entity.Entity;
+import entity.Light;
 import entity.lwjgl.EntityRenderer;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 import terrain.Terrain;
+import toolbox.Maths;
 
 /**
  *
  * @author Blackened
  */
 public class MasterRenderer {
-    
+
+    private static final float FOV = 70;
+    private static final float NEAR_PLANE = 0.1f;
+    private static final float FAR_PLANE = 1000;
+
     private final GUIRenderer guiRenderer;
     private EntityRenderer entityRenderer;
-    private TerrainRenderer terrainRenderer;
+    private final TerrainRenderer terrainRenderer;
+    
+
+    Matrix4f viewMatrix;
 
     public MasterRenderer() {
         this.guiRenderer = new GUIRenderer();
+        this.terrainRenderer = new TerrainRenderer(this.createProjectionMatrix());
+    }
+
+    /**
+     * Clears the display and sets its background colour.
+     *
+     */
+    public void prepare() {
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+        GL11.glClearColor(0, 0, 0, 1);
+    }
+
+    /**
+     * Prepares for 3d rendering by creating the view matrix
+     *
+     * @param scene
+     */
+    public void start3DRendering(Scene scene) {
+        this.viewMatrix = Maths.createViewMatrix(scene.getCamera());
+        this.terrainRenderer.start();
+        this.terrainRenderer.loadLight(scene.getLight());
+        this.terrainRenderer.loadUniformMatrix("viewMatrix", viewMatrix);
     }
     
-    
-    
-    public void render(GUI gui){
-        guiRenderer.start();
+    public void stop3DRendering(){
+        this.terrainRenderer.stop();
+    }
+
+    public void render(GUI gui) {
+        this.guiRenderer.start();
         gui.getGuiElements().keySet().forEach(x -> {
-            guiRenderer.render(x);
+            this.guiRenderer.render(x);
         });
-        guiRenderer.stop();
+        this.guiRenderer.stop();
     }
-    
-    public void render(Terrain terrain){
-        
+
+    public void render(Terrain terrain) {
+        if (terrain != null) {
+            this.terrainRenderer.render(terrain);
+        }
     }
-    
-    public void render(Entity entity){
-        
+
+    public void render(Entity entity) {
+
     }
-    
-    public void cleanUp(){
+
+    public void cleanUp() {
         this.guiRenderer.cleanUp();
     }
-    
+
+    /**
+     * Creates a new projection matrix in accordance with the FOV, FAR_PLANE,
+     * NEAR_PLANE and display size.
+     */
+    private Matrix4f createProjectionMatrix() {
+        float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
+        float y_scale = (float) (1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio;
+        float x_scale = y_scale / aspectRatio;
+        float frustum_length = FAR_PLANE - NEAR_PLANE;
+
+        Matrix4f projectionMatrix = new Matrix4f();
+        projectionMatrix.m00 = x_scale;
+        projectionMatrix.m11 = y_scale;
+        projectionMatrix.m22 = -((FAR_PLANE + NEAR_PLANE) / frustum_length);
+        projectionMatrix.m23 = -1;
+        projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustum_length);
+        projectionMatrix.m33 = 0;
+
+        return projectionMatrix;
+    }
+
 }

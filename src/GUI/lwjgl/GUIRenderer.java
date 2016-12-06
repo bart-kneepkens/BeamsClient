@@ -13,9 +13,10 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
-import static renderEngine.AttributeListPosition.TEXTURE_COORDS;
-import static renderEngine.AttributeListPosition.VERTEX_POSITIONS;
+import static toolbox.AttributeListPosition.TEXTURE_COORDS;
+import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
 import GUI.shaders.GUIShader;
+import renderEngine.Renderer;
 import toolbox.Maths;
 
 /**
@@ -24,21 +25,14 @@ import toolbox.Maths;
  *
  * @author Blackened
  */
-public class GUIRenderer {
+public class GUIRenderer implements Renderer<GUIElement> {
     
     private final GUIShader shader;
 
     public GUIRenderer() {
         this.shader = new GUIShader();
-    }
-
-    /**
-     * Clears the display and sets its background colour.
-     */
-    private void prepare() {
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-        GL11.glClearColor(0, 0, 0, 1);
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glCullFace(GL11.GL_BACK);
     }
 
     /**
@@ -46,6 +40,7 @@ public class GUIRenderer {
      *
      * @param element
      */
+    @Override
     public void render(GUIElement element) {
 
         GL30.glBindVertexArray(element.getVaoID());
@@ -69,15 +64,17 @@ public class GUIRenderer {
         GL30.glBindVertexArray(0);
     }
 
+    @Override
     public void cleanUp(){
         this.shader.cleanUp();
     }
     
+    @Override
     public void start(){
-        this.prepare();
         this.shader.start();
     }
     
+    @Override
     public void stop(){
         this.shader.stop();
     }

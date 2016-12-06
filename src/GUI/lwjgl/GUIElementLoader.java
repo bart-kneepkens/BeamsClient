@@ -19,10 +19,10 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
-import static renderEngine.AttributeListPosition.TEXTURE_COORDS;
-import static renderEngine.AttributeListPosition.VERTEX_POSITIONS;
-import renderEngine.Convert;
-import renderEngine.Loader;
+import static toolbox.AttributeListPosition.TEXTURE_COORDS;
+import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
+import toolbox.Convert;
+import DataAccess.lwjgl.Loader;
 
 /**
  *

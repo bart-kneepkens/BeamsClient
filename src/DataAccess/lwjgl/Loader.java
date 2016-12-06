@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package renderEngine;
+package DataAccess.lwjgl;
 
+import toolbox.Convert;
 import DataAccess.ModelData;
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,9 +23,9 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
-import static renderEngine.AttributeListPosition.NORMAL_VECTORS;
-import static renderEngine.AttributeListPosition.TEXTURE_COORDS;
-import static renderEngine.AttributeListPosition.VERTEX_POSITIONS;
+import static toolbox.AttributeListPosition.NORMAL_VECTORS;
+import static toolbox.AttributeListPosition.TEXTURE_COORDS;
+import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
 
 /**
  * An instance of this class is responsible for loading data into a VAO and

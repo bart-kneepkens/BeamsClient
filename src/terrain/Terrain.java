@@ -9,7 +9,7 @@ import DataAccess.ModelData;
 import java.awt.image.BufferedImage;
 import models.RawModel;
 import org.lwjgl.util.vector.Vector3f;
-import renderEngine.Loader;
+import DataAccess.lwjgl.Loader;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
 
@@ -45,8 +45,8 @@ public class Terrain {
     }
 
     public Terrain() {
-        this.xCoord = -1f;
-        this.zCoord = -0.5f;
+        this.xCoord = -1f * SIZE;
+        this.zCoord = -0.5f * SIZE;
         this.rotation = new Vector3f(0,0,0);
     }
     

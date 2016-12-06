@@ -8,7 +8,7 @@ package beamsClient;
 import GUI.GUIManager;
 import org.lwjgl.opengl.Display;
 import renderEngine.DisplayManager;
-import renderEngine.Loader;
+import DataAccess.lwjgl.Loader;
 import Game.Scene;
 import renderEngine.MasterRenderer;
 import userInput.MouseInput;
@@ -27,16 +27,22 @@ public class BeamsClient {
      */
     public static void main(String[] args) {
         DisplayManager.createDisplay();
-
-        
         
         MasterRenderer masterRenderer = new MasterRenderer();
-        
+                
         GUIManager guiManager = new GUIManager(loader);
 
         while (!Display.isCloseRequested() && keepRunning) {
-
-            masterRenderer.render(guiManager.getGUI());            
+            
+            masterRenderer.prepare();
+            
+            masterRenderer.render(guiManager.getGUI()); 
+            
+            masterRenderer.start3DRendering(scene);
+            
+            masterRenderer.render(scene.getTerrain());
+            
+            masterRenderer.stop3DRendering();
 
             MouseInput.checkInputs();
 

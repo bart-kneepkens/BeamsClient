@@ -13,11 +13,11 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
-import renderEngine.AttributeListPosition;
-import static renderEngine.AttributeListPosition.NORMAL_VECTORS;
-import static renderEngine.AttributeListPosition.TEXTURE_COORDS;
-import static renderEngine.AttributeListPosition.VERTEX_POSITIONS;
-import shaders.TerrainShader;
+import toolbox.AttributeListPosition;
+import static toolbox.AttributeListPosition.NORMAL_VECTORS;
+import static toolbox.AttributeListPosition.TEXTURE_COORDS;
+import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
+import renderEngine.Renderer;
 import terrain.Terrain;
 import textures.TerrainTexturePack;
 import toolbox.Maths;
@@ -26,27 +26,21 @@ import toolbox.Maths;
  *
  * @author Blackened
  */
-public class TerrainRenderer {
+public class TerrainRenderer extends TerrainShader implements Renderer<Terrain>{
 
-    private static final float FOV = 70;
-    private static final float NEAR_PLANE = 0.1f;
-    private static final float FAR_PLANE = 1000;
+    private final Matrix4f projectionMatrix;
 
-    private Matrix4f projectionMatrix;
-
-    private TerrainShader shader;
-
-    public TerrainRenderer(TerrainShader shader) {
-        this.shader = shader;
+    public TerrainRenderer(Matrix4f projectionMatrix) {
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
-        this.createProjectionMatrix();
-        this.shader.start();
-        this.shader.loadUniformMatrix("projectionMatrix", projectionMatrix);
-        this.shader.connectTextureUnits();
-        this.shader.stop();
+        this.projectionMatrix = projectionMatrix;
+        this.start();
+        this.loadUniformMatrix("projectionMatrix", this.projectionMatrix);
+        this.connectTextureUnits();
+        this.stop();
     }
 
+    @Override
     public void render(Terrain terrain) {
         prepareTerrain(terrain);
         loadModelMatrix(terrain);
@@ -64,8 +58,8 @@ public class TerrainRenderer {
         enableAttributeArray(TEXTURE_COORDS);
         enableAttributeArray(NORMAL_VECTORS);
         bindTextures(terrain);
-        this.shader.loadUniformFloat("shineDamper", 1);
-        this.shader.loadUniformFloat("reflectivity", 0);
+        this.loadUniformFloat("shineDamper", 1);
+        this.loadUniformFloat("reflectivity", 0);
     }
 
     private void bindTextures(Terrain terrain) {
@@ -84,7 +78,7 @@ public class TerrainRenderer {
 
     private void loadModelMatrix(Terrain terrain) {
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), terrain.getRotation(), 1);
-        shader.loadUniformMatrix("transformationMatrix", transformationMatrix);
+        this.loadUniformMatrix("transformationMatrix", transformationMatrix);
     }
 
     private void unbindTexturedModel() {
@@ -111,23 +105,5 @@ public class TerrainRenderer {
         GL20.glDisableVertexAttribArray(attribName.getNumVal());
     }
 
-    /**
-     * Creates a new projection matrix in accordance with the FOV, FAR_PLANE,
-     * NEAR_PLANE and display size.
-     */
-    private void createProjectionMatrix() {
-        float aspectRatio = (float) Display.getWidth() / (float) Display.getHeight();
-        float y_scale = (float) (1f / Math.tan(Math.toRadians(FOV / 2f))) * aspectRatio;
-        float x_scale = y_scale / aspectRatio;
-        float frustum_length = FAR_PLANE - NEAR_PLANE;
-
-        projectionMatrix = new Matrix4f();
-        projectionMatrix.m00 = x_scale;
-        projectionMatrix.m11 = y_scale;
-        projectionMatrix.m22 = -((FAR_PLANE + NEAR_PLANE) / frustum_length);
-        projectionMatrix.m23 = -1;
-        projectionMatrix.m32 = -((2 * NEAR_PLANE * FAR_PLANE) / frustum_length);
-        projectionMatrix.m33 = 0;
-    }
 
 }

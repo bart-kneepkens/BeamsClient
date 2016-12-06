@@ -13,8 +13,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import models.RawModel;
 import terrain.Terrain;
@@ -27,6 +25,15 @@ import textures.TerrainTexturePack;
  */
 public class FileLoader {
 
+    /**
+     * Loads a file with .ter extension Creates a terrain object with all
+     * information found in this file.
+     *
+     * @param file
+     * @return
+     * @throws FileNotFoundException
+     * @throws IOException
+     */
     public static Terrain loadTerrain(File file) throws FileNotFoundException, IOException {
         Terrain terrain = new Terrain();
 
@@ -67,32 +74,31 @@ public class FileLoader {
                     bTexture = new TerrainTexture(loader.loadTexture(new File(line.split(": ")[1])));
                 }
             }
-            
+
             System.out.println("File reading complete!");
-            
-            if (model == null || blendMap == null || bgTexture == null || rTexture == null || gTexture == null || bTexture == null){
+
+            if (model == null || blendMap == null || bgTexture == null || rTexture == null || gTexture == null || bTexture == null) {
                 System.out.println("But went wrong!");
             }
             terrain.setModel(model);
             terrain.setBlendMap(blendMap);
             TerrainTexturePack texturePack = new TerrainTexturePack(bgTexture, rTexture, gTexture, bTexture);
             terrain.setTexturePack(texturePack);
-            
+
             return terrain;
         }
-        
+
     }
 
-    private static BufferedImage loadBufferedImage(File file) {
+    /**
+     * Loads a buffered image
+     *
+     * @param file
+     * @return
+     */
+    private static BufferedImage loadBufferedImage(File file) throws IOException {
         BufferedImage image = null;
-        try {
-            image = ImageIO.read(file);
-
-        } catch (IOException ex) {
-            Logger.getLogger(Terrain.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return image;
+        return image = ImageIO.read(file);
     }
 
 }

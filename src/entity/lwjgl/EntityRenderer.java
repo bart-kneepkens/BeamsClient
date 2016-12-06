@@ -6,32 +6,106 @@
 package entity.lwjgl;
 
 import entity.Entity;
+import entity.texture.TexturedModel;
+import models.RawModel;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Matrix4f;
 import renderEngine.Renderer;
+import toolbox.AttributeListPosition;
+import static toolbox.AttributeListPosition.NORMAL_VECTORS;
+import static toolbox.AttributeListPosition.TEXTURE_COORDS;
+import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
+import toolbox.Maths;
 
 /**
  *
  * @author Blackened
  */
-public class EntityRenderer implements Renderer<Entity>{
+public class EntityRenderer extends StaticShader implements Renderer<Entity>{
+   
+    
+    private final Matrix4f projectionMatrix;
 
-    @Override
-    public void start() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * Creates a new instance of the Renderer class.
+     *
+     * @param projectionMatrix
+     */
+    public EntityRenderer(Matrix4f projectionMatrix) {
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glCullFace(GL11.GL_BACK);
+        this.projectionMatrix = projectionMatrix;
+        this.start();
+        this.loadUniformMatrix("projectionMatrix", this.projectionMatrix);
+        this.stop();
     }
 
-    @Override
-    public void stop() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * Clears the display and sets its background colour.
+     */
+    public void prepare() {
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
+        GL11.glClearColor(1, 0, 0, 1);
     }
 
+    /**
+     * Renders an instance of RawModel to the screen.
+     *
+     * @param entity The entity to be rendered.
+     */
     @Override
-    public void cleanUp() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void render(Entity entity) {
+        this.prepareTexturedModel(entity.getModel());
+        this.loadModelMatrix(entity);
+        
+        GL11.glDrawElements(GL11.GL_TRIANGLES, entity.getModel().getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+        
+        unbindTexturedModel();
+    }
+    
+    private void prepareTexturedModel(TexturedModel model) {
+        RawModel rawModel = model.getRawModel();
+        GL30.glBindVertexArray(rawModel.getVaoID());
+        enableAttributeArray(VERTEX_POSITIONS);
+        enableAttributeArray(TEXTURE_COORDS);
+        enableAttributeArray(NORMAL_VECTORS);
+        this.loadUniformFloat("shineDamper", model.getModelTexture().getShineDamper());
+        this.loadUniformFloat("reflectivity", model.getModelTexture().getReflectivity());
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getModelTexture().getTextureID());
+    }
+    
+    private void loadModelMatrix(Entity entity) {
+        Matrix4f transformationMatrix = Maths.createTransformationMatrix(entity.getPosition(), entity.getRotation(), entity.getScale());
+        this.loadUniformMatrix("transformationMatrix", transformationMatrix);
+    }
+    
+    private void unbindTexturedModel() {
+        disableAttributeArray(VERTEX_POSITIONS);
+        disableAttributeArray(TEXTURE_COORDS);
+        disableAttributeArray(NORMAL_VECTORS);
+        GL30.glBindVertexArray(0);
     }
 
-    @Override
-    public void render(Entity element) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * Enables the attribute list specified by the name.
+     *
+     * @param model The model for which to enable the attribute list.
+     * @param attribName The name of the attributeList.
+     */
+    private void enableAttributeArray(AttributeListPosition attribName) {
+        GL20.glEnableVertexAttribArray(attribName.getNumVal());
+    }
+
+    /**
+     * Disables an enabled attribute list
+     */
+    private void disableAttributeArray(AttributeListPosition attribName) {
+        GL20.glDisableVertexAttribArray(attribName.getNumVal());
     }
     
 }

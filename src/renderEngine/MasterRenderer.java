@@ -30,13 +30,14 @@ public class MasterRenderer {
     private final GUIRenderer guiRenderer;
     private EntityRenderer entityRenderer;
     private final TerrainRenderer terrainRenderer;
-    
 
     Matrix4f viewMatrix;
 
     public MasterRenderer() {
+        Matrix4f projectionMatrix = this.createProjectionMatrix();
         this.guiRenderer = new GUIRenderer();
-        this.terrainRenderer = new TerrainRenderer(this.createProjectionMatrix());
+        this.terrainRenderer = new TerrainRenderer(projectionMatrix);
+        this.entityRenderer = new EntityRenderer(projectionMatrix);
     }
 
     /**
@@ -54,15 +55,26 @@ public class MasterRenderer {
      *
      * @param scene
      */
-    public void start3DRendering(Scene scene) {
+    public void startTerrainRendering(Scene scene) {
         this.viewMatrix = Maths.createViewMatrix(scene.getCamera());
         this.terrainRenderer.start();
         this.terrainRenderer.loadLight(scene.getLight());
         this.terrainRenderer.loadUniformMatrix("viewMatrix", viewMatrix);
     }
     
-    public void stop3DRendering(){
+    public void startEntityRendering(Scene scene){
+        // KAN DIT? 2 SHADERS TEGELIJK?
+        this.entityRenderer.start();
+        this.entityRenderer.loadLight(scene.getLight());
+        this.entityRenderer.loadUniformMatrix("viewMatrix", viewMatrix);
+    }
+
+    public void stopTerrainRendering() {
         this.terrainRenderer.stop();
+    }
+    
+    public void stopEntityRendering(){
+        this.entityRenderer.stop();
     }
 
     public void render(GUI gui) {
@@ -80,7 +92,9 @@ public class MasterRenderer {
     }
 
     public void render(Entity entity) {
-
+        if (entity != null) {
+            this.entityRenderer.render(entity);
+        }
     }
 
     public void cleanUp() {

@@ -98,6 +98,7 @@ public class GUIManager {
         if (event.getMouseState().isButton1Down()) {
             BeamsClient.scene.getCamera().turnHorizontally((float)event.getMouseState().getdX() / 8f);
             BeamsClient.scene.getCamera().turnVertically((float)event.getMouseState().getdY() / -8f);
+           
         }
     }
 

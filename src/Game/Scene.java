@@ -5,8 +5,8 @@
  */
 package Game;
 
+import entity.Entity;
 import entity.Light;
-import org.lwjgl.util.vector.Vector3f;
 import terrain.Terrain;
 
 /**
@@ -18,6 +18,8 @@ public class Scene {
     private Camera camera;
     
     private Light light;
+    
+    private Entity player;
     
     private Terrain terrain;
 
@@ -37,7 +39,13 @@ public class Scene {
         return terrain;
     }
 
-    public Scene(Camera camera, Light light, Terrain terrain) {
+    public Entity getPlayer() {
+        return player;
+    }
+
+    
+    public Scene(Entity player, Camera camera, Light light, Terrain terrain) {
+        this.player = player;
         this.camera = camera;
         this.light = light;
         this.terrain = terrain;

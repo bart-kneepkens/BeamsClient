@@ -56,7 +56,7 @@ public class GUIManager {
         //</editor-fold>
         
         InvisibleListener listener = new InvisibleListener(Display.getWidth() - 2, Display.getHeight() - 2, new Vector2f(1, 1), new Vector3f(0,0,0));
-        listener.onPress(x -> this.listener_Press(x));
+        //listener.onPress(x -> this.listener_Press(x));
         listener.subscribe(MouseInput.getMouseSubject());
     }
 

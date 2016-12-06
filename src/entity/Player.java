@@ -15,7 +15,7 @@ import org.lwjgl.util.vector.Vector3f;
 public class Player extends Entity {
 
     private float movementSpeed = 0.1f;
-    private float turnSpeed = 0.05f;
+    private float turnSpeed = 0.02f;
 
     public Player(TexturedModel model, Vector3f position, Vector3f rotation, float scale) {
         super(model, position, rotation, scale);

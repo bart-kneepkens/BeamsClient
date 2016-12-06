@@ -52,6 +52,7 @@ public class BeamsClient {
 
         while (!Display.isCloseRequested() && keepRunning) {
 
+            scene.getCamera().move();
             masterRenderer.prepare();
 
             masterRenderer.render(guiManager.getGUI());
@@ -66,6 +67,8 @@ public class BeamsClient {
 
             MouseInput.checkInputs();
             KeyboardInput.checkInputs();
+            
+            
             
             DisplayManager.updateDisplay();
         }
@@ -87,7 +90,7 @@ public class BeamsClient {
         
         scene = new Scene(
                 player,
-                new Camera(new Vector3f(-40, 10, 0), 10, 0, 0), 
+                new Camera(player), 
                 new Light(new Vector3f(50, 50, 50), new Vector3f(1, 1, 1)), 
                 FileLoader.loadTerrain(new File("/Users/Blackened/NetBeansProjects/TerrainViewer/test.ter")));
     }

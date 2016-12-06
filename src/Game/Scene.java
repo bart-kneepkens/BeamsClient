@@ -5,7 +5,6 @@
  */
 package Game;
 
-import entity.Entity;
 import entity.Light;
 import entity.Player;
 import terrain.Terrain;

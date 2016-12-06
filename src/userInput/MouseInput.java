@@ -50,6 +50,7 @@ public class MouseInput {
             mouseState = mouseState.pressOrigin(pressOrigin);
         } else if (!Mouse.isButtonDown(0) && btn1Pressed) {
             btn1Pressed = false;
+            Mouse.setCursorPosition((int) pressOrigin.x, (int) ((int) Display.getHeight() -pressOrigin.y));
         }
         if (Mouse.isButtonDown(1) && !btn2Pressed) {
             btn2Pressed = true;
@@ -61,7 +62,7 @@ public class MouseInput {
             mouseState = mouseState.pressOrigin(pressOrigin);
         } else if (!Mouse.isButtonDown(1) && btn2Pressed) {
             btn2Pressed = false;
-            Mouse.setCursorPosition((int) pressOrigin.x, (int) pressOrigin.y);
+            Mouse.setCursorPosition((int) pressOrigin.x, (int) ((int) Display.getHeight()-pressOrigin.y));
         }
 
         mouseSubject.onNext(mouseState);

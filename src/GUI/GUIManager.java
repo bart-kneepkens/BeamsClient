@@ -74,6 +74,7 @@ public class GUIManager {
     }
 
     private void buttonLoadTerrain_Click(Event event) {
+        Mouse.setGrabbed(false);
         JDialog dialog = new JDialog();
         FileDialog fd = new FileDialog(dialog, "Choose a file", FileDialog.LOAD);
         fd.setDirectory("C:\\");

@@ -100,7 +100,7 @@ public class Camera {
     }
 
     private float calculateVerticalDistance() {
-        return (float) (distanceFromPlayer * Math.sin(Math.toRadians(pitch))) + 0.5f;
+        return (float) (distanceFromPlayer * Math.sin(Math.toRadians(pitch))) + 0.1f;
     }
 
     private void calculateCameraPosition(float horizontalDistance, float verticalDistance) {
@@ -110,7 +110,7 @@ public class Camera {
         this.yaw = (float) (180 - Math.toDegrees(theta));
         position.x = player.getPosition().x - offsetX;
         position.z = player.getPosition().z - offsetZ;
-        position.y = player.getPosition().y + verticalDistance;
+        this.position.y = player.getPosition().getY() + verticalDistance;
     }
 
     public void move() {

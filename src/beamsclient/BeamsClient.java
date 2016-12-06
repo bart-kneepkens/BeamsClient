@@ -51,8 +51,9 @@ public class BeamsClient {
         GUIManager guiManager = new GUIManager();
 
         while (!Display.isCloseRequested() && keepRunning) {
-
+            scene.getPlayer().gravitate();
             scene.getCamera().move();
+            
             masterRenderer.prepare();
 
             masterRenderer.render(guiManager.getGUI());
@@ -67,8 +68,6 @@ public class BeamsClient {
 
             MouseInput.checkInputs();
             KeyboardInput.checkInputs();
-            
-            
             
             DisplayManager.updateDisplay();
         }
@@ -86,7 +85,7 @@ public class BeamsClient {
         TexturedModel texturedModel = new TexturedModel(model, texture);
         texture.setReflectivity(1);
         texture.setShineDamper(100);
-        Player player = new Player(texturedModel, new Vector3f(-40, 0, -20), new Vector3f(0, 0, 0), 0.1f);
+        Player player = new Player(texturedModel, new Vector3f(-40, 0, -20), new Vector3f(0, 0, 0), 0.04f);
         
         scene = new Scene(
                 player,

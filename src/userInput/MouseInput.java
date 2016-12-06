@@ -28,11 +28,17 @@ public class MouseInput {
 
     public static void checkInputs() {
         MouseState mouseState = new MouseState(false, false, Mouse.getX(), Mouse.getY(), Mouse.getDX(), Mouse.getDY(), Mouse.getDWheel());
-        Mouse.setGrabbed(btn2Pressed);
-        if (btn2Pressed){
-            Mouse.setCursorPosition(Display.getWidth() /2, Display.getHeight() /2);
+        if (!Mouse.isGrabbed()) {
+            if (btn2Pressed || btn1Pressed) {
+                Mouse.setGrabbed(true);
+            }
         }
-        
+        else{
+            if(!btn2Pressed && !btn1Pressed){
+                Mouse.setGrabbed(false);
+            }
+        }
+
         // Checks for main 2 mouse buttons
         if (Mouse.isButtonDown(0) && !btn1Pressed) {
             btn1Pressed = true;
@@ -55,6 +61,7 @@ public class MouseInput {
             mouseState = mouseState.pressOrigin(pressOrigin);
         } else if (!Mouse.isButtonDown(1) && btn2Pressed) {
             btn2Pressed = false;
+            Mouse.setCursorPosition((int) pressOrigin.x, (int) pressOrigin.y);
         }
 
         mouseSubject.onNext(mouseState);

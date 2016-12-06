@@ -68,21 +68,28 @@ public class Camera {
 
     private void calculateZoom() {
         float zoomLevel = Mouse.getDWheel() * 0.01f;
-            distanceFromPlayer -= zoomLevel;
+        distanceFromPlayer -= zoomLevel;
     }
 
     private void calculatePitch() {
-        if (Mouse.isButtonDown(1)) {
+        if (Mouse.isButtonDown(1) || Mouse.isButtonDown(0)) {
             float pitchChange = Mouse.getDY() * 0.1f;
-            pitch -= pitchChange;
+            if (pitch - pitchChange >= 0) {
+                pitch -= pitchChange;
+            }
         }
     }
 
     private void calculateAngleAroundPlayer() {
         if (Mouse.isButtonDown(1)) {
+            angleAroundPlayer = 0;
 //            float angleChange = Mouse.getDX() * 0.003f;
             this.player.increaseRotation(new Vector3f(0, Mouse.getDX() * -0.003f, 0));
             //this.angleAroundPlayer -= angleChange;
+        }
+        if (Mouse.isButtonDown(0)) {
+            float angleChange = Mouse.getDX() * 0.003f;
+            this.angleAroundPlayer -= angleChange;
         }
     }
 

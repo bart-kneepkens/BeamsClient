@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
+import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -53,10 +54,9 @@ public class GUIManager {
         buttonLoadTerrain.subscribe(MouseInput.getMouseSubject());
         this.gui.addElement(buttonLoadTerrain.getGUIElement(), 0);
 
+       
         //</editor-fold>
-        
-        InvisibleListener listener = new InvisibleListener(Display.getWidth() - 2, Display.getHeight() - 2, new Vector2f(1, 1), new Vector3f(0,0,0));
-        //listener.onPress(x -> this.listener_Press(x));
+        InvisibleListener listener = new InvisibleListener(Display.getWidth() - 2, Display.getHeight() - 2, new Vector2f(1, 1), new Vector3f(0, 0, 0));
         listener.subscribe(MouseInput.getMouseSubject());
     }
 
@@ -92,14 +92,6 @@ public class GUIManager {
             }
         }
         dialog.dispose();
-    }
-    
-    private void listener_Press(Event event){
-        if (event.getMouseState().isButton1Down()) {
-            BeamsClient.scene.getCamera().turnHorizontally((float)event.getMouseState().getdX() / 8f);
-            BeamsClient.scene.getCamera().turnVertically((float)event.getMouseState().getdY() / -8f);
-           
-        }
     }
 
 }

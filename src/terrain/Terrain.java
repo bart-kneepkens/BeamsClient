@@ -35,13 +35,13 @@ public class Terrain {
     private TerrainTexturePack texturePack;
     private TerrainTexture blendMap;
 
-    public Terrain(float gridX, float gridZ, Loader loader, TerrainTexturePack texturePack, TerrainTexture blendMap, BufferedImage heightMap) {
+    public Terrain(float gridX, float gridZ, TerrainTexturePack texturePack, TerrainTexture blendMap, BufferedImage heightMap) {
         this.xCoord = gridX * SIZE;
         this.zCoord = gridZ * SIZE;
         this.rotation = new Vector3f(0,0,0);
         this.texturePack = texturePack;
         this.blendMap = blendMap;
-        this.model = generateTerrain(loader, heightMap);
+        this.model = generateTerrain(heightMap);
     }
 
     public Terrain() {
@@ -52,7 +52,7 @@ public class Terrain {
     
     
 
-    public static RawModel generateTerrain(Loader loader, BufferedImage heightMap){
+    public static RawModel generateTerrain(BufferedImage heightMap){
         
         int VERTEX_COUNT = heightMap.getHeight();
         
@@ -91,7 +91,7 @@ public class Terrain {
                 indices[pointer++] = bottomRight;
             }
         }
-        return loader.loadToVAO(new ModelData(vertices, textureCoords, normals, indices));
+        return Loader.loadToVAO(new ModelData(vertices, textureCoords, normals, indices));
     }
     
     private static float getHeight(int x, int z, BufferedImage image){

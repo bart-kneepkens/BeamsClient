@@ -39,9 +39,9 @@ public class Loader {
      * Keeps track of all VAO's, VBO's and textures, so they can be deleted from
      * memory once the program exits.
      */
-    private List<Integer> vaos = new ArrayList<>();
-    private List<Integer> vbos = new ArrayList<>();
-    private List<Integer> textures = new ArrayList<>();
+    private static List<Integer> vaos = new ArrayList<>();
+    private static List<Integer> vbos = new ArrayList<>();
+    private static List<Integer> textures = new ArrayList<>();
 
 
     /**
@@ -51,7 +51,7 @@ public class Loader {
      * @return A new instance of RawModel containing the VAO ID and vertex
      * count.
      */
-    public RawModel loadToVAO(ModelData modelData) {
+    public static RawModel loadToVAO(ModelData modelData) {
         int vaoID = createVAO();
         unbindVAO();
         bindIndicesBuffer(vaoID, modelData.getIndices());
@@ -65,7 +65,7 @@ public class Loader {
     }
     
     
-    public int loadTexture(String fileName) {
+    public static int loadTexture(String fileName) {
         Texture texture = null;
         try {
             texture = TextureLoader.getTexture("PNG", new FileInputStream("res/textures/" + fileName + ".png"));
@@ -80,7 +80,7 @@ public class Loader {
         return textureID;
     }
 
-    public int loadTexture(File file) {
+    public static int loadTexture(File file) {
         Texture texture = null;
         try {
             texture = TextureLoader.getTexture("PNG", new FileInputStream(file));
@@ -97,10 +97,10 @@ public class Loader {
      *
      * @return Its ID that points to the VAO in memory.
      */
-    private int createVAO() {
+    private static int createVAO() {
         int vaoID = GL30.glGenVertexArrays();
         // Adds VAO to list so that it can be cleared when needed.
-        this.vaos.add(vaoID);
+        vaos.add(vaoID);
         return vaoID;
     }
 
@@ -112,7 +112,7 @@ public class Loader {
      * will be stored.
      * @param data The data that will be stored in the attribute list.
      */
-    private void storeDataInAttributeList(int vaoID, int attributeNumber, int coordinateSize, float[] data) {
+    private static void storeDataInAttributeList(int vaoID, int attributeNumber, int coordinateSize, float[] data) {
         // bind VAO so that it can be used.
         bindVAO(vaoID);
 
@@ -120,7 +120,7 @@ public class Loader {
         int vboID = GL15.glGenBuffers();
 
         // Adds VBO to list so that it can be cleared when needed.
-        this.vbos.add(vboID);
+        vbos.add(vboID);
 
         // VBO has to be bound aswel.
         bindArrayBuffer(vboID);
@@ -151,7 +151,7 @@ public class Loader {
      * will be stored.
      * @param data The data that will be stored in the attribute list.
      */
-    private void bindIndicesBuffer(int vaoID, int[] data) {
+    private static void bindIndicesBuffer(int vaoID, int[] data) {
         // bind VAO so that it can be used.
         bindVAO(vaoID);
 
@@ -159,7 +159,7 @@ public class Loader {
         int vboID = GL15.glGenBuffers();
 
         // Adds VBO to list so that it can be cleared when needed.
-        this.vbos.add(vboID);
+        vbos.add(vboID);
 
         // VBO has to be bound aswel.
         bindElementArrayBuffer(vboID);
@@ -181,7 +181,7 @@ public class Loader {
     /**
      * Unbinds the VAO.
      */
-    private void unbindVAO() {
+    private static void unbindVAO() {
         GL30.glBindVertexArray(0);
     }
 
@@ -190,7 +190,7 @@ public class Loader {
      *
      * @param vaoID The ID of the VAO that will be bound.
      */
-    private void bindVAO(int vaoID) {
+    private static void bindVAO(int vaoID) {
         GL30.glBindVertexArray(vaoID);
     }
 
@@ -199,7 +199,7 @@ public class Loader {
      *
      * @param vboID The ID of the VBO that will be bound.
      */
-    private void bindArrayBuffer(int vboID) {
+    private static void bindArrayBuffer(int vboID) {
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
     }
 
@@ -208,31 +208,31 @@ public class Loader {
      *
      * @param vboID The ID of the VBO that will be bound.
      */
-    private void bindElementArrayBuffer(int vboID) {
+    private static void bindElementArrayBuffer(int vboID) {
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboID);
     }
 
     /**
      * Unbinds the VBO.
      */
-    private void unbindElementArrayBuffer() {
+    private static void unbindElementArrayBuffer() {
         GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
     }
 
     /**
      * Unbinds the VBO.
      */
-    private void unbindArrayBuffer() {
+    private static void unbindArrayBuffer() {
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
     }
 
     /**
      * Cleans the memory of all VAO's and VBO's.
      */
-    public void cleanUp() {
-        this.vaos.forEach(x -> GL30.glDeleteVertexArrays(x));
-        this.vbos.forEach(x -> GL15.glDeleteBuffers(x));
-        this.textures.forEach(x -> GL11.glDeleteTextures(x));
+    public static void cleanUp() {
+        vaos.forEach(x -> GL30.glDeleteVertexArrays(x));
+        vbos.forEach(x -> GL15.glDeleteBuffers(x));
+        textures.forEach(x -> GL11.glDeleteTextures(x));
     }
 
 }

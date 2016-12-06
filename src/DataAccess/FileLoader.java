@@ -5,8 +5,8 @@
  */
 package DataAccess;
 
+import DataAccess.lwjgl.Loader;
 import beamsClient.BeamsClient;
-import static beamsClient.BeamsClient.loader;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -56,22 +56,22 @@ public class FileLoader {
                     Terrain.MAX_HEIGHT = Float.parseFloat(line.split(": ")[1]);
                 }
                 if (line.startsWith("HeightMap: ")) {
-                    model = Terrain.generateTerrain(BeamsClient.loader, loadBufferedImage(new File(line.split(": ")[1])));
+                    model = Terrain.generateTerrain(loadBufferedImage(new File(line.split(": ")[1])));
                 }
                 if (line.startsWith("BlendMap: ")) {
-                    blendMap = new TerrainTexture(loader.loadTexture(new File(line.split(": ")[1])));
+                    blendMap = new TerrainTexture(Loader.loadTexture(new File(line.split(": ")[1])));
                 }
                 if (line.startsWith("bgTexture: ")) {
-                    bgTexture = new TerrainTexture(loader.loadTexture(new File(line.split(": ")[1])));
+                    bgTexture = new TerrainTexture(Loader.loadTexture(new File(line.split(": ")[1])));
                 }
                 if (line.startsWith("rTexture: ")) {
-                    rTexture = new TerrainTexture(loader.loadTexture(new File(line.split(": ")[1])));
+                    rTexture = new TerrainTexture(Loader.loadTexture(new File(line.split(": ")[1])));
                 }
                 if (line.startsWith("gTexture: ")) {
-                    gTexture = new TerrainTexture(loader.loadTexture(new File(line.split(": ")[1])));
+                    gTexture = new TerrainTexture(Loader.loadTexture(new File(line.split(": ")[1])));
                 }
                 if (line.startsWith("bTexture: ")) {
-                    bTexture = new TerrainTexture(loader.loadTexture(new File(line.split(": ")[1])));
+                    bTexture = new TerrainTexture(Loader.loadTexture(new File(line.split(": ")[1])));
                 }
             }
 

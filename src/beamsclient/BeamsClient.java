@@ -21,7 +21,6 @@ public class BeamsClient {
 
     public static boolean keepRunning = true;
     public static Scene scene = new Scene();
-    public static Loader loader = new Loader();
     /**
      * @param args the command line arguments
      */
@@ -30,7 +29,7 @@ public class BeamsClient {
         
         MasterRenderer masterRenderer = new MasterRenderer();
                 
-        GUIManager guiManager = new GUIManager(loader);
+        GUIManager guiManager = new GUIManager();
 
         while (!Display.isCloseRequested() && keepRunning) {
             
@@ -39,17 +38,16 @@ public class BeamsClient {
             masterRenderer.render(guiManager.getGUI()); 
             
             masterRenderer.start3DRendering(scene);
-            
             masterRenderer.render(scene.getTerrain());
-            
             masterRenderer.stop3DRendering();
 
+            
             MouseInput.checkInputs();
 
             DisplayManager.updateDisplay();
         }
 
-        loader.cleanUp();
+        Loader.cleanUp();
         masterRenderer.cleanUp();
         DisplayManager.closeDisplay();
 

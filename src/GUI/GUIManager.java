@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 import javax.swing.JDialog;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
-import DataAccess.lwjgl.Loader;
 import userInput.Event;
 import userInput.MouseInput;
 
@@ -27,12 +26,10 @@ import userInput.MouseInput;
 public class GUIManager {
 
     private final GUI gui;
-    private final Loader loader;
 
-    public GUIManager(Loader loader) {
+    public GUIManager() {
 
         this.gui = new GUI();
-        this.loader = loader;
 
         //<editor-fold defaultstate="collapsed" desc="Buttons">
         // Button 1

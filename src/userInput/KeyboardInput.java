@@ -39,6 +39,12 @@ public class KeyboardInput {
                 BeamsClient.scene.getPlayer().turnLeft();
             }
         }
+        if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
+            BeamsClient.scene.getPlayer().strafeLeft();
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_E)){
+            BeamsClient.scene.getPlayer().strafeRight();
+        }
     }
 
 }

@@ -7,6 +7,7 @@ package Game;
 
 import entity.Entity;
 import entity.Light;
+import entity.Player;
 import terrain.Terrain;
 
 /**
@@ -19,7 +20,7 @@ public class Scene {
     
     private Light light;
     
-    private Entity player;
+    private Player player;
     
     private Terrain terrain;
 
@@ -39,12 +40,12 @@ public class Scene {
         return terrain;
     }
 
-    public Entity getPlayer() {
+    public Player getPlayer() {
         return player;
     }
 
     
-    public Scene(Entity player, Camera camera, Light light, Terrain terrain) {
+    public Scene(Player player, Camera camera, Light light, Terrain terrain) {
         this.player = player;
         this.camera = camera;
         this.light = light;

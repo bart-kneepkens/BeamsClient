@@ -15,6 +15,7 @@ import Game.Camera;
 import Game.Scene;
 import entity.Entity;
 import entity.Light;
+import entity.Player;
 import entity.texture.ModelTexture;
 import entity.texture.TexturedModel;
 import java.io.File;
@@ -24,6 +25,7 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.MasterRenderer;
+import userInput.KeyboardInput;
 import userInput.MouseInput;
 
 /**
@@ -63,7 +65,7 @@ public class BeamsClient {
             masterRenderer.stopEntityRendering();
 
             MouseInput.checkInputs();
-            checkForEscape();
+            KeyboardInput.checkInputs();
             
             DisplayManager.updateDisplay();
         }
@@ -76,24 +78,18 @@ public class BeamsClient {
 
     private static void loadDefaultScene() throws IOException {
         
-        RawModel model = OBJLoader.loadObjModel(new File("res/models/dragon.obj"));
+        RawModel model = OBJLoader.loadObjModel(new File("res/models/stanfordBunny.obj"));
         ModelTexture texture = new ModelTexture(Loader.loadTexture(new File("res/textures/texture.png")));
         TexturedModel texturedModel = new TexturedModel(model, texture);
         texture.setReflectivity(1);
         texture.setShineDamper(100);
-        Entity player = new Entity(texturedModel, new Vector3f(-40, 0, -20), new Vector3f(0, 0, 0), 1);
+        Player player = new Player(texturedModel, new Vector3f(-40, 0, -20), new Vector3f(0, 0, 0), 0.1f);
         
         scene = new Scene(
                 player,
                 new Camera(new Vector3f(-40, 10, 0), 10, 0, 0), 
                 new Light(new Vector3f(50, 50, 50), new Vector3f(1, 1, 1)), 
                 FileLoader.loadTerrain(new File("/Users/Blackened/NetBeansProjects/TerrainViewer/test.ter")));
-    }
-    
-    private static void checkForEscape(){
-        if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
-            keepRunning = false;
-        }
     }
 
 }

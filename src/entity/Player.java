@@ -5,6 +5,7 @@
  */
 package entity;
 
+import beamsClient.BeamsClient;
 import entity.texture.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
@@ -21,7 +22,7 @@ public class Player extends Entity {
     private static final float JUMP_POWER = 10;
 
     private float movementSpeed = 10f;
-    private float turnSpeed = 5f;
+    private float turnSpeed = 4f;
     private float upwardsSpeed = 0;
 
     private boolean isInAir = false;
@@ -63,15 +64,15 @@ public class Player extends Entity {
     }
 
     public void gravitate() {
-        if (this.isInAir){
         upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
         super.increasePosition(new Vector3f(0, upwardsSpeed * DisplayManager.getFrameTimeSeconds(), 0));
-        if (super.getPosition().y < TERRAIN_HEIGHT) {
+        float terrainHeight = BeamsClient.scene.getTerrain().getHeightOfTerrain(super.getPosition().getX(), super.getPosition().getZ());
+        if (super.getPosition().y < terrainHeight) {
             upwardsSpeed = 0;
             isInAir = false;
-            super.getPosition().y = TERRAIN_HEIGHT;
+            super.getPosition().y = terrainHeight;
         }
-        }
+        
     }
 
     public void jump() {

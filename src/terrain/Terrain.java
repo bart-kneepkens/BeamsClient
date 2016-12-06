@@ -10,8 +10,10 @@ import java.awt.image.BufferedImage;
 import models.RawModel;
 import org.lwjgl.util.vector.Vector3f;
 import DataAccess.lwjgl.Loader;
+import org.lwjgl.util.vector.Vector2f;
 import terrain.texture.TerrainTexture;
 import terrain.texture.TerrainTexturePack;
+import toolbox.Maths;
 
 /**
  *
@@ -26,6 +28,8 @@ public class Terrain {
     private float xCoord;
     private float zCoord;
 
+    private float[][] heightTable;
+
     /**
      * The Euler rotation.
      */
@@ -38,7 +42,7 @@ public class Terrain {
     public Terrain(float gridX, float gridZ, TerrainTexturePack texturePack, TerrainTexture blendMap, BufferedImage heightMap) {
         this.xCoord = gridX * SIZE;
         this.zCoord = gridZ * SIZE;
-        this.rotation = new Vector3f(0,0,0);
+        this.rotation = new Vector3f(0, 0, 0);
         this.texturePack = texturePack;
         this.blendMap = blendMap;
         this.model = generateTerrain(heightMap);
@@ -47,15 +51,90 @@ public class Terrain {
     public Terrain() {
         this.xCoord = -1f * SIZE;
         this.zCoord = -0.5f * SIZE;
-        this.rotation = new Vector3f(0,0,0);
+        this.rotation = new Vector3f(0, 0, 0);
     }
-    
-    
 
-    public static RawModel generateTerrain(BufferedImage heightMap){
+    public float getX() {
+        return xCoord;
+    }
+
+    public float getZ() {
+        return zCoord;
+    }
+
+    public Vector3f getRotation() {
+        return rotation;
+    }
+
+    public void setTexturePack(TerrainTexturePack texturePack) {
+        this.texturePack = texturePack;
+    }
+
+    public void setBlendMap(TerrainTexture blendMap) {
+        this.blendMap = blendMap;
+    }
+
+    public void setModel(RawModel model) {
+        this.model = model;
+    }
+
+    public void setHeightTable(float[][] heights) {
+        this.heightTable = heights;
+    }
+
+    public float getHeightOfTerrain(float worldX, float worldZ) {
+        float terrainX = worldX - this.xCoord;
+        float terrainZ = worldZ - this.zCoord;
+        float gridSquareSize = SIZE / ((float) heightTable.length - 1);
+        int gridX = (int) Math.floor(terrainX / gridSquareSize);
+        int gridZ = (int) Math.floor(terrainZ / gridSquareSize);
+        if (gridX >= heightTable.length - 1 || gridZ >= heightTable.length - 1 || gridX < 0 || gridZ < 0) {
+            return 0;
+        }
+        float x = (terrainX % gridSquareSize) / gridSquareSize;
+        float z = (terrainZ % gridSquareSize) / gridSquareSize;
+        float answer;
+        if (x <= (1 - z)) {
+            answer = Maths.barryCentric(new Vector3f(0, heightTable[gridX][gridZ], 0), new Vector3f(1,
+                            heightTable[gridX + 1][gridZ], 0), new Vector3f(0,
+                            heightTable[gridX][gridZ + 1], 1), new Vector2f(x, z));
+        } else {
+            answer = Maths.barryCentric(new Vector3f(1, heightTable[gridX + 1][gridZ], 0), new Vector3f(1,
+                            heightTable[gridX + 1][gridZ + 1], 1), new Vector3f(0,
+                            heightTable[gridX][gridZ + 1], 1), new Vector2f(x, z));
+        }
+        return answer;
         
+    }
+
+    /**
+     * Increases the rotation of the entity.
+     *
+     * @param vector The vector that translates the rotation.
+     * @NOTE this vector can not be normalized!
+     */
+    public void increaseRotation(Vector3f vector) {
+        this.rotation.x += vector.x;
+        this.rotation.y += vector.y;
+        this.rotation.z += vector.z;
+    }
+
+    public RawModel getModel() {
+        return model;
+    }
+
+    public TerrainTexturePack getTexturePack() {
+        return texturePack;
+    }
+
+    public TerrainTexture getBlendMap() {
+        return blendMap;
+    }
+
+    public static RawModel generateTerrain(BufferedImage heightMap) {
+
         int VERTEX_COUNT = heightMap.getHeight();
-        
+
         int count = VERTEX_COUNT * VERTEX_COUNT;
         float[] vertices = new float[count * 3];
         float[] normals = new float[count * 3];
@@ -65,7 +144,7 @@ public class Terrain {
         for (int i = 0; i < VERTEX_COUNT; i++) {
             for (int j = 0; j < VERTEX_COUNT; j++) {
                 vertices[vertexPointer * 3] = (float) j / ((float) VERTEX_COUNT - 1) * SIZE;
-                vertices[vertexPointer * 3 + 1] = getHeight(j,i,heightMap);
+                vertices[vertexPointer * 3 + 1] = getHeight(j, i, heightMap);
                 vertices[vertexPointer * 3 + 2] = (float) i / ((float) VERTEX_COUNT - 1) * SIZE;
                 Vector3f normal = calculateNormal(j, i, heightMap);
                 normals[vertexPointer * 3] = normal.x;
@@ -93,81 +172,39 @@ public class Terrain {
         }
         return Loader.loadToVAO(new ModelData(vertices, textureCoords, normals, indices));
     }
-    
-    private static float getHeight(int x, int z, BufferedImage image){
-        if(x < 0 || x >= image.getHeight() || z < 0 || z >= image.getHeight()){
+
+    public static float[][] generateHeightTable(BufferedImage heightMap) {
+        int VERTEX_COUNT = heightMap.getHeight();
+        float[][] heightTable = new float[VERTEX_COUNT][VERTEX_COUNT];
+
+        for (int i = 0; i < VERTEX_COUNT; i++) {
+            for (int j = 0; j < VERTEX_COUNT; j++) {
+                float height = getHeight(j, i, heightMap);
+                heightTable[j][i] = height;
+            }
+        }
+        return heightTable;
+    }
+
+    private static float getHeight(int x, int z, BufferedImage image) {
+        if (x < 0 || x >= image.getHeight() || z < 0 || z >= image.getHeight()) {
             return 0;
         }
         float height = image.getRGB(x, z);
-        height += MAX_PIXEL_COLOUR/2f;
-        height /= MAX_PIXEL_COLOUR/2f;
+        height += MAX_PIXEL_COLOUR / 2f;
+        height /= MAX_PIXEL_COLOUR / 2f;
         height *= MAX_HEIGHT;
         return height;
-        
+
     }
-    
-    private static Vector3f calculateNormal(int x, int z, BufferedImage image){
-        float heightL = getHeight(x-1, z, image);
-        float heightR = getHeight(x+1, z, image);
-        float heightD = getHeight(x, z-1, image);
-        float heightU = getHeight(x, z+1, image);
-        Vector3f normal = new Vector3f(heightL-heightR, 2f, heightD - heightU);
+
+    private static Vector3f calculateNormal(int x, int z, BufferedImage image) {
+        float heightL = getHeight(x - 1, z, image);
+        float heightR = getHeight(x + 1, z, image);
+        float heightD = getHeight(x, z - 1, image);
+        float heightU = getHeight(x, z + 1, image);
+        Vector3f normal = new Vector3f(heightL - heightR, 2f, heightD - heightU);
         normal.normalise();
         return normal;
     }
-
-    public float getX() {
-        return xCoord;
-    }
-
-    public float getZ() {
-        return zCoord;
-    }
-
-    public Vector3f getRotation() {
-        return rotation;
-    }
-
-    public void setTexturePack(TerrainTexturePack texturePack) {
-        this.texturePack = texturePack;
-    }
-
-    public void setBlendMap(TerrainTexture blendMap) {
-        this.blendMap = blendMap;
-    }
-
-    public void setModel(RawModel model) {
-        this.model = model;
-    }
-    
-    
-    
-    
-
-    /**
-     * Increases the rotation of the entity.
-     *
-     * @param vector The vector that translates the rotation.
-     * @NOTE this vector can not be normalized!
-     */
-    public void increaseRotation(Vector3f vector) {
-        this.rotation.x += vector.x;
-        this.rotation.y += vector.y;
-        this.rotation.z += vector.z;
-    }
-
-    public RawModel getModel() {
-        return model;
-    }
-
-    public TerrainTexturePack getTexturePack() {
-        return texturePack;
-    }
-
-    public TerrainTexture getBlendMap() {
-        return blendMap;
-    }
-    
-    
-
 }

@@ -36,6 +36,7 @@ public class FileLoader {
     public static Terrain loadTerrain(File file) throws FileNotFoundException, IOException {
         Terrain terrain = new Terrain();
 
+        float[][] heightTable = null;
         RawModel model = null;
         TerrainTexture blendMap = null;
         TerrainTexture bgTexture = null;
@@ -56,6 +57,7 @@ public class FileLoader {
                 }
                 if (line.startsWith("HeightMap: ")) {
                     model = Terrain.generateTerrain(loadBufferedImage(new File(line.split(": ")[1])));
+                    heightTable = Terrain.generateHeightTable(loadBufferedImage(new File(line.split(": ")[1])));
                 }
                 if (line.startsWith("BlendMap: ")) {
                     blendMap = new TerrainTexture(Loader.loadTexture(new File(line.split(": ")[1])));
@@ -76,10 +78,11 @@ public class FileLoader {
 
             System.out.println("File reading complete!");
 
-            if (model == null || blendMap == null || bgTexture == null || rTexture == null || gTexture == null || bTexture == null) {
+            if (model == null || heightTable == null || blendMap == null || bgTexture == null || rTexture == null || gTexture == null || bTexture == null) {
                 System.out.println("But went wrong!");
             }
             terrain.setModel(model);
+            terrain.setHeightTable(heightTable);
             terrain.setBlendMap(blendMap);
             TerrainTexturePack texturePack = new TerrainTexturePack(bgTexture, rTexture, gTexture, bTexture);
             terrain.setTexturePack(texturePack);

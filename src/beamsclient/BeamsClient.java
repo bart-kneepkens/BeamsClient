@@ -21,13 +21,14 @@ public class BeamsClient {
 
     public static boolean keepRunning = true;
     public static Scene scene = new Scene();
+    public static Loader loader = new Loader();
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         DisplayManager.createDisplay();
 
-        Loader loader = new Loader();
+        
         
         MasterRenderer masterRenderer = new MasterRenderer();
         

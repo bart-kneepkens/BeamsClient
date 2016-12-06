@@ -24,5 +24,11 @@ public class Scene {
     public void resetCamera(){
         this.camera.reset();
     }
+
+    public void setTerrain(Terrain terrain) {
+        this.terrain = terrain;
+    }
+    
+    
     
 }

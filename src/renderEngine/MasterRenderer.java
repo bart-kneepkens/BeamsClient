@@ -18,7 +18,7 @@ import terrain.Terrain;
  */
 public class MasterRenderer {
     
-    private GUIRenderer guiRenderer;
+    private final GUIRenderer guiRenderer;
     private EntityRenderer entityRenderer;
     private TerrainRenderer terrainRenderer;
 

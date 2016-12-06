@@ -7,15 +7,9 @@ package terrain;
 
 import DataAccess.ModelData;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import models.RawModel;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.Loader;
-import textures.ModelTexture;
 import textures.TerrainTexture;
 import textures.TerrainTexturePack;
 
@@ -25,9 +19,9 @@ import textures.TerrainTexturePack;
  */
 public class Terrain {
 
-    private static final float SIZE = 80;
-    private static final float MAX_HEIGHT = 20;
-    private static final float MAX_PIXEL_COLOUR = 256 * 256 * 256;
+    public static float SIZE = 80;
+    public static float MAX_HEIGHT = 20;
+    public static float MAX_PIXEL_COLOUR = 256 * 256 * 256;
 
     private float xCoord;
     private float zCoord;
@@ -50,7 +44,15 @@ public class Terrain {
         this.model = generateTerrain(loader, heightMap);
     }
 
-    private RawModel generateTerrain(Loader loader, BufferedImage heightMap){
+    public Terrain() {
+        this.xCoord = -1f;
+        this.zCoord = -0.5f;
+        this.rotation = new Vector3f(0,0,0);
+    }
+    
+    
+
+    public static RawModel generateTerrain(Loader loader, BufferedImage heightMap){
         
         int VERTEX_COUNT = heightMap.getHeight();
         
@@ -92,7 +94,7 @@ public class Terrain {
         return loader.loadToVAO(new ModelData(vertices, textureCoords, normals, indices));
     }
     
-    private float getHeight(int x, int z, BufferedImage image){
+    private static float getHeight(int x, int z, BufferedImage image){
         if(x < 0 || x >= image.getHeight() || z < 0 || z >= image.getHeight()){
             return 0;
         }
@@ -104,7 +106,7 @@ public class Terrain {
         
     }
     
-    private Vector3f calculateNormal(int x, int z, BufferedImage image){
+    private static Vector3f calculateNormal(int x, int z, BufferedImage image){
         float heightL = getHeight(x-1, z, image);
         float heightR = getHeight(x+1, z, image);
         float heightD = getHeight(x, z-1, image);
@@ -125,6 +127,20 @@ public class Terrain {
     public Vector3f getRotation() {
         return rotation;
     }
+
+    public void setTexturePack(TerrainTexturePack texturePack) {
+        this.texturePack = texturePack;
+    }
+
+    public void setBlendMap(TerrainTexture blendMap) {
+        this.blendMap = blendMap;
+    }
+
+    public void setModel(RawModel model) {
+        this.model = model;
+    }
+    
+    
     
     
 

@@ -8,6 +8,7 @@ package Game;
 import entity.Player;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
+import beamsClient.BeamsClient;
 
 /**
  *
@@ -18,19 +19,12 @@ public class Camera {
     private float distanceFromPlayer = 4;
     private float angleAroundPlayer = 0;
 
-    private Vector3f position = new Vector3f(0, 0, 0);
+    private final Vector3f position = new Vector3f(0, 0, 0);
     private float pitch = 20;
     private float yaw = 0;
     private float roll;
 
     private Player player;
-
-    public Camera(Vector3f position, float pitch, float yaw, float roll) {
-        this.position = position;
-        this.pitch = pitch;
-        this.yaw = yaw;
-        this.roll = roll;
-    }
 
     public Camera(Player player) {
         this.player = player;
@@ -58,28 +52,49 @@ public class Camera {
         return roll;
     }
 
-    public void turnHorizontally(float amount) {
-        this.yaw += amount;
-    }
-
-    public void turnVertically(float amount) {
-        this.pitch += amount;
-    }
-
     private void calculateZoom() {
         float zoomLevel = Mouse.getDWheel() * 0.01f;
-        if (distanceFromPlayer - zoomLevel > 1 && distanceFromPlayer - zoomLevel < 20) {
-            distanceFromPlayer -= zoomLevel;
+        if (Mouse.getDWheel() > 0) {
+            if (distanceFromPlayer >= 1) {
+                distanceFromPlayer -= zoomLevel;
+            }
+        } else {
+            if (distanceFromPlayer <= 20) {
+                distanceFromPlayer -= zoomLevel;
+            }
         }
     }
 
     private void calculatePitch() {
+        float minimumPitch = this.calculateMinimumPitch();
         if (Mouse.isButtonDown(1) || Mouse.isButtonDown(0)) {
+
             float pitchChange = Mouse.getDY() * 0.1f;
-            if (pitch - pitchChange >= 0) {
-                pitch -= pitchChange;
+            //System.out.println(minimumPitch);
+            if (pitchChange > 0) {
+                if (pitch - pitchChange >= minimumPitch) {
+                    pitch -= pitchChange;
+                }
+            } else {
+                if (pitch - pitchChange <= 90) {
+                    pitch -= pitchChange;
+                }
             }
+
         }
+        else{
+            
+            this.pitch = 10;
+        }
+        if (pitch < minimumPitch) {
+            pitch = minimumPitch;
+        }
+    }
+
+    private float calculateMinimumPitch() {
+        float minimumHeight = BeamsClient.scene.getTerrain().getHeightOfTerrain(this.position.getX(), this.position.getZ());
+        float relativeMinimumHeight = minimumHeight - this.player.getPosition().getY();
+        return (float) Math.toDegrees(Math.asin((relativeMinimumHeight / distanceFromPlayer))) + 10;
     }
 
     private void calculateAngleAroundPlayer() {
@@ -89,8 +104,7 @@ public class Camera {
         if (Mouse.isButtonDown(0)) {
             float angleChange = Mouse.getDX() * 0.003f;
             this.angleAroundPlayer -= angleChange;
-        }
-        else{
+        } else {
             angleAroundPlayer = 0;
         }
     }
@@ -100,7 +114,7 @@ public class Camera {
     }
 
     private float calculateVerticalDistance() {
-        return (float) (distanceFromPlayer * Math.sin(Math.toRadians(pitch))) + 0.1f;
+        return (float) (distanceFromPlayer * Math.sin(Math.toRadians(pitch)));
     }
 
     private void calculateCameraPosition(float horizontalDistance, float verticalDistance) {

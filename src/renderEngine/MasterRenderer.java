@@ -63,7 +63,6 @@ public class MasterRenderer {
     }
     
     public void startEntityRendering(Scene scene){
-        // KAN DIT? 2 SHADERS TEGELIJK?
         this.entityRenderer.start();
         this.entityRenderer.loadLight(scene.getLight());
         this.entityRenderer.loadUniformMatrix("viewMatrix", viewMatrix);

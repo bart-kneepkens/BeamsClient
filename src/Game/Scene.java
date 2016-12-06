@@ -14,13 +14,13 @@ import terrain.Terrain;
  * @author Blackened
  */
 public class Scene {
-    
+
     private Camera camera;
-    
+
     private Light light;
-    
+
     private Player player;
-    
+
     private Terrain terrain;
 
     public void setTerrain(Terrain terrain) {
@@ -43,20 +43,16 @@ public class Scene {
         return player;
     }
 
-    
     public Scene(Player player, Camera camera, Light light, Terrain terrain) {
         this.player = player;
         this.camera = camera;
         this.light = light;
         this.terrain = terrain;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    public void update() {
+        this.getPlayer().gravitate();
+        this.getCamera().move();
+    }
+
 }

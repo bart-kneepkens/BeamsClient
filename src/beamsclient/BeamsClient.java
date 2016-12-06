@@ -48,8 +48,7 @@ public class BeamsClient {
         GUIManager guiManager = new GUIManager();
 
         while (!Display.isCloseRequested() && keepRunning) {
-            scene.getPlayer().gravitate();
-            scene.getCamera().move();
+            scene.update();
             
             masterRenderer.prepare();
 

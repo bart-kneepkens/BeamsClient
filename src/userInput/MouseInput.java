@@ -6,6 +6,7 @@
 package userInput;
 
 import org.lwjgl.input.Mouse;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
@@ -27,7 +28,11 @@ public class MouseInput {
 
     public static void checkInputs() {
         MouseState mouseState = new MouseState(false, false, Mouse.getX(), Mouse.getY(), Mouse.getDX(), Mouse.getDY(), Mouse.getDWheel());
-
+        Mouse.setGrabbed(btn2Pressed);
+        if (btn2Pressed){
+            Mouse.setCursorPosition(Display.getWidth() /2, Display.getHeight() /2);
+        }
+        
         // Checks for main 2 mouse buttons
         if (Mouse.isButtonDown(0) && !btn1Pressed) {
             btn1Pressed = true;

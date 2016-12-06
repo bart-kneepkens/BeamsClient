@@ -32,6 +32,18 @@ public class Player extends Entity {
         float dz = (float) (movementSpeed * Math.cos(super.getRotation().getY()));
         super.increasePosition(new Vector3f(-dx, 0, -dz));
     }
+    
+    public void strafeLeft(){
+        float dx = (float) (movementSpeed * Math.sin(super.getRotation().getY() - 0.5 * Math.PI));
+        float dz = (float) (movementSpeed * Math.cos(super.getRotation().getY() - 0.5 * Math.PI));
+        super.increasePosition(new Vector3f(-dx, 0, -dz));
+    }
+    
+    public void strafeRight(){
+        float dx = (float) (movementSpeed * Math.sin(super.getRotation().getY() + 0.5 * Math.PI));
+        float dz = (float) (movementSpeed * Math.cos(super.getRotation().getY() + 0.5 * Math.PI));
+        super.increasePosition(new Vector3f(-dx, 0, -dz));
+    }
 
     public void turnRight() {
         super.increaseRotation(new Vector3f(0, -1 * turnSpeed, 0));

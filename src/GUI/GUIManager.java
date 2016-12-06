@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
-import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
@@ -93,5 +93,17 @@ public class GUIManager {
         }
         dialog.dispose();
     }
-
+    
+    private void listener_Press(Event event){
+        if (event.getMouseState().isButton0Down() || event.getMouseState().isButton1Down()){
+            Mouse.setGrabbed(true);
+            Mouse.setCursorPosition(Display.getWidth()/2, Display.getHeight()/2);
+        }
+        
+    }
+    
+    private void listener_Hover(Event event){
+        if(!event.getMouseState().isButton0Down() && !event.getMouseState().isButton1Down())
+            Mouse.setGrabbed(false);
+    }
 }

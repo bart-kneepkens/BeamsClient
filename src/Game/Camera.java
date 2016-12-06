@@ -15,7 +15,7 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class Camera {
 
-    private float distanceFromPlayer = 5;
+    private float distanceFromPlayer = 4;
     private float angleAroundPlayer = 0;
 
     private Vector3f position = new Vector3f(0, 0, 0);
@@ -68,7 +68,9 @@ public class Camera {
 
     private void calculateZoom() {
         float zoomLevel = Mouse.getDWheel() * 0.01f;
-        distanceFromPlayer -= zoomLevel;
+        if (distanceFromPlayer - zoomLevel > 1 && distanceFromPlayer - zoomLevel < 20) {
+            distanceFromPlayer -= zoomLevel;
+        }
     }
 
     private void calculatePitch() {
@@ -82,14 +84,14 @@ public class Camera {
 
     private void calculateAngleAroundPlayer() {
         if (Mouse.isButtonDown(1)) {
-            angleAroundPlayer = 0;
-//            float angleChange = Mouse.getDX() * 0.003f;
             this.player.increaseRotation(new Vector3f(0, Mouse.getDX() * -0.003f, 0));
-            //this.angleAroundPlayer -= angleChange;
         }
         if (Mouse.isButtonDown(0)) {
             float angleChange = Mouse.getDX() * 0.003f;
             this.angleAroundPlayer -= angleChange;
+        }
+        else{
+            angleAroundPlayer = 0;
         }
     }
 
@@ -98,7 +100,7 @@ public class Camera {
     }
 
     private float calculateVerticalDistance() {
-        return (float) (distanceFromPlayer * Math.sin(Math.toRadians(pitch)));
+        return (float) (distanceFromPlayer * Math.sin(Math.toRadians(pitch))) + 0.5f;
     }
 
     private void calculateCameraPosition(float horizontalDistance, float verticalDistance) {

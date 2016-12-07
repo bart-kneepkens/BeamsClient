@@ -26,6 +26,8 @@ public class Player extends Entity {
     private float upwardsSpeed = 0;
 
     private boolean isInAir = false;
+    
+    private Vector3f nextPosition;
 
     public Player(TexturedModel model, Vector3f position, Vector3f rotation, float scale) {
         super(model, position, rotation, scale);
@@ -64,8 +66,10 @@ public class Player extends Entity {
     }
 
     public void gravitate() {
+        //System.out.println(super.getPosition().getX() + ", " + super.getPosition().getZ());
         upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
-        super.increasePosition(new Vector3f(0, upwardsSpeed * DisplayManager.getFrameTimeSeconds(), 0));
+        float verticalDistance = upwardsSpeed * DisplayManager.getFrameTimeSeconds();
+        super.increasePosition(new Vector3f(0, verticalDistance, 0));
         float terrainHeight = BeamsClient.scene.getTerrain().getHeightOfTerrain(super.getPosition().getX(), super.getPosition().getZ());
         if (super.getPosition().y < terrainHeight) {
             upwardsSpeed = 0;

@@ -95,6 +95,17 @@ public class MasterRenderer {
             this.entityRenderer.render(entity);
         }
     }
+    
+    public void render(Scene scene){
+        this.startTerrainRendering(scene);
+        this.render(scene.getTerrain());
+        this.stopTerrainRendering();
+        
+        this.startEntityRendering(scene);
+        this.render(scene.getPlayer());
+        scene.getEntities().forEach(x -> this.render(x));
+        this.stopEntityRendering();
+    }
 
     public void cleanUp() {
         this.guiRenderer.cleanUp();

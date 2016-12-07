@@ -22,7 +22,7 @@ public class TemporaryEntity extends Entity {
         super(model, position, rotation, scale);
         this.deathTime = creationTime + duration;
         this.travelDirection = travelDirection;
-        this.light = new Light(this.getPosition(), new Vector3f(1,1,1), new Vector3f(0.001f, 0.01f, 0.01f));
+        this.light = new Light(this.getPosition(), new Vector3f(1,1,1), new Vector3f(0.001f, 0.01f, 0.005f));
     }
 
     public long getDeathTime() {
@@ -31,6 +31,7 @@ public class TemporaryEntity extends Entity {
     
     public void travel(){
         this.increasePosition(travelDirection);
+        //this.travelDirection = new Vector3f(this.travelDirection.getX()*0.95f, this.travelDirection.getY(), this.travelDirection.getZ()*0.95f);
     }
 
     public Light getLight() {

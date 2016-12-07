@@ -37,17 +37,17 @@ public class GUIManager {
         //<editor-fold defaultstate="collapsed" desc="Buttons">
         // Button 1
         Button buttonExit = new Button(30, 30, new Vector2f(10, Display.getHeight() - 40));
-        buttonExit.load();
-        buttonExit.onClick(x -> this.buttonExit_Click(x));
         buttonExit.loadTextureAtlas("buttons/buttonExit_Atlas");
+        buttonExit.load();
         buttonExit.subscribe(MouseInput.getMouseSubject());
+        buttonExit.onClick(x -> this.buttonExit_Click(x));
         this.gui.addElement(buttonExit.getGUIElement(), 0);
 
         Button buttonLoadTerrain = new Button(30, 30, new Vector2f(50, Display.getHeight() - 40));
-        buttonLoadTerrain.load();
-        buttonLoadTerrain.onClick(x -> this.buttonLoadTerrain_Click(x));
         buttonLoadTerrain.loadTextureAtlas("buttons/buttonTerrain_Atlas");
+        buttonLoadTerrain.load();
         buttonLoadTerrain.subscribe(MouseInput.getMouseSubject());
+        buttonLoadTerrain.onClick(x -> this.buttonLoadTerrain_Click(x));
         this.gui.addElement(buttonLoadTerrain.getGUIElement(), 0);
 
        

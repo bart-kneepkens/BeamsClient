@@ -111,8 +111,8 @@ public class Button extends MouseActor implements Renderable {
     }
 
     public void loadTextureAtlas(String name) {
-        this.textureID = GUIElementLoader.loadTexture(name);
-        this.guiElement.textureID = this.textureID;
+        this.guiElement.setTextureID(GUIElementLoader.loadTexture(name));
+        this.changeToMainTexture();
     }
 
     public int getTextureID() {

@@ -22,7 +22,7 @@ public class GUIElement {
     private int width;
     private int height;
 
-    public int textureID;
+    private int textureID;
 
     /**
      * IN PIXELS!
@@ -115,6 +115,12 @@ public class GUIElement {
     public float[] getOrigin() {
         return origin;
     }
+
+    public void setTextureID(int textureID) {
+        this.textureID = textureID;
+    }
+    
+    
 
     public void setTextureCoords(float[] textureCoords) {
         this.textureCoords = textureCoords;

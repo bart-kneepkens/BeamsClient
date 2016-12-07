@@ -78,7 +78,7 @@ public class BeamsClient {
         TexturedModel texturedModel = new TexturedModel(model, texture);
         texture.setReflectivity(1);
         texture.setShineDamper(100);
-        Player player = new Player(texturedModel, new Vector3f(-5, 0, -32), new Vector3f(0, 0, 0), 0.04f);
+        Player player = new Player(texturedModel, new Vector3f(-5, 0, -32), new Vector3f(0, 0, 0), 0.1f);
         
         RawModel model1 = OBJLoader.loadObjModel(new File("res/models/target.obj"));
         ModelTexture texture1 = new ModelTexture(Loader.loadTexture(new File("res/textures/targetTexture.png")));
@@ -86,13 +86,13 @@ public class BeamsClient {
         texture1.setReflectivity(1);
         texture1.setShineDamper(100);
         
-        Light light1 = new Light(new Vector3f(50,50,50), new Vector3f(1,1,1));
-        Light light2 = new Light(new Vector3f(-50,50,-50), new Vector3f(0,1,0));
-        Light light3 = new Light(new Vector3f(-10,50,-50), new Vector3f(0,0,1));
-        Light light4 = new Light(new Vector3f(-50,50,-10), new Vector3f(1,0,0));
+        Light sun = new Light(new Vector3f(-40,50,0), new Vector3f(1,1,1), new Vector3f(1f, 0.01f, 0.00001f));
+        Light light2 = new Light(new Vector3f(-11,20,-25), new Vector3f(1.5f,1,1), new Vector3f(1f, 0.006f, 0.001f));
+        Light light3 = new Light(new Vector3f(-67,20,27), new Vector3f(1.5f,1,1), new Vector3f(1f, 0.006f, 0.001f));
+        Light light4 = new Light(new Vector3f(-60,10,-19), new Vector3f(2,2,0), new Vector3f(0.001f, 0.01f, 0.01f));
         
         List<Light> lights = new ArrayList<>();
-        lights.add(light1);
+        lights.add(sun);
         lights.add(light2);
         lights.add(light3);
         lights.add(light4);

@@ -1,6 +1,6 @@
 <Terrain>
 Size: 80.0
-Height: 10.0
+Height: 5.0
 HeightMap: heightMap.png
 BlendMap: blendMap.png
 bgTexture: fiery.png

@@ -31,7 +31,6 @@ public class TemporaryEntity extends Entity {
     
     public void travel(){
         this.increasePosition(travelDirection);
-        //this.light.increasePosition(travelDirection);
     }
 
     public Light getLight() {

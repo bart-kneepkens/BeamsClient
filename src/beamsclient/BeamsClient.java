@@ -73,12 +73,12 @@ public class BeamsClient {
 
     private static void loadDefaultScene() throws IOException {
         
-        RawModel model = OBJLoader.loadObjModel(new File("res/models/stanfordBunny.obj"));
-        ModelTexture texture = new ModelTexture(Loader.loadTexture(new File("res/textures/texture.png")));
+        RawModel model = OBJLoader.loadObjModel(new File("res/models/homo misluktus.obj"));
+        ModelTexture texture = new ModelTexture(Loader.loadTexture(new File("res/textures/memeTexture.png")));
         TexturedModel texturedModel = new TexturedModel(model, texture);
-        texture.setReflectivity(1);
+        texture.setReflectivity(0);
         texture.setShineDamper(100);
-        Player player = new Player(texturedModel, new Vector3f(-5, 0, -32), new Vector3f(0, 0, 0), 0.1f);
+        Player player = new Player(texturedModel, new Vector3f(-5, 0, -32), new Vector3f(0, 0, 0), 0.3f);
         
         RawModel model1 = OBJLoader.loadObjModel(new File("res/models/target.obj"));
         ModelTexture texture1 = new ModelTexture(Loader.loadTexture(new File("res/textures/targetTexture.png")));
@@ -105,9 +105,9 @@ public class BeamsClient {
                 lights, 
                 FileLoader.loadTerrain(new File("res/terrains/arenaTerrain/arenaTerrain.ter")));
         
-        Entity entity = new Entity(texturedModel1, new Vector3f(-65, scene.getTerrain().getHeightOfTerrain(-65, -25), -25f), new Vector3f(0, (float) Math.toRadians(135), 0), 1f);
-        Entity entity1 = new Entity(texturedModel1, new Vector3f(-55, scene.getTerrain().getHeightOfTerrain(-55, -25), -25f), new Vector3f(0, (float) Math.toRadians(120), 0), 1f);
-        Entity entity2 = new Entity(texturedModel1, new Vector3f(-65, scene.getTerrain().getHeightOfTerrain(-65, -15), -15f), new Vector3f(0, (float) Math.toRadians(150), 0), 1f);
+        Entity entity = new Entity(texturedModel1, new Vector3f(-65, scene.getTerrain().getHeightOfTerrain(-65, -25), -25f), new Vector3f(0, (float) Math.toRadians(135), 0), 0.5f);
+        Entity entity1 = new Entity(texturedModel1, new Vector3f(-55, scene.getTerrain().getHeightOfTerrain(-55, -25), -25f), new Vector3f(0, (float) Math.toRadians(120), 0), 0.5f);
+        Entity entity2 = new Entity(texturedModel1, new Vector3f(-65, scene.getTerrain().getHeightOfTerrain(-65, -15), -15f), new Vector3f(0, (float) Math.toRadians(150), 0), 0.5f);
         scene.addEntity(entity);
         scene.addEntity(entity1);
         scene.addEntity(entity2);

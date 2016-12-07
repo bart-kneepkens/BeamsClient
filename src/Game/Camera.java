@@ -16,7 +16,7 @@ import beamsClient.BeamsClient;
  */
 public class Camera {
 
-    private float distanceFromPlayer = 4;
+    private float distanceFromPlayer = 6;
     private float angleAroundPlayer = 0;
 
     private final Vector3f position = new Vector3f(0, 0, 0);
@@ -53,13 +53,13 @@ public class Camera {
     }
 
     private void calculateZoom() {
-        float zoomLevel = Mouse.getDWheel() * 0.01f;
-        if (Mouse.getDWheel() > 0) {
-            if (distanceFromPlayer >= 1) {
+        float zoomLevel = Mouse.getDWheel() * 0.001f;
+        if (zoomLevel > 0) {
+            if (distanceFromPlayer > 4) {
                 distanceFromPlayer -= zoomLevel;
             }
         } else {
-            if (distanceFromPlayer <= 20) {
+            if (distanceFromPlayer < 10) {
                 distanceFromPlayer -= zoomLevel;
             }
         }
@@ -70,7 +70,6 @@ public class Camera {
         if (Mouse.isButtonDown(1) || Mouse.isButtonDown(0)) {
 
             float pitchChange = Mouse.getDY() * 0.1f;
-            //System.out.println(minimumPitch);
             if (pitchChange > 0) {
                 if (pitch - pitchChange >= minimumPitch) {
                     pitch -= pitchChange;
@@ -84,7 +83,7 @@ public class Camera {
         }
         else{
             
-            this.pitch = 10;
+            this.pitch = 5;
         }
         if (pitch < minimumPitch) {
             pitch = minimumPitch;
@@ -94,7 +93,7 @@ public class Camera {
     private float calculateMinimumPitch() {
         float minimumHeight = BeamsClient.scene.getTerrain().getHeightOfTerrain(this.position.getX(), this.position.getZ());
         float relativeMinimumHeight = minimumHeight - this.player.getPosition().getY();
-        return (float) Math.toDegrees(Math.asin((relativeMinimumHeight / distanceFromPlayer))) + 10;
+        return (float) Math.toDegrees(Math.asin((relativeMinimumHeight / distanceFromPlayer)));
     }
 
     private void calculateAngleAroundPlayer() {
@@ -118,13 +117,13 @@ public class Camera {
     }
 
     private void calculateCameraPosition(float horizontalDistance, float verticalDistance) {
-        float theta = player.getRotation().getY() + angleAroundPlayer;
+        float theta = player.getRotation().getY() + 0.2f + angleAroundPlayer;
         float offsetX = (float) (horizontalDistance * Math.sin(theta));
         float offsetZ = (float) (horizontalDistance * Math.cos(theta));
-        this.yaw = (float) (180 - Math.toDegrees(theta));
+        this.yaw = (float) (180 - Math.toDegrees(theta - 0.2f));
         position.x = player.getPosition().x - offsetX;
         position.z = player.getPosition().z - offsetZ;
-        this.position.y = player.getPosition().getY() + verticalDistance;
+        this.position.y = player.getPosition().getY() + 1 + verticalDistance;
     }
 
     public void move() {

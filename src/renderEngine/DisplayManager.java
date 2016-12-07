@@ -40,10 +40,10 @@ public class DisplayManager {
                 .withProfileCore(true);
 
         try {
-            //Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
+            Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
             Display.create(new PixelFormat(), attribs);
             Display.setTitle(TITLE);
-            Display.setFullscreen(true);
+            //Display.setFullscreen(true);
 
         } catch (LWJGLException ex) {
             Logger.getLogger(DisplayManager.class.getName()).log(Level.SEVERE, null, ex);

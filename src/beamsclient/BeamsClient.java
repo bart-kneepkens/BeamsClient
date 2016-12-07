@@ -94,7 +94,7 @@ public class BeamsClient {
         List<Light> lights = new ArrayList<>();
         lights.add(sun);
         lights.add(light2);
-        lights.add(light3);
+        //lights.add(light3);
         lights.add(light4);
         
         

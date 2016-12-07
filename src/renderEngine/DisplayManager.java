@@ -9,7 +9,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.ContextAttribs;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
@@ -41,9 +40,10 @@ public class DisplayManager {
                 .withProfileCore(true);
 
         try {
-            Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
+            //Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
             Display.create(new PixelFormat(), attribs);
             Display.setTitle(TITLE);
+            Display.setFullscreen(true);
 
         } catch (LWJGLException ex) {
             Logger.getLogger(DisplayManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -77,7 +77,7 @@ public class DisplayManager {
         Display.destroy();
     }
     
-    private static long getCurrentTime(){
+    public static long getCurrentTime(){
         return Sys.getTime()*1000/Sys.getTimerResolution();
     }
 

@@ -36,7 +36,6 @@ public class Light {
         this.attenuation = attenuation;
     }
 
-    
     public Vector3f getPosition() {
         return position;
     }
@@ -53,4 +52,15 @@ public class Light {
         this.colour = colour;
     }
 
+    /**
+     * Increases the position of the entity.
+     *
+     * @param vector The vector that translates the position.
+     * @NOTE this vector can not be normalized!
+     */
+    public void increasePosition(Vector3f vector) {
+        this.position.x += vector.x;
+        this.position.y += vector.y;
+        this.position.z += vector.z;
+    }
 }

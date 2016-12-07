@@ -22,7 +22,7 @@ public class GUIElement {
     private int width;
     private int height;
 
-    public int activeTextureID;
+    public int textureID;
 
     /**
      * IN PIXELS!
@@ -41,12 +41,12 @@ public class GUIElement {
         0f, 1f, 0f
     };
 
-    private float[] textureCoords = {
+    public float[] textureCoords = new float[]{
         0, 0,
-        0, 1,
-        1, 1,
-        1, 1,
-        1, 0,
+        0, 1f,
+        1f, 1f,
+        1f, 1f,
+        1f, 0,
         0, 0
     };
 
@@ -71,6 +71,11 @@ public class GUIElement {
         this.rotation = new Vector3f(0, 0, 0);
     }
 
+    public void loadTextureCoords(float[] newTextureCoords) {
+        this.textureCoords = newTextureCoords;
+        GUIElementLoader.reloadTextureCoords(this);
+    }
+
     protected void load() {
         this.vaoID = GUIElementLoader.loadToVAO(this);
     }
@@ -83,8 +88,8 @@ public class GUIElement {
         return vaoID;
     }
 
-    public int getActiveTextureID() {
-        return activeTextureID;
+    public int getTextureID() {
+        return textureID;
     }
 
     public float[] getTextureCoords() {

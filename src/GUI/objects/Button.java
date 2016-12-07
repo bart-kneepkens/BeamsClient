@@ -22,9 +22,7 @@ import userInput.MouseState;
  */
 public class Button extends MouseActor implements Renderable {
 
-    private int mainTextureID;
-    private int hoverTextureID;
-    private int clickTextureID;
+    private int textureID;
 
     private final GUIElement guiElement;
 
@@ -33,8 +31,8 @@ public class Button extends MouseActor implements Renderable {
      *
      * @param width The width of the button in pixels.
      * @param height The height of the button in pixels.
-     * @param position The position of the (left bottom corner of the) 
-     * button in pixels.
+     * @param position The position of the (left bottom corner of the) button in
+     * pixels.
      * @param rotation The Euler rotation of the button.
      */
     public Button(int width, int height, Vector2f position, Vector3f rotation) {
@@ -49,21 +47,42 @@ public class Button extends MouseActor implements Renderable {
      * Changes the buttons active texture to the hover texture.
      */
     private void changeToHoverTexture() {
-        this.guiElement.activeTextureID = this.hoverTextureID;
+        this.guiElement.loadTextureCoords(new float[]{
+            0.5f, 0,
+            0.5f, 0.5f,
+            1f, 0.5f,
+            1f, 0.5f,
+            1f, 0,
+            0.5f, 0
+        });
     }
 
     /**
      * Changes the buttons active texture to the main texture.
      */
     private void changeToMainTexture() {
-        this.guiElement.activeTextureID = this.mainTextureID;
+        this.guiElement.loadTextureCoords(new float[]{
+            0, 0,
+            0, 0.5f,
+            0.5f, 0.5f,
+            0.5f, 0.5f,
+            0.5f, 0,
+            0, 0
+        });
     }
 
     /**
      * Changes the buttons active texture to the click texture.
      */
     private void changeToClickTexture() {
-        this.guiElement.activeTextureID = this.clickTextureID;
+        this.guiElement.loadTextureCoords(new float[]{
+            0f, 0.5f,
+            0f, 1f,
+            0.5f, 1f,
+            0.5f, 1f,
+            0.5f, 0.5f,
+            0f, 0.5f
+        });
     }
 
     @Override
@@ -91,29 +110,13 @@ public class Button extends MouseActor implements Renderable {
                         x -> x.printStackTrace());
     }
 
-    public void loadMainTexture(String name) {
-        this.mainTextureID = GUIElementLoader.loadTexture(name);
-        this.guiElement.activeTextureID = this.mainTextureID;
+    public void loadTextureAtlas(String name) {
+        this.textureID = GUIElementLoader.loadTexture(name);
+        this.guiElement.textureID = this.textureID;
     }
 
-    public void loadHoverTexture(String name) {
-        this.hoverTextureID = GUIElementLoader.loadTexture(name);
-    }
-
-    public void loadClickTexture(String name) {
-        this.clickTextureID = GUIElementLoader.loadTexture(name);
-    }
-
-    public int getMainTextureID() {
-        return mainTextureID;
-    }
-
-    public int getClickTextureID() {
-        return clickTextureID;
-    }
-
-    public int getHoverTextureID() {
-        return hoverTextureID;
+    public int getTextureID() {
+        return textureID;
     }
 
     @Override

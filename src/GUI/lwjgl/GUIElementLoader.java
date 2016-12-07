@@ -52,6 +52,11 @@ public class GUIElementLoader {
 
         return vaoID;
     }
+    
+    public static void reloadTextureCoords(GUIElement guiElement){
+        storeDataInAttributeList(guiElement.getVaoID(), TEXTURE_COORDS.getNumVal(), 2, guiElement.getTextureCoords());
+        
+    }
 
     public static int loadTexture(String fileName) {
         Texture texture = null;

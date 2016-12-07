@@ -39,23 +39,20 @@ public class GUIManager {
         Button buttonExit = new Button(30, 30, new Vector2f(10, Display.getHeight() - 40));
         buttonExit.load();
         buttonExit.onClick(x -> this.buttonExit_Click(x));
-        buttonExit.loadMainTexture("buttons/exit_main");
-        buttonExit.loadHoverTexture("buttons/exit_hover");
-        buttonExit.loadClickTexture("buttons/exit_click");
+        buttonExit.loadTextureAtlas("buttons/buttonExit_Atlas");
         buttonExit.subscribe(MouseInput.getMouseSubject());
         this.gui.addElement(buttonExit.getGUIElement(), 0);
 
         Button buttonLoadTerrain = new Button(30, 30, new Vector2f(50, Display.getHeight() - 40));
         buttonLoadTerrain.load();
         buttonLoadTerrain.onClick(x -> this.buttonLoadTerrain_Click(x));
-        buttonLoadTerrain.loadMainTexture("buttons/camera_main");
-        buttonLoadTerrain.loadHoverTexture("buttons/camera_hover");
-        buttonLoadTerrain.loadClickTexture("buttons/camera_click");
+        buttonLoadTerrain.loadTextureAtlas("buttons/buttonTerrain_Atlas");
         buttonLoadTerrain.subscribe(MouseInput.getMouseSubject());
         this.gui.addElement(buttonLoadTerrain.getGUIElement(), 0);
 
        
         //</editor-fold>
+        
         InvisibleListener listener = new InvisibleListener(Display.getWidth() - 2, Display.getHeight() - 2, new Vector2f(1, 1), new Vector3f(0, 0, 0));
         listener.subscribe(MouseInput.getMouseSubject());
     }

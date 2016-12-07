@@ -20,6 +20,8 @@ import entity.texture.ModelTexture;
 import entity.texture.TexturedModel;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import models.RawModel;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.MasterRenderer;
@@ -84,11 +86,23 @@ public class BeamsClient {
         texture1.setReflectivity(1);
         texture1.setShineDamper(100);
         
+        Light light1 = new Light(new Vector3f(50,50,50), new Vector3f(1,1,1));
+        Light light2 = new Light(new Vector3f(-50,50,-50), new Vector3f(0,1,0));
+        Light light3 = new Light(new Vector3f(-10,50,-50), new Vector3f(0,0,1));
+        Light light4 = new Light(new Vector3f(-50,50,-10), new Vector3f(1,0,0));
+        
+        List<Light> lights = new ArrayList<>();
+        lights.add(light1);
+        lights.add(light2);
+        lights.add(light3);
+        lights.add(light4);
+        
+        
         
         scene = new Scene(
                 player,
                 new Camera(player), 
-                new Light(new Vector3f(50, 50, 50), new Vector3f(1, 1, 1)), 
+                lights, 
                 FileLoader.loadTerrain(new File("res/terrains/arenaTerrain/arenaTerrain.ter")));
         
         Entity entity = new Entity(texturedModel1, new Vector3f(-65, scene.getTerrain().getHeightOfTerrain(-65, -25), -25f), new Vector3f(0, (float) Math.toRadians(135), 0), 1f);

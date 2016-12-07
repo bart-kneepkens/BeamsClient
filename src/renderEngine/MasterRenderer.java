@@ -58,13 +58,13 @@ public class MasterRenderer {
     public void startTerrainRendering(Scene scene) {
         this.viewMatrix = Maths.createViewMatrix(scene.getCamera());
         this.terrainRenderer.start();
-        this.terrainRenderer.loadLight(scene.getLight());
+        this.terrainRenderer.loadLights(scene.getLights());
         this.terrainRenderer.loadUniformMatrix("viewMatrix", viewMatrix);
     }
     
     public void startEntityRendering(Scene scene){
         this.entityRenderer.start();
-        this.entityRenderer.loadLight(scene.getLight());
+        this.entityRenderer.loadLights(scene.getLights());
         this.entityRenderer.loadUniformMatrix("viewMatrix", viewMatrix);
     }
 

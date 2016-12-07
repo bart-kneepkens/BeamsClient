@@ -20,7 +20,7 @@ public class Scene {
 
     private Camera camera;
 
-    private Light light;
+    private List<Light> lights;
 
     private Player player;
 
@@ -36,8 +36,8 @@ public class Scene {
         return camera;
     }
 
-    public Light getLight() {
-        return light;
+    public List<Light> getLights() {
+        return lights;
     }
 
     public Terrain getTerrain() {
@@ -48,10 +48,10 @@ public class Scene {
         return player;
     }
 
-    public Scene(Player player, Camera camera, Light light, Terrain terrain) {
+    public Scene(Player player, Camera camera, List<Light> lights, Terrain terrain) {
         this.player = player;
         this.camera = camera;
-        this.light = light;
+        this.lights = lights;
         this.terrain = terrain;
         this.entities = new ArrayList<>();
     }

@@ -1,0 +1,10 @@
+<Terrain>
+Size: 80.0
+Height: 10.0
+HeightMap: heightMap.png
+BlendMap: blendMap.png
+bgTexture: fiery.png
+rTexture: fiery.png
+gTexture: cobble.png
+bTexture: fiery.png
+</Terrain>

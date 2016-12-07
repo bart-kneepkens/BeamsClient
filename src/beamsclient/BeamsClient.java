@@ -96,7 +96,7 @@ public class BeamsClient {
                 player,
                 new Camera(player), 
                 new Light(new Vector3f(50, 50, 50), new Vector3f(1, 1, 1)), 
-                FileLoader.loadTerrain(new File("/Users/Blackened/NetBeansProjects/TerrainViewer/arena.ter")));
+                FileLoader.loadTerrain(new File("res/terrains/arenaTerrain/arenaTerrain.ter")));
         
         Entity entity = new Entity(texturedModel1, new Vector3f(-65, scene.getTerrain().getHeightOfTerrain(-65, -25), -25f), new Vector3f(0, (float) Math.toRadians(135), 0), 0.1f);
         Entity entity1 = new Entity(texturedModel1, new Vector3f(-55, scene.getTerrain().getHeightOfTerrain(-55, -25), -25f), new Vector3f(0, (float) Math.toRadians(120), 0), 0.1f);

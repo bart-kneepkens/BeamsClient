@@ -56,23 +56,23 @@ public class FileLoader {
                     Terrain.MAX_HEIGHT = Float.parseFloat(line.split(": ")[1]);
                 }
                 if (line.startsWith("HeightMap: ")) {
-                    model = Terrain.generateTerrain(loadBufferedImage(new File(line.split(": ")[1])));
-                    heightTable = Terrain.generateHeightTable(loadBufferedImage(new File(line.split(": ")[1])));
+                    model = Terrain.generateTerrain(loadBufferedImage(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
+                    heightTable = Terrain.generateHeightTable(loadBufferedImage(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
                 }
                 if (line.startsWith("BlendMap: ")) {
-                    blendMap = new TerrainTexture(Loader.loadTexture(new File(line.split(": ")[1])));
+                    blendMap = new TerrainTexture(Loader.loadTexture(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
                 }
                 if (line.startsWith("bgTexture: ")) {
-                    bgTexture = new TerrainTexture(Loader.loadTexture(new File(line.split(": ")[1])));
+                    bgTexture = new TerrainTexture(Loader.loadTexture(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
                 }
                 if (line.startsWith("rTexture: ")) {
-                    rTexture = new TerrainTexture(Loader.loadTexture(new File(line.split(": ")[1])));
+                    rTexture = new TerrainTexture(Loader.loadTexture(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
                 }
                 if (line.startsWith("gTexture: ")) {
-                    gTexture = new TerrainTexture(Loader.loadTexture(new File(line.split(": ")[1])));
+                    gTexture = new TerrainTexture(Loader.loadTexture(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
                 }
                 if (line.startsWith("bTexture: ")) {
-                    bTexture = new TerrainTexture(Loader.loadTexture(new File(line.split(": ")[1])));
+                    bTexture = new TerrainTexture(Loader.loadTexture(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
                 }
             }
 

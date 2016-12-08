@@ -34,8 +34,6 @@ public class Entity {
      */
     private float scale;
 
-    private boolean containsInvertedNormals = false;
-
     /**
      * Creates a new instance of the Entity class.
      *
@@ -51,22 +49,6 @@ public class Entity {
         this.scale = scale;
     }
 
-    /**
-     * Creates a new instance of the Entity class.
-     *
-     * @param model The textured model that is being used by this entity.
-     * @param position The position of the entity.
-     * @param rotation The Euler rotation of the entity.
-     * @param scale The scale of the entity.
-     * @param containsInvertedNormals
-     */
-    public Entity(TexturedModel model, Vector3f position, Vector3f rotation, float scale, boolean containsInvertedNormals) {
-        this.model = model;
-        this.position = position;
-        this.rotation = rotation;
-        this.scale = scale;
-        this.containsInvertedNormals = containsInvertedNormals;
-    }
 
     /**
      * Increases the position of the entity.
@@ -98,9 +80,6 @@ public class Entity {
         this.rotation.z += vector.z;
     }
 
-    public boolean containsInvertedNormals() {
-        return containsInvertedNormals;
-    }
     
     
 

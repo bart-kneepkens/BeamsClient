@@ -14,7 +14,10 @@ package models;
 public class RawModel {
 
     private int vaoID;
+    
     private int vertexCount;
+    
+    private boolean containsInvertedNormals = false;
 
     /**
      * Creates a new instance of RawModel.
@@ -25,6 +28,27 @@ public class RawModel {
     public RawModel(int vaoID, int vertexCount) {
         this.vaoID = vaoID;
         this.vertexCount = vertexCount;
+    }
+
+    /**
+     * Creates a new instance of RawModel.
+     *
+     * @param vaoID The ID of the VAO, pointing towards the VAO in memory.
+     * @param vertexCount The amount of vertices in this model.
+     * @param containsInvertedNormals
+     */
+    public RawModel(int vaoID, int vertexCount, boolean containsInvertedNormals) {
+        this.vaoID = vaoID;
+        this.vertexCount = vertexCount;
+        this.containsInvertedNormals = containsInvertedNormals;
+    }
+
+    public boolean doesContainInvertedNormals() {
+        return containsInvertedNormals;
+    }
+    
+    public RawModel containsInvertedNormals(){
+        return new RawModel(vaoID, vertexCount, true);
     }
 
     /**
@@ -45,8 +69,9 @@ public class RawModel {
         return vertexCount;
     }
 
-    public boolean doesEqual(RawModel other){
+    public boolean doesEqual(RawModel other) {
         return this.vaoID == other.getVaoID()
-                    && this.vertexCount == other.getVertexCount();
+                && this.vertexCount == other.getVertexCount()
+                && this.containsInvertedNormals == other.doesContainInvertedNormals();
     }
 }

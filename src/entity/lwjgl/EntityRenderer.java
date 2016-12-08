@@ -24,7 +24,7 @@ import toolbox.Maths;
  *
  * @author Blackened
  */
-public class EntityRenderer extends StaticShader implements Renderer<Entity> {
+public class EntityRenderer extends StaticShader implements Renderer<Entry<TexturedModel, List<Entity>>> {
 
     /**
      * The projection matrix for all entities that will be rendered with this
@@ -46,6 +46,7 @@ public class EntityRenderer extends StaticShader implements Renderer<Entity> {
         this.stop();
     }
 
+    @Override
     public void render(Entry<TexturedModel, List<Entity>> entityBatch) {
         this.prepareTexturedModel(entityBatch.getKey());
 
@@ -54,17 +55,17 @@ public class EntityRenderer extends StaticShader implements Renderer<Entity> {
             GL11.glDrawElements(GL11.GL_TRIANGLES, x.getModel().getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
         });
 
-        this.unbindTexturedModel();
+        this.unbindTexturedModel(entityBatch.getKey());
     }
 
     /**
      * Renders an entity to the screen.
+     * <b>Deprecated</b>
      *
      * @param entity The entity to be rendered.
      */
-    @Override
     public void render(Entity entity) {
-        if (entity.containsInvertedNormals()) {
+        if (entity.getModel().getRawModel().doesContainInvertedNormals()) {
             GL11.glDisable(GL11.GL_CULL_FACE);
         }
         this.prepareTexturedModel(entity.getModel());
@@ -72,15 +73,18 @@ public class EntityRenderer extends StaticShader implements Renderer<Entity> {
 
         GL11.glDrawElements(GL11.GL_TRIANGLES, entity.getModel().getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
 
-        unbindTexturedModel();
+        unbindTexturedModel(entity.getModel());
 
-        if (entity.containsInvertedNormals()) {
+        if (entity.getModel().getRawModel().doesContainInvertedNormals()) {
             GL11.glEnable(GL11.GL_CULL_FACE);
         }
     }
 
     private void prepareTexturedModel(TexturedModel model) {
         RawModel rawModel = model.getRawModel();
+        if (rawModel.doesContainInvertedNormals()) {
+            GL11.glDisable(GL11.GL_CULL_FACE);
+        }
         GL30.glBindVertexArray(rawModel.getVaoID());
         GL20.glEnableVertexAttribArray(VERTEX_POSITIONS);
         GL20.glEnableVertexAttribArray(TEXTURE_COORDS);
@@ -89,6 +93,7 @@ public class EntityRenderer extends StaticShader implements Renderer<Entity> {
         this.loadUniformFloat("reflectivity", model.getModelTexture().getReflectivity());
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getModelTexture().getTextureID());
+        
     }
 
     private void loadModelMatrix(Entity entity) {
@@ -96,11 +101,14 @@ public class EntityRenderer extends StaticShader implements Renderer<Entity> {
         this.loadUniformMatrix("transformationMatrix", transformationMatrix);
     }
 
-    private void unbindTexturedModel() {
+    private void unbindTexturedModel(TexturedModel model) {
         GL20.glDisableVertexAttribArray(VERTEX_POSITIONS);
         GL20.glDisableVertexAttribArray(TEXTURE_COORDS);
         GL20.glDisableVertexAttribArray(NORMAL_VECTORS);
         GL30.glBindVertexArray(0);
+        if (model.getRawModel().doesContainInvertedNormals()) {
+            GL11.glEnable(GL11.GL_CULL_FACE);
+        }
     }
 
 }

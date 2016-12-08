@@ -212,7 +212,7 @@ public class BeamsClient {
 
         //<editor-fold defaultstate="collapsed" desc="Lamps">
         // Loads the default textured lamp model.
-        RawModel lampModel = OBJLoader.loadObjModel(DEFAULT_LAMP_MODEL);
+        RawModel lampModel = OBJLoader.loadObjModel(DEFAULT_LAMP_MODEL).containsInvertedNormals();
         ModelTexture lampTexture = new ModelTexture(Loader.loadTexture(DEFAULT_LAMP_TEXTURE));
         TexturedModel texturedLampModel = new TexturedModel(lampModel, lampTexture);
         lampTexture.setReflectivity(1);
@@ -224,15 +224,14 @@ public class BeamsClient {
                 new Vector3f(-40, terrain.getHeightOfTerrain(-40, 0), 0),
                 new Vector3f(0, 0, 0),
                 0.5f,
-                true,
                 new Vector3f(0, 6.6f, 0),
                 new Vector3f(1, 1, 0));
 
         Lamp lamp1 = new Lamp(
                 texturedLampModel,
                 new Vector3f(-67, terrain.getHeightOfTerrain(-67, -27), -27),
-                new Vector3f(0, 0, 0), 0.5f,
-                true,
+                new Vector3f(0, 0, 0), 
+                0.5f,
                 new Vector3f(0, 6.6f, 0),
                 new Vector3f(1, 1, 0));
         //</editor-fold>

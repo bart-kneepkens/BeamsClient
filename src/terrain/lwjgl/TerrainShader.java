@@ -107,7 +107,7 @@ public class TerrainShader extends ShaderProgram{
     
     /**
      * Loads the light position and colour to the uniform variable.
-     * @param light The light to be loaded.
+     * @param lights
      */
     public void loadLights(List<Light> lights){
         for (int i = 0; i < MAX_LIGHTS; i++) {

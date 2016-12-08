@@ -56,7 +56,7 @@ public class Light {
      * Increases the position of the entity.
      *
      * @param vector The vector that translates the position.
-     * @NOTE this vector can not be normalized!
+     * <b>Note:</b> this vector can not be normalized!
      */
     public void increasePosition(Vector3f vector) {
         this.position.x += vector.x;

@@ -74,7 +74,7 @@ public class Entity {
      * @param dx
      * @param dy
      * @param dz
-     * @NOTE this vector can not be normalized!
+     * <b>Note:</b> this vector can not be normalized!
      */
     public void increasePosition(float dx, float dy, float dz) {
         this.position.x += dx;
@@ -90,7 +90,7 @@ public class Entity {
      * Increases the rotation of the entity.
      *
      * @param vector The vector that translates the rotation.
-     * @NOTE this vector can not be normalized!
+     * <b>Note:</b> this vector can not be normalized!
      */
     public void increaseRotation(Vector3f vector) {
         this.rotation.x += vector.x;

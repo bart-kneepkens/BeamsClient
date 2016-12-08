@@ -112,7 +112,7 @@ public class Terrain {
      * Increases the rotation of the entity.
      *
      * @param vector The vector that translates the rotation.
-     * @NOTE this vector can not be normalized!
+     * <b>Note:</b> this vector can not be normalized!
      */
     public void increaseRotation(Vector3f vector) {
         this.rotation.x += vector.x;

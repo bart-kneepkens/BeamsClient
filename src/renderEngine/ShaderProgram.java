@@ -64,7 +64,7 @@ public abstract class ShaderProgram {
     }
 
     /**
-     * Binds the <b>in<b> variables of the vertex shader, the uniform variables,
+     * Binds the <b>in</b> variables of the vertex shader, the uniform variables,
      * and links and validates both shaders.
      */
     private void bindVariablesAndValidate() {

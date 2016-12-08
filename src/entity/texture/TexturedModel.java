@@ -5,7 +5,6 @@
  */
 package entity.texture;
 
-import entity.texture.ModelTexture;
 import models.RawModel;
 
 /**
@@ -48,6 +47,11 @@ public class TexturedModel {
      */
     public ModelTexture getModelTexture() {
         return modelTexture;
+    }
+    
+    public boolean doesEqual(TexturedModel other){
+        return this.modelTexture.doesEqual(other.getModelTexture())
+                && this.rawModel.doesEqual(other.getRawModel());
     }
     
 }

@@ -101,7 +101,7 @@ public class MasterRenderer {
 
         this.startEntityRendering(scene);
         this.render(scene.getPlayer());
-        scene.getEntities().forEach(x -> this.render(x));
+        scene.getEntities().entrySet().forEach(x -> entityRenderer.render(x));
         this.render(scene.getTemporaryEntity());
         this.stopEntityRendering();
     }

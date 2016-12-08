@@ -14,7 +14,7 @@ public class ModelTexture {
     /**
      * The ID of the texture.
      */
-    private int textureID;
+    private final int textureID;
     
     private float shineDamper = 1;
     private float reflectivity = 0;
@@ -49,6 +49,12 @@ public class ModelTexture {
      */
     public int getTextureID() {
         return textureID;
+    }
+    
+    public boolean doesEqual(ModelTexture other){
+        return this.textureID == other.getTextureID()
+                && Math.abs(this.shineDamper - other.shineDamper) < 0.000001f
+                && Math.abs(this.reflectivity - other.reflectivity) < 0.000001f;
     }
     
     

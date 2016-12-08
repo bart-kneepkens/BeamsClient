@@ -7,6 +7,8 @@ package entity.lwjgl;
 
 import entity.Entity;
 import entity.texture.TexturedModel;
+import java.util.List;
+import java.util.Map.Entry;
 import models.RawModel;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
@@ -42,6 +44,17 @@ public class EntityRenderer extends StaticShader implements Renderer<Entity> {
         this.start();
         this.loadUniformMatrix("projectionMatrix", this.projectionMatrix);
         this.stop();
+    }
+
+    public void render(Entry<TexturedModel, List<Entity>> entityBatch) {
+        this.prepareTexturedModel(entityBatch.getKey());
+
+        entityBatch.getValue().stream().forEach(x -> {
+            this.loadModelMatrix(x);
+            GL11.glDrawElements(GL11.GL_TRIANGLES, x.getModel().getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
+        });
+
+        this.unbindTexturedModel();
     }
 
     /**

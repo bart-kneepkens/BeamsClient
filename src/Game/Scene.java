@@ -15,7 +15,10 @@ import entity.texture.ModelTexture;
 import entity.texture.TexturedModel;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import models.RawModel;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
@@ -34,8 +37,8 @@ public class Scene {
     private Player player;
 
     private Terrain terrain;
-
-    List<Entity> entities;
+    
+    Map<TexturedModel, List<Entity>> entities;
 
     TemporaryEntity temporaryEntity;
 
@@ -64,7 +67,7 @@ public class Scene {
         this.camera = camera;
         this.lights = lights;
         this.terrain = terrain;
-        this.entities = new ArrayList<>();
+        this.entities = new HashMap<>();
     }
 
     public void update() {
@@ -105,14 +108,25 @@ public class Scene {
     }
 
     public void addEntity(Entity entity) {
-        this.entities.add(entity);
-    }
-
-    public List<Entity> getEntities() {
-        return entities;
+        Optional<TexturedModel> optionalKey = this.entities.keySet().stream().filter(x -> x.doesEqual(entity.getModel())).findAny();
+        if(optionalKey.isPresent())
+        {
+            this.entities.get(optionalKey.get()).add(entity);
+        }
+        else{
+            List<Entity> entityList = new ArrayList<>();
+            entityList.add(entity);
+            this.entities.put(entity.getModel(), entityList);
+        }
     }
 
     public TemporaryEntity getTemporaryEntity() {
         return temporaryEntity;
     }
+
+    public Map<TexturedModel, List<Entity>> getEntities() {
+        return entities;
+    }
+    
+    
 }

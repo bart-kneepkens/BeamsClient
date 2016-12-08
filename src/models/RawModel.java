@@ -16,7 +16,6 @@ public class RawModel {
     private int vaoID;
     private int vertexCount;
 
-
     /**
      * Creates a new instance of RawModel.
      *
@@ -44,5 +43,10 @@ public class RawModel {
      */
     public int getVertexCount() {
         return vertexCount;
+    }
+
+    public boolean doesEqual(RawModel other){
+        return this.vaoID == other.getVaoID()
+                    && this.vertexCount == other.getVertexCount();
     }
 }

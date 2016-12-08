@@ -31,6 +31,7 @@ import userInput.KeyboardInput;
 import userInput.MouseInput;
 
 /**
+ * This is a main class containing the program loop.
  *
  * @author Blackened
  */
@@ -71,9 +72,9 @@ public class BeamsClient {
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
-        
+
         DisplayManager.createDisplay();
-        
+
         loadDefaultUserInterface();
         loadDefaultScene();
 
@@ -92,13 +93,12 @@ public class BeamsClient {
 
             masterRenderer.render(userInterface.getGUI());
             masterRenderer.render(scene);
-            
-            
+
             MouseInput.checkInputs();
             KeyboardInput.checkInputs();
 
             DisplayManager.updateDisplay();
-            
+
             //<editor-fold defaultstate="collapsed" desc="FPS Counter">
             frameCount++;
             if (frameCount % 100 == 0) {

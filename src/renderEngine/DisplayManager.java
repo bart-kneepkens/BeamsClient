@@ -16,6 +16,7 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.PixelFormat;
 
 /**
+ * This class contains all static methods concerning the context and display.
  *
  * @author Blackened
  */
@@ -25,12 +26,12 @@ public class DisplayManager {
      * The width of the display in pixels.
      */
     private static final int WIDTH = 1920;
-    
+
     /**
      * The height of the display in pixels.
      */
     private static final int HEIGHT = 1080;
-    
+
     /**
      * The maximum frames per seconds that will be rendered to the screen.
      */
@@ -40,12 +41,12 @@ public class DisplayManager {
      * The time in milliseconds when last frame was rendered.
      */
     private static long lastFrameTime;
-    
+
     /**
      * The time it took to render this frame in milliseconds.
      */
     private static float delta;
-    
+
     /**
      * The title of the display.
      */
@@ -106,6 +107,7 @@ public class DisplayManager {
 
     /**
      * Gets the current time in milliseconds.
+     *
      * @return The current time in milliseconds.
      */
     public static long getCurrentTime() {

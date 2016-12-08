@@ -77,7 +77,7 @@ public class Player extends Entity {
 
     public void fireBullet() {
 
-        if (Math.abs(Bullet.LAST_ONE_FIRED - DisplayManager.getCurrentTime()) > 1000) {
+        if (Math.abs(Bullet.LAST_ONE_FIRED - DisplayManager.getCurrentTime()) > 200) {
             Bullet bullet = new Bullet(
                     DisplayManager.getCurrentTime(),
                     1000,
@@ -97,8 +97,9 @@ public class Player extends Entity {
     }
 
     private boolean isMovementAllowed(Vector3f nextPosition) {
-        return (nextPosition.getX() > Terrain.BORDER_SIZE && nextPosition.getX() < Terrain.SIZE - Terrain.BORDER_SIZE
-                && nextPosition.getZ() > Terrain.BORDER_SIZE && nextPosition.getZ() < Terrain.SIZE - Terrain.BORDER_SIZE);
+//        return (nextPosition.getX() > Terrain.BORDER_SIZE && nextPosition.getX() < Terrain.SIZE - Terrain.BORDER_SIZE
+//                && nextPosition.getZ() > Terrain.BORDER_SIZE && nextPosition.getZ() < Terrain.SIZE - Terrain.BORDER_SIZE);
+return true;
     }
 
     public void turnRight() {

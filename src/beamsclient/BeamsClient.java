@@ -248,16 +248,16 @@ public class BeamsClient {
         //<editor-fold defaultstate="collapsed" desc="Lights">
         // Creates a default light that will light up the entire scene.
         Light sun = new Light(
-                new Vector3f(40, 50, 0),
+                new Vector3f(40, 11, 40),
                 new Vector3f(1, 1, 1),
-                new Vector3f(1f, 0.01f, 0.00001f));
+                new Vector3f(0.8f, 0f, 0));
 
         // Creates a list for all the lights in the scene, and adds the
         // light and the lights of the previously created lamps to that list.
         List<Light> lights = new ArrayList<>();
         lights.add(lamp.getLight());
         lights.add(lamp1.getLight());
-        lights.add(sun);
+        //lights.add(sun);
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Scene">

@@ -6,7 +6,7 @@ in vec3 normal;
 
 out vec2 pass_textureCoords;
 out vec3 surfaceNormal;
-out vec3 toLightVector[4];
+out vec4 toLightVector[10];
 out vec3 toCameraVector;
 
 uniform mat4 transformationMatrix;
@@ -21,8 +21,20 @@ void main(void){
     pass_textureCoords = textureCoords;
 
     surfaceNormal = (transformationMatrix * vec4(normal,0.0)).xyz;
-    for(int i=0;i<4;i++){
-        toLightVector[i] = lightPosition[i] - worldPosition.xyz;
+
+    for(int i=0;i<10;i++){
+// if position.x is bigger then 9999 then it's just a filler, not a real light.
+        if(lightPosition[i].x > 9999)
+        {
+            toLightVector[i] = vec4((lightPosition[i] - worldPosition.xyz),0.0);
+        }
+        else{
+            toLightVector[i] = vec4((lightPosition[i] - worldPosition.xyz),1.0);
+
+            if(length(toLightVector[i]) > 20){
+                toLightVector[i] = vec4((toLightVector[i].xyz),0.0);
+            }
+        }
     }
     
     toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;

@@ -17,8 +17,6 @@ import terrain.Terrain;
  */
 public class Player extends Entity {
 
-    private static final float TERRAIN_HEIGHT = 0;
-
     private static final float GRAVITY = -50f;
     private static final float JUMP_POWER = 10;
 
@@ -26,7 +24,7 @@ public class Player extends Entity {
     private float turnSpeed = 4f;
     private float upwardsSpeed = 0;
 
-    private boolean isInAir = false;
+    private boolean isInAir = true;
 
     public Player(TexturedModel model, Vector3f position, Vector3f rotation, float scale) {
         super(model, position, rotation, scale);
@@ -83,7 +81,6 @@ public class Player extends Entity {
     }
 
     public void gravitate() {
-        //System.out.println(super.getPosition().getX() + ", " + super.getPosition().getZ());
         upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
         float verticalDistance = upwardsSpeed * DisplayManager.getFrameTimeSeconds();
         super.increasePosition(0, verticalDistance, 0);

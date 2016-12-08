@@ -15,9 +15,7 @@ import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import renderEngine.Renderer;
 import toolbox.AttributeListPosition;
-import static toolbox.AttributeListPosition.NORMAL_VECTORS;
-import static toolbox.AttributeListPosition.TEXTURE_COORDS;
-import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
+import static toolbox.AttributeListPosition.*;
 import toolbox.Maths;
 
 /**
@@ -35,8 +33,6 @@ public class EntityRenderer extends StaticShader implements Renderer<Entity>{
      * @param projectionMatrix
      */
     public EntityRenderer(Matrix4f projectionMatrix) {
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glCullFace(GL11.GL_BACK);
         this.projectionMatrix = projectionMatrix;
         this.start();
         this.loadUniformMatrix("projectionMatrix", this.projectionMatrix);
@@ -59,12 +55,19 @@ public class EntityRenderer extends StaticShader implements Renderer<Entity>{
      */
     @Override
     public void render(Entity entity) {
+        if(entity.containsInvertedNormals()){
+            GL11.glDisable(GL11.GL_CULL_FACE);
+        }
         this.prepareTexturedModel(entity.getModel());
         this.loadModelMatrix(entity);
         
         GL11.glDrawElements(GL11.GL_TRIANGLES, entity.getModel().getRawModel().getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
         
         unbindTexturedModel();
+        
+        if(entity.containsInvertedNormals()){
+            GL11.glEnable(GL11.GL_CULL_FACE);
+        }
     }
     
     private void prepareTexturedModel(TexturedModel model) {

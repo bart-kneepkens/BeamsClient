@@ -26,6 +26,7 @@ import java.util.List;
 import models.RawModel;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.MasterRenderer;
+import terrain.Terrain;
 import userInput.KeyboardInput;
 import userInput.MouseInput;
 
@@ -74,6 +75,8 @@ public class BeamsClient {
 
     private static void loadDefaultScene() throws IOException {
         
+        Terrain terrain = FileLoader.loadTerrain(new File("res/terrains/arenaTerrain/arenaTerrain.ter"));
+        
         RawModel model = OBJLoader.loadObjModel(new File("res/models/homo misluktus.obj"));
         ModelTexture texture = new ModelTexture(Loader.loadTexture(new File("res/textures/memeTexture.png")));
         TexturedModel texturedModel = new TexturedModel(model, texture);
@@ -89,13 +92,12 @@ public class BeamsClient {
         
         Light sun = new Light(new Vector3f(-40,50,0), new Vector3f(1,1,1), new Vector3f(1f, 0.01f, 0.00001f));
         Light light2 = new Light(new Vector3f(-11,20,-25), new Vector3f(1.5f,1,1), new Vector3f(1f, 0.006f, 0.001f));
-        Light light4 = new Light(new Vector3f(-60,10,-19), new Vector3f(2,2,0), new Vector3f(0.001f, 0.01f, 0.01f));
         
         RawModel model2 = OBJLoader.loadObjModel(new File("res/models/lamp.obj"));
-        ModelTexture texture2 = new ModelTexture(Loader.loadTexture(new File("res/textures/WhiteTexture.png")));
+        ModelTexture texture2 = new ModelTexture(Loader.loadTexture(new File("res/textures/lampTexture.png")));
         TexturedModel texturedModel2 = new TexturedModel(model2, texture2);
-        texture2.setReflectivity(0);
-        texture2.setShineDamper(100);
+        texture2.setReflectivity(1);
+        texture2.setShineDamper(10);
         
         List<Light> lights = new ArrayList<>();
         
@@ -105,24 +107,25 @@ public class BeamsClient {
                 player,
                 new Camera(player), 
                 lights, 
-                FileLoader.loadTerrain(new File("res/terrains/arenaTerrain/arenaTerrain.ter")));
+                terrain);
         
         Entity entity = new Entity(texturedModel1, new Vector3f(-65, scene.getTerrain().getHeightOfTerrain(-65, -25), -25f), new Vector3f(0, (float) Math.toRadians(135), 0), 0.5f);
         Entity entity1 = new Entity(texturedModel1, new Vector3f(-55, scene.getTerrain().getHeightOfTerrain(-55, -25), -25f), new Vector3f(0, (float) Math.toRadians(120), 0), 0.5f);
         Entity entity2 = new Entity(texturedModel1, new Vector3f(-65, scene.getTerrain().getHeightOfTerrain(-65, -15), -15f), new Vector3f(0, (float) Math.toRadians(150), 0), 0.5f);
        
-        Lamp lamp = new Lamp(texturedModel2, new Vector3f(-40, scene.getTerrain().getHeightOfTerrain(-40, 0), 0), new Vector3f(0,0,0), 0.5f, new Vector3f(0,6.6f,0), new Vector3f(1,1,0));
-        
+        Lamp lamp = new Lamp(texturedModel2, new Vector3f(-40, scene.getTerrain().getHeightOfTerrain(-40, 0), 0), new Vector3f(0,0,0), 0.5f, true, new Vector3f(0,6.6f,0), new Vector3f(1,1,0));
+        Lamp lamp2 = new Lamp(texturedModel2, new Vector3f(-67, scene.getTerrain().getHeightOfTerrain(-67, -27), -27), new Vector3f(0,0,0), 0.5f, true, new Vector3f(0,6.6f,0), new Vector3f(1,1,0));
         
         lights.add(sun);
         lights.add(light2);
         lights.add(lamp.getLight());
-        lights.add(light4);
+        lights.add(lamp2.getLight());
         
         scene.addEntity(entity);
         scene.addEntity(entity1);
         scene.addEntity(entity2);
         scene.addEntity(lamp);
+        scene.addEntity(lamp2);
     }
 
 }

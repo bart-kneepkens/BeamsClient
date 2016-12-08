@@ -12,7 +12,9 @@ import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import models.RawModel;
@@ -41,8 +43,8 @@ public class Loader {
      */
     private static final List<Integer> vaos = new ArrayList<>();
     private static final List<Integer> vbos = new ArrayList<>();
+    private static final Map<String, Integer> textureMap = new HashMap<>();
     private static final List<Integer> textures = new ArrayList<>();
-
 
     /**
      * Creates a new VAO, binds the data to one of the attribute lists.
@@ -63,32 +65,41 @@ public class Loader {
 
         return rawModel;
     }
-    
-    
-    public static int loadTexture(String fileName) {
-        Texture texture = null;
-        try {
-            texture = TextureLoader.getTexture("PNG", new FileInputStream("res/textures/" + fileName + ".png"));
-            GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
-            //GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
-            //GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.5f);
-        } catch (IOException ex) {
-            Logger.getLogger(Loader.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
-        int textureID = texture.getTextureID();
+    public static int loadTexture(String fileName) {
+        int textureID;
+        if (textureMap.containsKey(fileName)) {
+            textureID = textureMap.get(fileName);
+        } else {
+            Texture texture = null;
+            try {
+                texture = TextureLoader.getTexture("PNG", new FileInputStream("res/textures/" + fileName + ".png"));
+                GL30.glGenerateMipmap(GL11.GL_TEXTURE_2D);
+                GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
+                GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, -0.5f);
+            } catch (IOException ex) {
+                Logger.getLogger(Loader.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            textureID = texture.getTextureID();
+            textureMap.put(fileName, textureID);
+        }
         return textureID;
     }
 
     public static int loadTexture(File file) {
-        Texture texture = null;
-        try {
-            texture = TextureLoader.getTexture("PNG", new FileInputStream(file));
-        } catch (IOException ex) {
-            Logger.getLogger(Loader.class.getName()).log(Level.SEVERE, null, ex);
+        int textureID;
+        if (textureMap.containsKey(file.getAbsolutePath())) {
+            textureID = textureMap.get(file.getAbsolutePath());
+        } else {
+            Texture texture = null;
+            try {
+                texture = TextureLoader.getTexture("PNG", new FileInputStream(file));
+            } catch (IOException ex) {
+                Logger.getLogger(Loader.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            textureID = texture.getTextureID();
+            textureMap.put(file.getAbsolutePath(), textureID);
         }
-
-        int textureID = texture.getTextureID();
         return textureID;
     }
 
@@ -232,7 +243,7 @@ public class Loader {
     public static void cleanUp() {
         vaos.forEach(x -> GL30.glDeleteVertexArrays(x));
         vbos.forEach(x -> GL15.glDeleteBuffers(x));
-        textures.forEach(x -> GL11.glDeleteTextures(x));
+        textureMap.values().forEach(x -> GL11.glDeleteTextures(x));
     }
 
 }

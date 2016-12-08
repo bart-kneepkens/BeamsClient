@@ -84,7 +84,7 @@ public class Scene {
         if (this.temporaryEntity != null) {
             this.lights.remove(this.temporaryEntity.getLight());
         }
-        RawModel model = OBJLoader.loadObjModel(new File("res/models/ball.obj"));
+        RawModel model = OBJLoader.loadObjModel("ball.obj");
         ModelTexture texture = new ModelTexture(Loader.loadTexture(new File("res/textures/WhiteTexture.png")));
         TexturedModel texturedModel = new TexturedModel(model, texture);
         texture.setReflectivity(1);

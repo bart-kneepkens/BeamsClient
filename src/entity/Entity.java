@@ -13,29 +13,32 @@ import org.lwjgl.util.vector.Vector3f;
  * @author Blackened
  */
 public class Entity {
-    
+
     /**
      * The textured model that is being used by this entity.
      */
     private TexturedModel model;
-    
+
     /**
      * The position of the entity.
      */
     private Vector3f position;
-    
+
     /**
      * The Euler rotation.
      */
     private Vector3f rotation;
-    
+
     /**
      * The scale of the entity.
      */
     private float scale;
 
+    private boolean containsInvertedNormals = false;
+
     /**
      * Creates a new instance of the Entity class.
+     *
      * @param model The textured model that is being used by this entity.
      * @param position The position of the entity.
      * @param rotation The Euler rotation of the entity.
@@ -47,37 +50,63 @@ public class Entity {
         this.rotation = rotation;
         this.scale = scale;
     }
-    
+
     /**
-     * Increases the position of the entity. 
+     * Creates a new instance of the Entity class.
+     *
+     * @param model The textured model that is being used by this entity.
+     * @param position The position of the entity.
+     * @param rotation The Euler rotation of the entity.
+     * @param scale The scale of the entity.
+     * @param containsInvertedNormals
+     */
+    public Entity(TexturedModel model, Vector3f position, Vector3f rotation, float scale, boolean containsInvertedNormals) {
+        this.model = model;
+        this.position = position;
+        this.rotation = rotation;
+        this.scale = scale;
+        this.containsInvertedNormals = containsInvertedNormals;
+    }
+
+    /**
+     * Increases the position of the entity.
+     *
      * @param dx
      * @param dy
      * @param dz
      * @NOTE this vector can not be normalized!
      */
-    public void increasePosition(float dx, float dy, float dz){
+    public void increasePosition(float dx, float dy, float dz) {
         this.position.x += dx;
         this.position.y += dy;
         this.position.z += dz;
     }
-    
-    public Vector3f calculateTranslation(float dx, float dy, float dz){
+
+    public Vector3f calculateTranslation(float dx, float dy, float dz) {
         return new Vector3f(this.position.getX() + dx, this.position.getY() + dy, this.position.getZ() + dz);
     }
-    
+
     /**
      * Increases the rotation of the entity.
+     *
      * @param vector The vector that translates the rotation.
      * @NOTE this vector can not be normalized!
      */
-    public void increaseRotation(Vector3f vector){
+    public void increaseRotation(Vector3f vector) {
         this.rotation.x += vector.x;
         this.rotation.y += vector.y;
         this.rotation.z += vector.z;
     }
 
+    public boolean containsInvertedNormals() {
+        return containsInvertedNormals;
+    }
+    
+    
+
     /**
      * Getter for the textured model of this entity.
+     *
      * @return The textured model.
      */
     public TexturedModel getModel() {
@@ -86,6 +115,7 @@ public class Entity {
 
     /**
      * Setter for the textured model of this entity.
+     *
      * @param model The textured model.
      */
     public void setModel(TexturedModel model) {
@@ -94,6 +124,7 @@ public class Entity {
 
     /**
      * Getter for the position of this entity.
+     *
      * @return The position.
      */
     public Vector3f getPosition() {
@@ -102,6 +133,7 @@ public class Entity {
 
     /**
      * Setter for the position of this entity.
+     *
      * @param position The position.
      */
     public void setPosition(Vector3f position) {
@@ -110,6 +142,7 @@ public class Entity {
 
     /**
      * Getter for the rotation of this entity.
+     *
      * @return The rotation.
      */
     public Vector3f getRotation() {
@@ -118,6 +151,7 @@ public class Entity {
 
     /**
      * Setter for the rotation of this entity.
+     *
      * @param rotation The rotation.
      */
     public void setRotation(Vector3f rotation) {
@@ -126,6 +160,7 @@ public class Entity {
 
     /**
      * Getter for the scale of this entity.
+     *
      * @return The scale.
      */
     public float getScale() {
@@ -134,11 +169,11 @@ public class Entity {
 
     /**
      * Setter for the scale of this entity.
+     *
      * @param scale The scale.
      */
     public void setScale(float scale) {
         this.scale = scale;
     }
-    
-    
+
 }

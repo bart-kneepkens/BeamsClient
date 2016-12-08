@@ -7,7 +7,6 @@ package terrain.lwjgl;
 
 import terrain.texture.TerrainTexturePack;
 import models.RawModel;
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;
@@ -31,8 +30,6 @@ public class TerrainRenderer extends TerrainShader implements Renderer<Terrain>{
     private final Matrix4f projectionMatrix;
 
     public TerrainRenderer(Matrix4f projectionMatrix) {
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glCullFace(GL11.GL_BACK);
         this.projectionMatrix = projectionMatrix;
         this.start();
         this.loadUniformMatrix("projectionMatrix", this.projectionMatrix);

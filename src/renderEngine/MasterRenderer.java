@@ -38,6 +38,8 @@ public class MasterRenderer {
         this.guiRenderer = new GUIRenderer();
         this.terrainRenderer = new TerrainRenderer(projectionMatrix);
         this.entityRenderer = new EntityRenderer(projectionMatrix);
+        GL11.glEnable(GL11.GL_CULL_FACE);
+        GL11.glCullFace(GL11.GL_BACK);
     }
 
     /**

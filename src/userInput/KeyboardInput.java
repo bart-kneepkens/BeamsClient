@@ -17,45 +17,45 @@ public class KeyboardInput {
 
     public static void checkInputs() {
         if (Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)) {
-            BeamsClient.keepRunning = false;
+            BeamsClient.exit();
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_W)) {
-            BeamsClient.scene.getPlayer().moveForward();
+            BeamsClient.getScene().getPlayer().moveForward();
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            BeamsClient.scene.getPlayer().moveBackward();
+            BeamsClient.getScene().getPlayer().moveBackward();
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
             if (Mouse.isButtonDown(1)) {
-                BeamsClient.scene.getPlayer().strafeRight();
+                BeamsClient.getScene().getPlayer().strafeRight();
             } else {
-                BeamsClient.scene.getPlayer().turnRight();
+                BeamsClient.getScene().getPlayer().turnRight();
             }
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
             if (Mouse.isButtonDown(1)) {
-                BeamsClient.scene.getPlayer().strafeLeft();
+                BeamsClient.getScene().getPlayer().strafeLeft();
             } else {
-                BeamsClient.scene.getPlayer().turnLeft();
+                BeamsClient.getScene().getPlayer().turnLeft();
             }
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
-            BeamsClient.scene.getPlayer().strafeLeft();
+            BeamsClient.getScene().getPlayer().strafeLeft();
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_E)){
-            BeamsClient.scene.getPlayer().strafeRight();
+            BeamsClient.getScene().getPlayer().strafeRight();
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
-            BeamsClient.scene.getPlayer().jump();
+            BeamsClient.getScene().getPlayer().jump();
         }
         if(Mouse.isButtonDown(0) && Mouse.isButtonDown(1)){
-            BeamsClient.scene.getPlayer().moveForward();
+            BeamsClient.getScene().getPlayer().moveForward();
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_F)){
-            System.out.println("x: " + BeamsClient.scene.getPlayer().getPosition().getX() + ", y: " + BeamsClient.scene.getPlayer().getPosition().getY() + ", z: " + BeamsClient.scene.getPlayer().getPosition().getZ());
+            System.out.println("x: " + BeamsClient.getScene().getPlayer().getPosition().getX() + ", y: " + BeamsClient.getScene().getPlayer().getPosition().getY() + ", z: " + BeamsClient.getScene().getPlayer().getPosition().getZ());
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_H)){
-            BeamsClient.scene.createTemporaryEntity();
+            BeamsClient.getScene().createTemporaryEntity();
         }
     }
 

@@ -9,6 +9,7 @@ import GUI.lib.MouseActor;
 import GUI.lib.Renderable;
 import GUI.lib.GUIElement;
 import GUI.lwjgl.GUIElementLoader;
+import java.io.IOException;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import rx.Observable;
@@ -110,7 +111,7 @@ public class Button extends MouseActor implements Renderable {
                         x -> x.printStackTrace());
     }
 
-    public void loadTextureAtlas(String name) {
+    public void loadTextureAtlas(String name) throws IOException {
         this.guiElement.setTextureID(GUIElementLoader.loadTexture(name));
         this.changeToMainTexture();
     }

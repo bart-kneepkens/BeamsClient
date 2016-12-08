@@ -7,7 +7,7 @@ package beamsClient;
 
 import DataAccess.FileLoader;
 import DataAccess.OBJLoader;
-import GUI.GUIManager;
+import GUI.UserInterface;
 import org.lwjgl.opengl.Display;
 import renderEngine.DisplayManager;
 import DataAccess.lwjgl.Loader;
@@ -36,35 +36,78 @@ import userInput.MouseInput;
  */
 public class BeamsClient {
 
-    public static boolean keepRunning = true;
-    public static Scene scene;
+    //<editor-fold defaultstate="collapsed" desc="Default files">
+    private static final File DEFAULT_TERRAIN = new File("res/terrains/arenaTerrain/arenaTerrain.ter");
+    private static final File DEFAULT_PLAYER_MODEL = new File("res/models/homo misluktus.obj");
+    private static final File DEFAULT_PLAYER_TEXTURE = new File("res/textures/memeTexture.png");
+    private static final File DEFAULT_OBJECT_MODEL = new File("res/models/target.obj");
+    private static final File DEFAULT_OBJECT_TEXTURE = new File("res/textures/targetTexture.png");
+    private static final File DEFAULT_LAMP_MODEL = new File("res/models/lamp.obj");
+    private static final File DEFAULT_LAMP_TEXTURE = new File("res/textures/lampTexture.png");
+    //</editor-fold>
 
     /**
+     * Determines whether the program should be running. This variable is
+     * checked every frame, and triggers a program close if false.
+     */
+    private static boolean keepRunning = true;
+
+    /**
+     * A reference to everything that should be rendered in 3D space, and
+     * contains all logic for this 3D space.
+     */
+    private static Scene scene;
+
+    /**
+     * A reference to everything that should be rendered in 2D space, and
+     * contains all logic for this 2D space.
+     */
+    private static UserInterface userInterface;
+
+    /**
+     * The main program loop.
+     *
      * @param args the command line arguments
      * @throws java.io.IOException
      */
     public static void main(String[] args) throws IOException {
+        
         DisplayManager.createDisplay();
         
+        loadDefaultUserInterface();
         loadDefaultScene();
 
         MasterRenderer masterRenderer = new MasterRenderer();
 
-        GUIManager guiManager = new GUIManager();
+        //<editor-fold defaultstate="collapsed" desc="FPS Counter">
+        long frameCount = 0;
+        float fps;
+        long lastTime = DisplayManager.getCurrentTime();
+        //</editor-fold>
 
         while (!Display.isCloseRequested() && keepRunning) {
             scene.update();
-            
+
             masterRenderer.prepare();
 
-            masterRenderer.render(guiManager.getGUI());
-
+            masterRenderer.render(userInterface.getGUI());
             masterRenderer.render(scene);
-
+            
+            
             MouseInput.checkInputs();
             KeyboardInput.checkInputs();
-            
+
             DisplayManager.updateDisplay();
+            
+            //<editor-fold defaultstate="collapsed" desc="FPS Counter">
+            frameCount++;
+            if (frameCount % 100 == 0) {
+                fps = (DisplayManager.getCurrentTime() - lastTime) / 100;
+                lastTime = DisplayManager.getCurrentTime();
+                System.out.println(fps);
+            }
+            //</editor-fold>
+
         }
 
         Loader.cleanUp();
@@ -73,59 +116,172 @@ public class BeamsClient {
 
     }
 
+    /**
+     * Gets the scene that is currently rendered to the display.
+     *
+     * @return Instance of scene that is currently rendered.
+     */
+    public static Scene getScene() {
+        return scene;
+    }
+
+    /**
+     * Gets the user interface that is currently rendered to the display.
+     *
+     * @return Instance of the user interface that is currently rendered.
+     */
+    public static UserInterface getUserInterface() {
+        return userInterface;
+    }
+
+    /**
+     * Sets the scene that will be rendered to the display.
+     *
+     * @param scene Instance of the scene that will be rendered.
+     */
+    public static void setScene(Scene scene) {
+        BeamsClient.scene = scene;
+    }
+
+    /**
+     * Gets the user interface that is currently rendered to the display.
+     *
+     * @param userInterface Instance of the user interface that will be
+     * rendered.
+     */
+    public static void setUserInterface(UserInterface userInterface) {
+        BeamsClient.userInterface = userInterface;
+    }
+
+    /**
+     * Shuts down the program.
+     */
+    public static void exit() {
+        keepRunning = false;
+    }
+
+    /**
+     * Loads default terrain, player object, entities and lights to the scene.
+     *
+     * @throws IOException
+     */
     private static void loadDefaultScene() throws IOException {
-        
-        Terrain terrain = FileLoader.loadTerrain(new File("res/terrains/arenaTerrain/arenaTerrain.ter"));
-        
-        RawModel model = OBJLoader.loadObjModel(new File("res/models/homo misluktus.obj"));
-        ModelTexture texture = new ModelTexture(Loader.loadTexture(new File("res/textures/memeTexture.png")));
-        TexturedModel texturedModel = new TexturedModel(model, texture);
-        texture.setReflectivity(0);
-        texture.setShineDamper(100);
-        Player player = new Player(texturedModel, new Vector3f(-5, 0, -32), new Vector3f(0, 0, 0), 0.3f);
-        
-        RawModel model1 = OBJLoader.loadObjModel(new File("res/models/target.obj"));
-        ModelTexture texture1 = new ModelTexture(Loader.loadTexture(new File("res/textures/targetTexture.png")));
-        TexturedModel texturedModel1 = new TexturedModel(model1, texture1);
-        texture1.setReflectivity(1);
-        texture1.setShineDamper(100);
-        
-        Light sun = new Light(new Vector3f(-40,50,0), new Vector3f(1,1,1), new Vector3f(1f, 0.01f, 0.00001f));
-        Light light2 = new Light(new Vector3f(-11,20,-25), new Vector3f(1.5f,1,1), new Vector3f(1f, 0.006f, 0.001f));
-        
-        RawModel model2 = OBJLoader.loadObjModel(new File("res/models/lamp.obj"));
-        ModelTexture texture2 = new ModelTexture(Loader.loadTexture(new File("res/textures/lampTexture.png")));
-        TexturedModel texturedModel2 = new TexturedModel(model2, texture2);
-        texture2.setReflectivity(1);
-        texture2.setShineDamper(10);
-        
+
+        //<editor-fold defaultstate="collapsed" desc="Terrain">
+        // Loads the default terrain.
+        Terrain terrain = FileLoader.loadTerrain(DEFAULT_TERRAIN);
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="Entities">
+        // Loads the default player entity.
+        RawModel playerModel = OBJLoader.loadObjModel(DEFAULT_PLAYER_MODEL);
+        ModelTexture playerTexture = new ModelTexture(Loader.loadTexture(DEFAULT_PLAYER_TEXTURE));
+        TexturedModel texturedPlayerModel = new TexturedModel(playerModel, playerTexture);
+        playerTexture.setReflectivity(0);
+        playerTexture.setShineDamper(100);
+        Player player = new Player(
+                texturedPlayerModel,
+                new Vector3f(-5, 0, -32),
+                new Vector3f(0, 0, 0),
+                0.3f);
+
+        // Loads the default textured object model.
+        RawModel objectModel = OBJLoader.loadObjModel(DEFAULT_OBJECT_MODEL);
+        ModelTexture objectTexture = new ModelTexture(Loader.loadTexture(DEFAULT_OBJECT_TEXTURE));
+        TexturedModel texturedObjectModel = new TexturedModel(objectModel, objectTexture);
+        objectTexture.setReflectivity(1);
+        objectTexture.setShineDamper(100);
+
+        // Loads the default three different entities with this object model.
+        Entity entity = new Entity(
+                texturedObjectModel,
+                new Vector3f(-65, terrain.getHeightOfTerrain(-65, -25), -25f),
+                new Vector3f(0, (float) Math.toRadians(135), 0),
+                0.5f);
+        Entity entity1 = new Entity(
+                texturedObjectModel,
+                new Vector3f(-55, terrain.getHeightOfTerrain(-55, -25), -25f),
+                new Vector3f(0, (float) Math.toRadians(120), 0),
+                0.5f);
+        Entity entity2 = new Entity(
+                texturedObjectModel,
+                new Vector3f(-65, terrain.getHeightOfTerrain(-65, -15), -15f),
+                new Vector3f(0, (float) Math.toRadians(150), 0),
+                0.5f);
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="Lamps">
+        // Loads the default textured lamp model.
+        RawModel lampModel = OBJLoader.loadObjModel(DEFAULT_LAMP_MODEL);
+        ModelTexture lampTexture = new ModelTexture(Loader.loadTexture(DEFAULT_LAMP_TEXTURE));
+        TexturedModel texturedLampModel = new TexturedModel(lampModel, lampTexture);
+        lampTexture.setReflectivity(1);
+        lampTexture.setShineDamper(10);
+
+        // Loads the default two different lamp entities with this lamp model.
+        Lamp lamp = new Lamp(
+                texturedLampModel,
+                new Vector3f(-40, terrain.getHeightOfTerrain(-40, 0), 0),
+                new Vector3f(0, 0, 0),
+                0.5f,
+                true,
+                new Vector3f(0, 6.6f, 0),
+                new Vector3f(1, 1, 0));
+
+        Lamp lamp1 = new Lamp(
+                texturedLampModel,
+                new Vector3f(-67, terrain.getHeightOfTerrain(-67, -27), -27),
+                new Vector3f(0, 0, 0), 0.5f,
+                true,
+                new Vector3f(0, 6.6f, 0),
+                new Vector3f(1, 1, 0));
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="Lights">
+        // Creates a default light that will light up the entire scene.
+        Light sun = new Light(
+                new Vector3f(-40, 50, 0),
+                new Vector3f(1, 1, 1),
+                new Vector3f(1f, 0.01f, 0.00001f));
+
+        // Creates a list for all the lights in the scene, and adds the
+        // light and the lights of the previously created lamps to that list.
         List<Light> lights = new ArrayList<>();
-        
-        
-        
+        lights.add(lamp.getLight());
+        lights.add(lamp1.getLight());
+        lights.add(sun);
+        //</editor-fold>
+
+        //<editor-fold defaultstate="collapsed" desc="Scene">
+        // Creates the scene object with the player object, a new camera that
+        // is relative to the player, the list of lights and the terrain.
         scene = new Scene(
                 player,
-                new Camera(player), 
-                lights, 
+                new Camera(player),
+                lights,
                 terrain);
-        
-        Entity entity = new Entity(texturedModel1, new Vector3f(-65, scene.getTerrain().getHeightOfTerrain(-65, -25), -25f), new Vector3f(0, (float) Math.toRadians(135), 0), 0.5f);
-        Entity entity1 = new Entity(texturedModel1, new Vector3f(-55, scene.getTerrain().getHeightOfTerrain(-55, -25), -25f), new Vector3f(0, (float) Math.toRadians(120), 0), 0.5f);
-        Entity entity2 = new Entity(texturedModel1, new Vector3f(-65, scene.getTerrain().getHeightOfTerrain(-65, -15), -15f), new Vector3f(0, (float) Math.toRadians(150), 0), 0.5f);
-       
-        Lamp lamp = new Lamp(texturedModel2, new Vector3f(-40, scene.getTerrain().getHeightOfTerrain(-40, 0), 0), new Vector3f(0,0,0), 0.5f, true, new Vector3f(0,6.6f,0), new Vector3f(1,1,0));
-        Lamp lamp2 = new Lamp(texturedModel2, new Vector3f(-67, scene.getTerrain().getHeightOfTerrain(-67, -27), -27), new Vector3f(0,0,0), 0.5f, true, new Vector3f(0,6.6f,0), new Vector3f(1,1,0));
-        
-        lights.add(sun);
-        lights.add(light2);
-        lights.add(lamp.getLight());
-        lights.add(lamp2.getLight());
-        
+
+        // Adds the object entities to the scene.
         scene.addEntity(entity);
         scene.addEntity(entity1);
         scene.addEntity(entity2);
+
+        // Adds the lamp entities to the scene.
         scene.addEntity(lamp);
-        scene.addEntity(lamp2);
+        scene.addEntity(lamp1);
+        //</editor-fold>
+    }
+
+    /**
+     * Loads default user interface object.
+     */
+    private static void loadDefaultUserInterface() throws IOException {
+
+        //<editor-fold defaultstate="collapsed" desc="User Interface">
+        // Loads the default user interface.
+        userInterface = new UserInterface();
+        //</editor-fold>
+
     }
 
 }

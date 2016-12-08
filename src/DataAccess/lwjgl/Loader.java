@@ -44,7 +44,6 @@ public class Loader {
     private static final List<Integer> vaos = new ArrayList<>();
     private static final List<Integer> vbos = new ArrayList<>();
     private static final Map<String, Integer> textureMap = new HashMap<>();
-    private static final List<Integer> textures = new ArrayList<>();
 
     /**
      * Creates a new VAO, binds the data to one of the attribute lists.

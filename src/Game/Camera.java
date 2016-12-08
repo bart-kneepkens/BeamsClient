@@ -91,7 +91,7 @@ public class Camera {
     }
 
     private float calculateMinimumPitch() {
-        float minimumHeight = BeamsClient.scene.getTerrain().getHeightOfTerrain(this.position.getX(), this.position.getZ());
+        float minimumHeight = BeamsClient.getScene().getTerrain().getHeightOfTerrain(this.position.getX(), this.position.getZ());
         float relativeMinimumHeight = minimumHeight - this.player.getPosition().getY();
         return (float) Math.toDegrees(Math.asin((relativeMinimumHeight / distanceFromPlayer)));
     }

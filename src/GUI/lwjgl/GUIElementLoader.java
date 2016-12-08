@@ -23,6 +23,7 @@ import static toolbox.AttributeListPosition.TEXTURE_COORDS;
 import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
 import toolbox.Convert;
 import DataAccess.lwjgl.Loader;
+import java.io.FileNotFoundException;
 
 /**
  *
@@ -58,13 +59,9 @@ public class GUIElementLoader {
         
     }
 
-    public static int loadTexture(String fileName) {
+    public static int loadTexture(String fileName) throws IOException {
         Texture texture = null;
-        try {
             texture = TextureLoader.getTexture("PNG", new FileInputStream("res/textures/" + fileName + ".png"));
-        } catch (IOException ex) {
-            Logger.getLogger(Loader.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
         int textureID = texture.getTextureID();
         return textureID;

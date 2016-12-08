@@ -84,7 +84,7 @@ public class Player extends Entity {
         upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
         float verticalDistance = upwardsSpeed * DisplayManager.getFrameTimeSeconds();
         super.increasePosition(0, verticalDistance, 0);
-        float terrainHeight = BeamsClient.scene.getTerrain().getHeightOfTerrain(super.getPosition().getX(), super.getPosition().getZ());
+        float terrainHeight = BeamsClient.getScene().getTerrain().getHeightOfTerrain(super.getPosition().getX(), super.getPosition().getZ());
         if (super.getPosition().y < terrainHeight) {
             upwardsSpeed = 0;
             isInAir = false;

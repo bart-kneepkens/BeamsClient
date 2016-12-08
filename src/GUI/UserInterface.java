@@ -7,7 +7,6 @@ package GUI;
 
 import DataAccess.FileLoader;
 import GUI.objects.Button;
-import GUI.objects.InvisibleListener;
 import beamsClient.BeamsClient;
 import java.awt.FileDialog;
 import java.io.File;
@@ -18,7 +17,6 @@ import javax.swing.JDialog;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
 import userInput.Event;
 import userInput.MouseInput;
 
@@ -26,11 +24,11 @@ import userInput.MouseInput;
  *
  * @author Blackened
  */
-public class GUIManager {
+public class UserInterface {
 
     private final GUI gui;
 
-    public GUIManager() {
+    public UserInterface() throws IOException {
 
         this.gui = new GUI();
 
@@ -53,8 +51,6 @@ public class GUIManager {
        
         //</editor-fold>
         
-        InvisibleListener listener = new InvisibleListener(Display.getWidth() - 2, Display.getHeight() - 2, new Vector2f(1, 1), new Vector3f(0, 0, 0));
-        listener.subscribe(MouseInput.getMouseSubject());
     }
 
     /**
@@ -67,7 +63,7 @@ public class GUIManager {
     }
 
     private void buttonExit_Click(Event event) {
-        BeamsClient.keepRunning = false;
+        BeamsClient.exit();
     }
 
     private void buttonLoadTerrain_Click(Event event) {
@@ -83,25 +79,12 @@ public class GUIManager {
             System.out.println("You cancelled the choice");
         } else {
             try {
-                BeamsClient.scene.setTerrain(FileLoader.loadTerrain(new File(filename)));
+                BeamsClient.getScene().setTerrain(FileLoader.loadTerrain(new File(filename)));
             } catch (IOException ex) {
                 dialog.dispose();
-                Logger.getLogger(GUIManager.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         dialog.dispose();
-    }
-    
-    private void listener_Press(Event event){
-        if (event.getMouseState().isButton0Down() || event.getMouseState().isButton1Down()){
-            Mouse.setGrabbed(true);
-            Mouse.setCursorPosition(Display.getWidth()/2, Display.getHeight()/2);
-        }
-        
-    }
-    
-    private void listener_Hover(Event event){
-        if(!event.getMouseState().isButton0Down() && !event.getMouseState().isButton1Down())
-            Mouse.setGrabbed(false);
     }
 }

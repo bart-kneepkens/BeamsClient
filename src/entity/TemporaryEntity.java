@@ -30,7 +30,7 @@ public class TemporaryEntity extends Entity {
     }
     
     public void travel(){
-        this.increasePosition(travelDirection);
+        this.increasePosition(travelDirection.getX(), travelDirection.getY(), travelDirection.getZ());
         //this.travelDirection = new Vector3f(this.travelDirection.getX()*0.95f, this.travelDirection.getY(), this.travelDirection.getZ()*0.95f);
     }
 

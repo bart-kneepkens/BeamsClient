@@ -9,6 +9,7 @@ import beamsClient.BeamsClient;
 import entity.texture.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
+import terrain.Terrain;
 
 /**
  *
@@ -26,8 +27,6 @@ public class Player extends Entity {
     private float upwardsSpeed = 0;
 
     private boolean isInAir = false;
-    
-    private Vector3f nextPosition;
 
     public Player(TexturedModel model, Vector3f position, Vector3f rotation, float scale) {
         super(model, position, rotation, scale);
@@ -36,25 +35,43 @@ public class Player extends Entity {
     public void moveForward() {
         float dx = (float) (movementSpeed * Math.sin(super.getRotation().getY())) * DisplayManager.getFrameTimeSeconds();
         float dz = (float) (movementSpeed * Math.cos(super.getRotation().getY())) * DisplayManager.getFrameTimeSeconds();
-        super.increasePosition(new Vector3f(dx, 0, dz));
+        Vector3f nextPosition = super.calculateTranslation(dx, 0, dz);
+        if (isMovementAllowed(nextPosition)) {
+            super.increasePosition(dx, 0, dz);
+        }
+
     }
 
     public void moveBackward() {
         float dx = (float) (movementSpeed * Math.sin(super.getRotation().getY())) * DisplayManager.getFrameTimeSeconds();
         float dz = (float) (movementSpeed * Math.cos(super.getRotation().getY())) * DisplayManager.getFrameTimeSeconds();
-        super.increasePosition(new Vector3f(-dx, 0, -dz));
+        Vector3f nextPosition = super.calculateTranslation(-dx, 0, -dz);
+        if (isMovementAllowed(nextPosition)) {
+            super.increasePosition(-dx, 0, -dz);
+        }
     }
 
     public void strafeLeft() {
         float dx = (float) (movementSpeed * Math.sin(super.getRotation().getY() - 0.5 * Math.PI)) * DisplayManager.getFrameTimeSeconds();
         float dz = (float) (movementSpeed * Math.cos(super.getRotation().getY() - 0.5 * Math.PI)) * DisplayManager.getFrameTimeSeconds();
-        super.increasePosition(new Vector3f(-dx, 0, -dz));
+        Vector3f nextPosition = super.calculateTranslation(-dx, 0, -dz);
+        if (isMovementAllowed(nextPosition)) {
+            super.increasePosition(-dx, 0, -dz);
+        }
     }
 
     public void strafeRight() {
         float dx = (float) (movementSpeed * Math.sin(super.getRotation().getY() + 0.5 * Math.PI)) * DisplayManager.getFrameTimeSeconds();
         float dz = (float) (movementSpeed * Math.cos(super.getRotation().getY() + 0.5 * Math.PI)) * DisplayManager.getFrameTimeSeconds();
-        super.increasePosition(new Vector3f(-dx, 0, -dz));
+        Vector3f nextPosition = super.calculateTranslation(-dx, 0, -dz);
+        if (isMovementAllowed(nextPosition)) {
+            super.increasePosition(-dx, 0, -dz);
+        }
+    }
+
+    private boolean isMovementAllowed(Vector3f nextPosition) {
+        return (nextPosition.getX() < 0 - Terrain.BORDER_SIZE && nextPosition.getX() > 0 - Terrain.SIZE + Terrain.BORDER_SIZE
+                && nextPosition.getZ() < (Terrain.SIZE / 2) - Terrain.BORDER_SIZE && nextPosition.getZ() > -(Terrain.SIZE / 2) + Terrain.BORDER_SIZE);
     }
 
     public void turnRight() {
@@ -69,14 +86,14 @@ public class Player extends Entity {
         //System.out.println(super.getPosition().getX() + ", " + super.getPosition().getZ());
         upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
         float verticalDistance = upwardsSpeed * DisplayManager.getFrameTimeSeconds();
-        super.increasePosition(new Vector3f(0, verticalDistance, 0));
+        super.increasePosition(0, verticalDistance, 0);
         float terrainHeight = BeamsClient.scene.getTerrain().getHeightOfTerrain(super.getPosition().getX(), super.getPosition().getZ());
         if (super.getPosition().y < terrainHeight) {
             upwardsSpeed = 0;
             isInAir = false;
             super.getPosition().y = terrainHeight;
         }
-        
+
     }
 
     public void jump() {

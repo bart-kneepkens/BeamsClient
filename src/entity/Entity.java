@@ -50,13 +50,19 @@ public class Entity {
     
     /**
      * Increases the position of the entity. 
-     * @param vector The vector that translates the position.
+     * @param dx
+     * @param dy
+     * @param dz
      * @NOTE this vector can not be normalized!
      */
-    public void increasePosition(Vector3f vector){
-        this.position.x += vector.x;
-        this.position.y += vector.y;
-        this.position.z += vector.z;
+    public void increasePosition(float dx, float dy, float dz){
+        this.position.x += dx;
+        this.position.y += dy;
+        this.position.z += dz;
+    }
+    
+    public Vector3f calculateTranslation(float dx, float dy, float dz){
+        return new Vector3f(this.position.getX() + dx, this.position.getY() + dy, this.position.getZ() + dz);
     }
     
     /**

@@ -21,12 +21,34 @@ import org.lwjgl.opengl.PixelFormat;
  */
 public class DisplayManager {
 
+    /**
+     * The width of the display in pixels.
+     */
     private static final int WIDTH = 1920;
-    private static final int HEIGHT = 1080;
-    private static final int FPS_CAP = 60;
     
+    /**
+     * The height of the display in pixels.
+     */
+    private static final int HEIGHT = 1080;
+    
+    /**
+     * The maximum frames per seconds that will be rendered to the screen.
+     */
+    private static final int FPS_CAP = 60;
+
+    /**
+     * The time in milliseconds when last frame was rendered.
+     */
     private static long lastFrameTime;
+    
+    /**
+     * The time it took to render this frame in milliseconds.
+     */
     private static float delta;
+    
+    /**
+     * The title of the display.
+     */
     private static final String TITLE = "Beams";
 
     /**
@@ -62,11 +84,16 @@ public class DisplayManager {
         Display.sync(FPS_CAP);
         Display.update();
         long currentFrameTime = getCurrentTime();
-        delta = (currentFrameTime - lastFrameTime)/1000f;
+        delta = (currentFrameTime - lastFrameTime) / 1000f;
         lastFrameTime = currentFrameTime;
     }
-    
-    public static float getFrameTimeSeconds(){
+
+    /**
+     * Gets the time in seconds it took to render this frame.
+     *
+     * @return The time it took to render this frame in seconds.
+     */
+    public static float getFrameTimeSeconds() {
         return delta;
     }
 
@@ -76,9 +103,13 @@ public class DisplayManager {
     public static void closeDisplay() {
         Display.destroy();
     }
-    
-    public static long getCurrentTime(){
-        return Sys.getTime()*1000/Sys.getTimerResolution();
+
+    /**
+     * Gets the current time in milliseconds.
+     * @return The current time in milliseconds.
+     */
+    public static long getCurrentTime() {
+        return Sys.getTime() * 1000 / Sys.getTimerResolution();
     }
 
 }

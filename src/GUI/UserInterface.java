@@ -14,9 +14,11 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
+import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
+import renderEngine.DisplayManager;
 import userInput.Event;
 import userInput.MouseInput;
 
@@ -47,8 +49,6 @@ public class UserInterface {
         buttonLoadTerrain.subscribe(MouseInput.getMouseSubject());
         buttonLoadTerrain.onClick(x -> this.buttonLoadTerrain_Click(x));
         this.gui.addElement(buttonLoadTerrain.getGUIElement(), 0);
-
-       
         //</editor-fold>
         
     }

@@ -10,7 +10,7 @@ import DataAccess.lwjgl.Loader;
 import entity.Entity;
 import entity.Light;
 import entity.Player;
-import entity.TemporaryEntity;
+import entity.Bullet;
 import entity.texture.ModelTexture;
 import entity.texture.TexturedModel;
 import java.io.File;
@@ -40,7 +40,6 @@ public class Scene {
     
     Map<TexturedModel, List<Entity>> entities;
 
-    TemporaryEntity temporaryEntity;
 
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;
@@ -71,41 +70,10 @@ public class Scene {
     }
 
     public void update() {
-        this.getPlayer().gravitate();
+        this.getPlayer().update();
         this.getCamera().move();
-        if (this.temporaryEntity != null) {
-            if (DisplayManager.getCurrentTime() > this.temporaryEntity.getDeathTime()) {
-                this.lights.remove(this.temporaryEntity.getLight());
-                this.temporaryEntity = null;
-            } else {
-                this.temporaryEntity.travel();
-            }
-        }
     }
 
-    public void createTemporaryEntity() {
-        if (this.temporaryEntity != null) {
-            this.lights.remove(this.temporaryEntity.getLight());
-        }
-        RawModel model = OBJLoader.loadObjModel("ball.obj");
-        ModelTexture texture = new ModelTexture(Loader.loadTexture(new File("res/textures/WhiteTexture.png")));
-        TexturedModel texturedModel = new TexturedModel(model, texture);
-        texture.setReflectivity(1);
-        texture.setShineDamper(10);
-        this.temporaryEntity = new TemporaryEntity(
-                DisplayManager.getCurrentTime(),
-                10000,
-                new Vector3f((float) Math.sin(this.player.getRotation().getY()) * 2,
-                        0,
-                        (float) Math.cos(this.player.getRotation().getY()) * 2),
-                texturedModel,
-                new Vector3f(
-                        this.player.getPosition().getX(),
-                        this.player.getPosition().getY() + 1,
-                        this.player.getPosition().getZ()),
-                new Vector3f(0, 0, 0), 0.5f);
-        this.lights.add(this.temporaryEntity.getLight());
-    }
 
     public void addEntity(Entity entity) {
         Optional<TexturedModel> optionalKey = this.entities.keySet().stream().filter(x -> x.doesEqual(entity.getModel())).findAny();
@@ -119,11 +87,11 @@ public class Scene {
             this.entities.put(entity.getModel(), entityList);
         }
     }
-
-    public TemporaryEntity getTemporaryEntity() {
-        return temporaryEntity;
+    
+    public void addTexturedModel(TexturedModel texturedModel){
+        this.entities.put(texturedModel, new ArrayList<>());
     }
-
+    
     public Map<TexturedModel, List<Entity>> getEntities() {
         return entities;
     }

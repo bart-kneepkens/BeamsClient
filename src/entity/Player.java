@@ -7,6 +7,8 @@ package entity;
 
 import beamsClient.BeamsClient;
 import entity.texture.TexturedModel;
+import java.util.ArrayList;
+import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 import terrain.Terrain;
@@ -24,10 +26,16 @@ public class Player extends Entity {
     private float turnSpeed = 4f;
     private float upwardsSpeed = 0;
 
+    private List<Bullet> bullets;
+
+    private TexturedModel bulletModel;
+
     private boolean isInAir = true;
 
-    public Player(TexturedModel model, Vector3f position, Vector3f rotation, float scale) {
+    public Player(TexturedModel model, Vector3f position, Vector3f rotation, float scale, TexturedModel bulletModel) {
         super(model, position, rotation, scale);
+        this.bulletModel = bulletModel;
+        this.bullets = new ArrayList<>();
     }
 
     public void moveForward() {
@@ -67,6 +75,27 @@ public class Player extends Entity {
         }
     }
 
+    public void fireBullet() {
+
+        if (Math.abs(Bullet.LAST_ONE_FIRED - DisplayManager.getCurrentTime()) > 1000) {
+            Bullet bullet = new Bullet(
+                    DisplayManager.getCurrentTime(),
+                    1000,
+                    new Vector3f((float) Math.sin(this.getRotation().getY()) * 2,
+                            0,
+                            (float) Math.cos(this.getRotation().getY()) * 2),
+                    bulletModel,
+                    new Vector3f(this.getPosition().getX(), this.getPosition().getY()+1, this.getPosition().getZ()),
+                    new Vector3f(0, 0, 0),
+                    0.2f);
+            BeamsClient.getScene().getEntities().get(this.bulletModel).add(bullet);
+            BeamsClient.getScene().getLights().add(bullet.getLight());
+
+            this.bullets.add(bullet);
+            Bullet.LAST_ONE_FIRED = DisplayManager.getCurrentTime();
+        }
+    }
+
     private boolean isMovementAllowed(Vector3f nextPosition) {
         return (nextPosition.getX() > Terrain.BORDER_SIZE && nextPosition.getX() < Terrain.SIZE - Terrain.BORDER_SIZE
                 && nextPosition.getZ() > Terrain.BORDER_SIZE && nextPosition.getZ() < Terrain.SIZE - Terrain.BORDER_SIZE);
@@ -80,7 +109,22 @@ public class Player extends Entity {
         super.increaseRotation(new Vector3f(0, 1 * turnSpeed * DisplayManager.getFrameTimeSeconds(), 0));
     }
 
-    public void gravitate() {
+    public void update() {
+        this.gravitate();
+        this.bullets.stream().forEach(x
+                -> {
+            if (x.getDeathTime() < DisplayManager.getCurrentTime()) {
+                BeamsClient.getScene().getEntities().get(this.bulletModel).remove(x);
+                BeamsClient.getScene().getLights().remove(x.getLight());
+            } else {
+                x.travel();
+            }
+        });
+        this.bullets.removeIf(x -> x.getDeathTime() < DisplayManager.getCurrentTime());
+
+    }
+
+    private void gravitate() {
         upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
         float verticalDistance = upwardsSpeed * DisplayManager.getFrameTimeSeconds();
         super.increasePosition(0, verticalDistance, 0);

@@ -7,21 +7,26 @@ package entity;
 
 import entity.texture.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
+import renderEngine.DisplayManager;
 
 /**
  *
  * @author Blackened
  */
-public class TemporaryEntity extends Entity {
+public class Bullet extends Entity {
+    
+    public static long LAST_ONE_FIRED = 0;
+    private static float SPEED = 100;
     
     private long deathTime;
     private Vector3f travelDirection;
     private Light light;
     
-    public TemporaryEntity(long creationTime, long duration, Vector3f travelDirection, TexturedModel model, Vector3f position, Vector3f rotation, float scale) {
+    public Bullet(long creationTime, long duration, Vector3f travelDirection, TexturedModel model, Vector3f position, Vector3f rotation, float scale) {
         super(model, position, rotation, scale);
         this.deathTime = creationTime + duration;
-        this.travelDirection = travelDirection;
+        this.travelDirection = new Vector3f();
+        travelDirection.normalise(this.travelDirection);
         this.light = new Light(this.getPosition(), new Vector3f(1,1,1), new Vector3f(0.001f, 0.01f, 0.005f));
     }
 
@@ -30,7 +35,7 @@ public class TemporaryEntity extends Entity {
     }
     
     public void travel(){
-        this.increasePosition(travelDirection.getX(), travelDirection.getY(), travelDirection.getZ());
+        this.increasePosition(travelDirection.getX() * DisplayManager.getFrameTimeSeconds() * SPEED, travelDirection.getY(), travelDirection.getZ() * DisplayManager.getFrameTimeSeconds() * SPEED);
         //this.travelDirection = new Vector3f(this.travelDirection.getX()*0.95f, this.travelDirection.getY(), this.travelDirection.getZ()*0.95f);
     }
 

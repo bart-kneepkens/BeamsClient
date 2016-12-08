@@ -54,8 +54,8 @@ public class KeyboardInput {
         if(Keyboard.isKeyDown(Keyboard.KEY_F)){
             System.out.println("x: " + BeamsClient.getScene().getPlayer().getPosition().getX() + ", y: " + BeamsClient.getScene().getPlayer().getPosition().getY() + ", z: " + BeamsClient.getScene().getPlayer().getPosition().getZ());
         }
-        if(Keyboard.isKeyDown(Keyboard.KEY_H)){
-            BeamsClient.getScene().createTemporaryEntity();
+        if(Keyboard.isKeyDown(Keyboard.KEY_1)){
+            BeamsClient.getScene().getPlayer().fireBullet();
         }
     }
 

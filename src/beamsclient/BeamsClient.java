@@ -172,7 +172,15 @@ public class BeamsClient {
         Terrain terrain = FileLoader.loadTerrain(DEFAULT_TERRAIN);
         //</editor-fold>
 
+        
         //<editor-fold defaultstate="collapsed" desc="Entities">
+        
+        RawModel bulletModel = OBJLoader.loadObjModel("ball.obj");
+        ModelTexture bulletTexture = new ModelTexture(Loader.loadTexture(new File("res/textures/WhiteTexture.png")));
+        TexturedModel texturedBulletModel = new TexturedModel(bulletModel, bulletTexture);
+        bulletTexture.setReflectivity(1);
+        bulletTexture.setShineDamper(10);
+        
         // Loads the default player entity.
         RawModel playerModel = OBJLoader.loadObjModel(DEFAULT_PLAYER_MODEL);
         ModelTexture playerTexture = new ModelTexture(Loader.loadTexture(DEFAULT_PLAYER_TEXTURE));
@@ -183,7 +191,8 @@ public class BeamsClient {
                 texturedPlayerModel,
                 new Vector3f(15, 0, 15),
                 new Vector3f(0, (float) Math.toRadians(45), 0),
-                0.3f);
+                0.3f,
+                texturedBulletModel);
 
         // Loads the default textured object model.
         RawModel objectModel = OBJLoader.loadObjModel(DEFAULT_OBJECT_MODEL);
@@ -264,6 +273,7 @@ public class BeamsClient {
         scene.addEntity(entity);
         scene.addEntity(entity1);
         scene.addEntity(entity2);
+        scene.addTexturedModel(texturedBulletModel);
 
         // Adds the lamp entities to the scene.
         scene.addEntity(lamp);

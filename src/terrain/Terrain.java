@@ -50,8 +50,8 @@ public class Terrain {
     }
 
     public Terrain() {
-        this.xCoord = -1f * SIZE;
-        this.zCoord = -0.5f * SIZE;
+        this.xCoord = 0;
+        this.zCoord = 0;
         this.rotation = new Vector3f(0, 0, 0);
     }
 

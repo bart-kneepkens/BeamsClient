@@ -68,8 +68,8 @@ public class Player extends Entity {
     }
 
     private boolean isMovementAllowed(Vector3f nextPosition) {
-        return (nextPosition.getX() < 0 - Terrain.BORDER_SIZE && nextPosition.getX() > 0 - Terrain.SIZE + Terrain.BORDER_SIZE
-                && nextPosition.getZ() < (Terrain.SIZE / 2) - Terrain.BORDER_SIZE && nextPosition.getZ() > -(Terrain.SIZE / 2) + Terrain.BORDER_SIZE);
+        return (nextPosition.getX() > Terrain.BORDER_SIZE && nextPosition.getX() < Terrain.SIZE - Terrain.BORDER_SIZE
+                && nextPosition.getZ() > Terrain.BORDER_SIZE && nextPosition.getZ() < Terrain.SIZE - Terrain.BORDER_SIZE);
     }
 
     public void turnRight() {

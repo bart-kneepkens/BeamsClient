@@ -181,8 +181,8 @@ public class BeamsClient {
         playerTexture.setShineDamper(100);
         Player player = new Player(
                 texturedPlayerModel,
-                new Vector3f(-5, 0, -32),
-                new Vector3f(0, 0, 0),
+                new Vector3f(15, 0, 15),
+                new Vector3f(0, (float) Math.toRadians(45), 0),
                 0.3f);
 
         // Loads the default textured object model.
@@ -195,18 +195,18 @@ public class BeamsClient {
         // Loads the default three different entities with this object model.
         Entity entity = new Entity(
                 texturedObjectModel,
-                new Vector3f(-65, terrain.getHeightOfTerrain(-65, -25), -25f),
-                new Vector3f(0, (float) Math.toRadians(135), 0),
+                new Vector3f(60, terrain.getHeightOfTerrain(60, 60), 60),
+                new Vector3f(0, (float) Math.toRadians(-45), 0),
                 0.5f);
         Entity entity1 = new Entity(
                 texturedObjectModel,
-                new Vector3f(-55, terrain.getHeightOfTerrain(-55, -25), -25f),
-                new Vector3f(0, (float) Math.toRadians(120), 0),
+                new Vector3f(55, terrain.getHeightOfTerrain(55, 60), 60),
+                new Vector3f(0, (float) Math.toRadians(-60), 0),
                 0.5f);
         Entity entity2 = new Entity(
                 texturedObjectModel,
-                new Vector3f(-65, terrain.getHeightOfTerrain(-65, -15), -15f),
-                new Vector3f(0, (float) Math.toRadians(150), 0),
+                new Vector3f(60, terrain.getHeightOfTerrain(60, 55), 55),
+                new Vector3f(0, (float) Math.toRadians(-30), 0),
                 0.5f);
         //</editor-fold>
 
@@ -221,7 +221,7 @@ public class BeamsClient {
         // Loads the default two different lamp entities with this lamp model.
         Lamp lamp = new Lamp(
                 texturedLampModel,
-                new Vector3f(-40, terrain.getHeightOfTerrain(-40, 0), 0),
+                new Vector3f(40, terrain.getHeightOfTerrain(40, 40), 40),
                 new Vector3f(0, 0, 0),
                 0.5f,
                 new Vector3f(0, 6.6f, 0),
@@ -229,7 +229,7 @@ public class BeamsClient {
 
         Lamp lamp1 = new Lamp(
                 texturedLampModel,
-                new Vector3f(-67, terrain.getHeightOfTerrain(-67, -27), -27),
+                new Vector3f(55, terrain.getHeightOfTerrain(55, 55), 55),
                 new Vector3f(0, 0, 0), 
                 0.5f,
                 new Vector3f(0, 6.6f, 0),
@@ -239,7 +239,7 @@ public class BeamsClient {
         //<editor-fold defaultstate="collapsed" desc="Lights">
         // Creates a default light that will light up the entire scene.
         Light sun = new Light(
-                new Vector3f(-40, 50, 0),
+                new Vector3f(40, 50, 0),
                 new Vector3f(1, 1, 1),
                 new Vector3f(1f, 0.01f, 0.00001f));
 

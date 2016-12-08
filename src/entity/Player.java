@@ -77,7 +77,7 @@ public class Player extends Entity {
 
     public void fireBullet() {
 
-        if (Math.abs(Bullet.LAST_ONE_FIRED - DisplayManager.getCurrentTime()) > 1000) {
+        if (Math.abs(Bullet.LAST_ONE_FIRED - DisplayManager.getCurrentTime()) > 100) {
             Bullet bullet = new Bullet(
                     DisplayManager.getCurrentTime(),
                     1000,

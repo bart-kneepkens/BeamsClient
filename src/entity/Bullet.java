@@ -16,11 +16,11 @@ import renderEngine.DisplayManager;
 public class Bullet extends Entity {
     
     public static long LAST_ONE_FIRED = 0;
-    private static float SPEED = 100;
+    private static final float SPEED = 100;
     
-    private long deathTime;
-    private Vector3f travelDirection;
-    private Light light;
+    private final long deathTime;
+    private final Vector3f travelDirection;
+    private final Light light;
     
     public Bullet(long creationTime, long duration, Vector3f travelDirection, TexturedModel model, Vector3f position, Vector3f rotation, float scale) {
         super(model, position, rotation, scale);
@@ -36,7 +36,6 @@ public class Bullet extends Entity {
     
     public void travel(){
         this.increasePosition(travelDirection.getX() * DisplayManager.getFrameTimeSeconds() * SPEED, travelDirection.getY(), travelDirection.getZ() * DisplayManager.getFrameTimeSeconds() * SPEED);
-        //this.travelDirection = new Vector3f(this.travelDirection.getX()*0.95f, this.travelDirection.getY(), this.travelDirection.getZ()*0.95f);
     }
 
     public Light getLight() {

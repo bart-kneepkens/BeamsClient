@@ -20,11 +20,11 @@ import static toolbox.AttributeListPosition.*;
 import toolbox.Maths;
 
 /**
- * An instance of this class can render entities.
+ * An instance of this class can renderBatch entities.
  *
  * @author Blackened
  */
-public class EntityRenderer extends StaticShader implements Renderer<Entry<TexturedModel, List<Entity>>> {
+public class EntityRenderer extends StaticShader implements Renderer<Entity> {
 
     /**
      * The projection matrix for all entities that will be rendered with this
@@ -46,8 +46,13 @@ public class EntityRenderer extends StaticShader implements Renderer<Entry<Textu
         this.stop();
     }
 
-    @Override
-    public void render(Entry<TexturedModel, List<Entity>> entityBatch) {
+    /**
+     * Renders a batch of entities with a single textured model.
+     *
+     * @param entityBatch A map entry containing a textured model (key) and a
+     * list of entities (value).
+     */
+    public void renderBatch(Entry<TexturedModel, List<Entity>> entityBatch) {
         this.prepareTexturedModel(entityBatch.getKey());
 
         entityBatch.getValue().stream().forEach(x -> {
@@ -59,11 +64,12 @@ public class EntityRenderer extends StaticShader implements Renderer<Entry<Textu
     }
 
     /**
-     * Renders an entity to the screen.
+     * Renders a single entity to the screen.
      * <b>Deprecated</b>
      *
      * @param entity The entity to be rendered.
      */
+    @Override
     public void render(Entity entity) {
         if (entity.getModel().getRawModel().doesContainInvertedNormals()) {
             GL11.glDisable(GL11.GL_CULL_FACE);
@@ -93,7 +99,7 @@ public class EntityRenderer extends StaticShader implements Renderer<Entry<Textu
         this.loadUniformFloat("reflectivity", model.getModelTexture().getReflectivity());
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, model.getModelTexture().getTextureID());
-        
+
     }
 
     private void loadModelMatrix(Entity entity) {

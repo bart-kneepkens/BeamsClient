@@ -101,7 +101,7 @@ public class MasterRenderer {
 
         this.startEntityRendering(scene);
         this.render(scene.getPlayer());
-        scene.getEntities().entrySet().forEach(x -> entityRenderer.render(x));
+        scene.getEntities().entrySet().forEach(x -> entityRenderer.renderBatch(x));
         this.stopEntityRendering();
     }
 
@@ -137,8 +137,8 @@ public class MasterRenderer {
     }
 
     /**
-     * Does all the necessary preparations needed to render the terrain of a
-     * scene.
+     * Does all the necessary preparations needed to renderBatch the terrain of a
+ scene.
      *
      * @param scene The scene of which the terrain will be rendered.
      */
@@ -149,8 +149,8 @@ public class MasterRenderer {
     }
 
     /**
-     * Does all the necessary preparations needed to render the entities of a
-     * scene.
+     * Does all the necessary preparations needed to renderBatch the entities of a
+ scene.
      *
      * @param scene The scene of which the entities will be rendered.
      */

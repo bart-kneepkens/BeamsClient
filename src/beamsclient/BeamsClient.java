@@ -83,7 +83,7 @@ public class BeamsClient {
         //<editor-fold defaultstate="collapsed" desc="FPS Counter">
         long frameCount = 0;
         float fps;
-        long lastTime = DisplayManager.getCurrentTime();
+        long lastTime = System.currentTimeMillis();
         //</editor-fold>
 
         while (!Display.isCloseRequested() && keepRunning) {
@@ -102,8 +102,8 @@ public class BeamsClient {
             //<editor-fold defaultstate="collapsed" desc="FPS Counter">
             frameCount++;
             if (frameCount % 100 == 0) {
-                fps = (DisplayManager.getCurrentTime() - lastTime) / 100;
-                lastTime = DisplayManager.getCurrentTime();
+                fps = 1f / (((System.currentTimeMillis() - lastTime) / 1000f) / 100f);
+                lastTime = System.currentTimeMillis();
                 System.out.println(fps);
             }
             //</editor-fold>

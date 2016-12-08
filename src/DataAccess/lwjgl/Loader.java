@@ -56,9 +56,9 @@ public class Loader {
         int vaoID = createVAO();
         unbindVAO();
         bindIndicesBuffer(vaoID, modelData.getIndices());
-        storeDataInAttributeList(vaoID, VERTEX_POSITIONS.getNumVal(), 3, modelData.getVertexPositions());
-        storeDataInAttributeList(vaoID, TEXTURE_COORDS.getNumVal(), 2, modelData.getTextureCoords());
-        storeDataInAttributeList(vaoID, NORMAL_VECTORS.getNumVal(), 3, modelData.getNormals());
+        storeDataInAttributeList(vaoID, VERTEX_POSITIONS, 3, modelData.getVertexPositions());
+        storeDataInAttributeList(vaoID, TEXTURE_COORDS, 2, modelData.getTextureCoords());
+        storeDataInAttributeList(vaoID, NORMAL_VECTORS, 3, modelData.getNormals());
 
         RawModel rawModel = new RawModel(vaoID, modelData.getIndices().length);
 

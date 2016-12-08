@@ -11,19 +11,14 @@ import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
-import static toolbox.AttributeListPosition.TEXTURE_COORDS;
-import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
+import static toolbox.AttributeListPosition.*;
 import toolbox.Convert;
-import DataAccess.lwjgl.Loader;
-import java.io.FileNotFoundException;
 
 /**
  *
@@ -48,14 +43,14 @@ public class GUIElementLoader {
     public static int loadToVAO(GUIElement guiElement) {
         int vaoID = createVAO();
         unbindVAO();
-        storeDataInAttributeList(vaoID, VERTEX_POSITIONS.getNumVal(), 3, guiElement.getOrigin());
-        storeDataInAttributeList(vaoID, TEXTURE_COORDS.getNumVal(), 2, guiElement.getTextureCoords());
+        storeDataInAttributeList(vaoID, VERTEX_POSITIONS, 3, guiElement.getOrigin());
+        storeDataInAttributeList(vaoID, TEXTURE_COORDS, 2, guiElement.getTextureCoords());
 
         return vaoID;
     }
     
     public static void reloadTextureCoords(GUIElement guiElement){
-        storeDataInAttributeList(guiElement.getVaoID(), TEXTURE_COORDS.getNumVal(), 2, guiElement.getTextureCoords());
+        storeDataInAttributeList(guiElement.getVaoID(), TEXTURE_COORDS, 2, guiElement.getTextureCoords());
         
     }
 

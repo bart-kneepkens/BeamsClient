@@ -9,20 +9,9 @@ package toolbox;
  *
  * @author Blackened
  */
-public enum AttributeListPosition {
-    
-    VERTEX_POSITIONS(0),
-    TEXTURE_COORDS(1),
-    NORMAL_VECTORS(2);
-    
-    private int numVal;
+public class AttributeListPosition {
 
-    AttributeListPosition(int numVal) {
-        this.numVal = numVal;
-    }
-
-    public int getNumVal() {
-        return numVal;
-    }
-    
+    public final static int VERTEX_POSITIONS = 0;
+    public final static int TEXTURE_COORDS = 1;
+    public final static int NORMAL_VECTORS = 2;
 }

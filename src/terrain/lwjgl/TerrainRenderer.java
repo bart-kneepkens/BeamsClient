@@ -13,10 +13,7 @@ import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
-import toolbox.AttributeListPosition;
-import static toolbox.AttributeListPosition.NORMAL_VECTORS;
-import static toolbox.AttributeListPosition.TEXTURE_COORDS;
-import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
+import static toolbox.AttributeListPosition.*;
 import renderEngine.Renderer;
 import terrain.Terrain;
 import toolbox.Maths;
@@ -51,9 +48,9 @@ public class TerrainRenderer extends TerrainShader implements Renderer<Terrain>{
     private void prepareTerrain(Terrain terrain) {
         RawModel rawModel = terrain.getModel();
         GL30.glBindVertexArray(rawModel.getVaoID());
-        enableAttributeArray(VERTEX_POSITIONS);
-        enableAttributeArray(TEXTURE_COORDS);
-        enableAttributeArray(NORMAL_VECTORS);
+        GL20.glEnableVertexAttribArray(VERTEX_POSITIONS);
+        GL20.glEnableVertexAttribArray(TEXTURE_COORDS);
+        GL20.glEnableVertexAttribArray(NORMAL_VECTORS);
         bindTextures(terrain);
         this.loadUniformFloat("shineDamper", 1);
         this.loadUniformFloat("reflectivity", 0);
@@ -79,27 +76,10 @@ public class TerrainRenderer extends TerrainShader implements Renderer<Terrain>{
     }
 
     private void unbindTexturedModel() {
-        disableAttributeArray(VERTEX_POSITIONS);
-        disableAttributeArray(TEXTURE_COORDS);
-        disableAttributeArray(NORMAL_VECTORS);
+        GL20.glDisableVertexAttribArray(VERTEX_POSITIONS);
+        GL20.glDisableVertexAttribArray(TEXTURE_COORDS);
+        GL20.glDisableVertexAttribArray(NORMAL_VECTORS);
         GL30.glBindVertexArray(0);
-    }
-
-    /**
-     * Enables the attribute list specified by the name.
-     *
-     * @param model The model for which to enable the attribute list.
-     * @param attribName The name of the attributeList.
-     */
-    private void enableAttributeArray(AttributeListPosition attribName) {
-        GL20.glEnableVertexAttribArray(attribName.getNumVal());
-    }
-
-    /**
-     * Disables an enabled attribute list
-     */
-    private void disableAttributeArray(AttributeListPosition attribName) {
-        GL20.glDisableVertexAttribArray(attribName.getNumVal());
     }
 
 

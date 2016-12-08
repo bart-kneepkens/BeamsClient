@@ -10,10 +10,7 @@ import java.util.List;
 import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.ShaderProgram;
-import static toolbox.AttributeListPosition.NORMAL_VECTORS;
-import static toolbox.AttributeListPosition.TEXTURE_COORDS;
-import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
-
+import static toolbox.AttributeListPosition.*;
 /**
  *
  * @author Blackened
@@ -46,9 +43,9 @@ public class TerrainShader extends ShaderProgram{
      */
     @Override
     protected void bindAttributes() {
-        super.bindAttribute(VERTEX_POSITIONS.getNumVal(), "position");
-        super.bindAttribute(TEXTURE_COORDS.getNumVal(), "textureCoords");
-        super.bindAttribute(NORMAL_VECTORS.getNumVal(), "normal");
+        super.bindAttribute(VERTEX_POSITIONS, "position");
+        super.bindAttribute(TEXTURE_COORDS, "textureCoords");
+        super.bindAttribute(NORMAL_VECTORS, "normal");
     }
 
     /**

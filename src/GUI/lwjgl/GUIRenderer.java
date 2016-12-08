@@ -40,8 +40,8 @@ public class GUIRenderer extends GUIShader implements Renderer<GUIElement> {
     public void render(GUIElement element) {
 
         GL30.glBindVertexArray(element.getVaoID());
-        GL20.glEnableVertexAttribArray(VERTEX_POSITIONS.getNumVal());
-        GL20.glEnableVertexAttribArray(TEXTURE_COORDS.getNumVal());
+        GL20.glEnableVertexAttribArray(VERTEX_POSITIONS);
+        GL20.glEnableVertexAttribArray(TEXTURE_COORDS);
 
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(
                 new Vector2f(((2.0f * element.getPosition().x) / Display.getWidth()) - 1,
@@ -55,8 +55,8 @@ public class GUIRenderer extends GUIShader implements Renderer<GUIElement> {
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, element.getTextureID());
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 6);
 
-        GL20.glDisableVertexAttribArray(VERTEX_POSITIONS.getNumVal());
-        GL20.glDisableVertexAttribArray(TEXTURE_COORDS.getNumVal());
+        GL20.glDisableVertexAttribArray(VERTEX_POSITIONS);
+        GL20.glDisableVertexAttribArray(TEXTURE_COORDS);
         GL30.glBindVertexArray(0);
     }   
     

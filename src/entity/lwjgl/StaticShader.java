@@ -44,9 +44,9 @@ public class StaticShader extends ShaderProgram {
      */
     @Override
     protected void bindAttributes() {
-        super.bindAttribute(VERTEX_POSITIONS.getNumVal(), "position");
-        super.bindAttribute(TEXTURE_COORDS.getNumVal(), "textureCoords");
-        super.bindAttribute(NORMAL_VECTORS.getNumVal(), "normal");
+        super.bindAttribute(VERTEX_POSITIONS, "position");
+        super.bindAttribute(TEXTURE_COORDS, "textureCoords");
+        super.bindAttribute(NORMAL_VECTORS, "normal");
     }
 
     /**

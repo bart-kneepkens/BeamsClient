@@ -108,7 +108,7 @@ public class BeamsClient {
             if (frameCount % 100 == 0) {
                 fps = 1f / (((System.currentTimeMillis() - lastTime) / 1000f) / 100f);
                 lastTime = System.currentTimeMillis();
-                System.out.println(fps);
+                System.out.println("fps: " + fps);
             }
             //</editor-fold>
 

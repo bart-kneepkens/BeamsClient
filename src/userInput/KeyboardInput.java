@@ -8,6 +8,7 @@ package userInput;
 import beamsClient.BeamsClient;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import renderEngine.DisplayManager;
 
 /**
  *
@@ -56,6 +57,14 @@ public class KeyboardInput {
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_1)){
             BeamsClient.getScene().getPlayer().fireBullet();
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_UP)){
+            DisplayManager.FPS_CAP++;
+            System.out.println(DisplayManager.FPS_CAP);
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
+            DisplayManager.FPS_CAP--;
+            System.out.println(DisplayManager.FPS_CAP);
         }
     }
 

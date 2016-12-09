@@ -40,11 +40,15 @@ public class BeamsClient {
     //<editor-fold defaultstate="collapsed" desc="Default files">
     private static final File DEFAULT_TERRAIN = new File("res/terrains/arenaTerrain/arenaTerrain.ter");
     private static final File DEFAULT_PLAYER_MODEL = new File("res/models/homo misluktus.obj");
-    private static final File DEFAULT_PLAYER_TEXTURE = new File("res/textures/memeTexture.png");
+    private static final File DEFAULT_PLAYER_TEXTURE = new File("res/textures/textureThing.png");
     private static final File DEFAULT_OBJECT_MODEL = new File("res/models/target.obj");
     private static final File DEFAULT_OBJECT_TEXTURE = new File("res/textures/targetTexture.png");
     private static final File DEFAULT_LAMP_MODEL = new File("res/models/lamp.obj");
     private static final File DEFAULT_LAMP_TEXTURE = new File("res/textures/lampTexture.png");
+    private static final File DEFAULT_SUN_MODEL = new File("res/models/ball.obj");
+    private static final File DEFAULT_SUN_TEXTURE = new File("res/textures/WhiteTexture.png");
+    private static final File DEFAULT_BULLET_MODEL = new File("res/models/bullet.obj");
+    private static final File DEFAULT_BULLET_TEXTURE = new File("res/textures/WhiteTexture.png");
     //</editor-fold>
 
     /**
@@ -171,12 +175,11 @@ public class BeamsClient {
         // Loads the default terrain.
         Terrain terrain = FileLoader.loadTerrain(DEFAULT_TERRAIN);
         //</editor-fold>
-
         
         //<editor-fold defaultstate="collapsed" desc="Entities">
-        
-        RawModel bulletModel = OBJLoader.loadObjModel("ball.obj");
-        ModelTexture bulletTexture = new ModelTexture(Loader.loadTexture(new File("res/textures/WhiteTexture.png")));
+        // Loads the default bullet textured model.
+        RawModel bulletModel = OBJLoader.loadObjModel(DEFAULT_BULLET_MODEL);
+        ModelTexture bulletTexture = new ModelTexture(Loader.loadTexture(DEFAULT_BULLET_TEXTURE));
         TexturedModel texturedBulletModel = new TexturedModel(bulletModel, bulletTexture);
         bulletTexture.setReflectivity(1);
         bulletTexture.setShineDamper(10);
@@ -243,21 +246,25 @@ public class BeamsClient {
                 0.5f,
                 new Vector3f(0, 6.6f, 0),
                 new Vector3f(1, 1, 0));
+        
+        // Loads the default textured sun model.
+        RawModel sunModel = OBJLoader.loadObjModel(DEFAULT_SUN_MODEL).containsInvertedNormals();
+        ModelTexture sunTexture = new ModelTexture(Loader.loadTexture(DEFAULT_SUN_TEXTURE));
+        TexturedModel texturedSunModel = new TexturedModel(sunModel, sunTexture);
+        sunTexture.setReflectivity(1);
+        sunTexture.setShineDamper(10);
+        
+        // Loads the default sun entity
+        Lamp sun = new Lamp(texturedSunModel, new Vector3f(0,30,0), new Vector3f(0,0,0), 10, new Vector3f(0,0,0), new Vector3f(1,1,1), new Vector3f(1f, 0f, 0));
         //</editor-fold>
-
+        
         //<editor-fold defaultstate="collapsed" desc="Lights">
-        // Creates a default light that will light up the entire scene.
-        Light sun = new Light(
-                new Vector3f(40, 11, 40),
-                new Vector3f(1, 1, 1),
-                new Vector3f(0.8f, 0f, 0));
-
         // Creates a list for all the lights in the scene, and adds the
-        // light and the lights of the previously created lamps to that list.
+        // the lights of the previously created lamps to that list.
         List<Light> lights = new ArrayList<>();
         lights.add(lamp.getLight());
         lights.add(lamp1.getLight());
-        //lights.add(sun);
+        lights.add(sun.getLight());
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Scene">
@@ -274,10 +281,12 @@ public class BeamsClient {
         scene.addEntity(entity1);
         scene.addEntity(entity2);
         scene.addTexturedModel(texturedBulletModel);
+        
 
         // Adds the lamp entities to the scene.
         scene.addEntity(lamp);
         scene.addEntity(lamp1);
+        scene.addEntity(sun);
         //</editor-fold>
     }
 

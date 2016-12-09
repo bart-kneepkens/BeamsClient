@@ -86,7 +86,7 @@ public class Player extends Entity {
                             (float) Math.cos(this.getRotation().getY()) * 2),
                     bulletModel,
                     new Vector3f(this.getPosition().getX(), this.getPosition().getY()+1, this.getPosition().getZ()),
-                    new Vector3f(0, 0, 0),
+                    new Vector3f(this.getRotation().getX(), this.getRotation().getY(), this.getRotation().getZ()),
                     0.2f);
             BeamsClient.getScene().getEntities().get(this.bulletModel).add(bullet);
             BeamsClient.getScene().getLights().add(bullet.getLight());

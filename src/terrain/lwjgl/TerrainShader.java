@@ -17,7 +17,7 @@ import static toolbox.AttributeListPosition.*;
  */
 public class TerrainShader extends ShaderProgram{
     
-    private static final int MAX_LIGHTS = 10;
+    private static final int MAX_LIGHTS = 4;
     
     private int location_lightPosition[];
     private int location_lightColour[];
@@ -113,7 +113,7 @@ public class TerrainShader extends ShaderProgram{
                 super.loadVector(location_lightColour[i], lights.get(i).getColour());
                 super.loadVector(location_attenuation[i], lights.get(i).getAttenuation());
             } else {
-                super.loadVector(location_lightPosition[i], new Vector3f(0,10000,0));
+                super.loadVector(location_lightPosition[i], new Vector3f(0,0,0));
                 super.loadVector(location_lightColour[i], new Vector3f(0,0,0));
                 super.loadVector(location_attenuation[i], new Vector3f(1,0,0));
             }

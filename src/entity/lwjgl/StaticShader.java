@@ -20,7 +20,7 @@ import static toolbox.AttributeListPosition.*;
  */
 public class StaticShader extends ShaderProgram {
 
-    private static final int MAX_LIGHTS = 10;
+    private static final int MAX_LIGHTS = 4;
 
     private int location_lightPosition[];
     private int location_lightColour[];
@@ -102,7 +102,7 @@ public class StaticShader extends ShaderProgram {
                 super.loadVector(location_lightColour[i], lights.get(i).getColour());
                 super.loadVector(location_attenuation[i], lights.get(i).getAttenuation());
             } else {
-                super.loadVector(location_lightPosition[i], new Vector3f(10000,10000,10000));
+                super.loadVector(location_lightPosition[i], new Vector3f(0,0,0));
                 super.loadVector(location_lightColour[i], new Vector3f(0,0,0));
                 super.loadVector(location_attenuation[i], new Vector3f(1,0,0));
             }

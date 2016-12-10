@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DataAccess;
+package dataAccess;
 
-import DataAccess.lwjgl.Loader;
-import DataAccess.lwjgl.ModelData;
+import dataAccess.lwjgl.Loader;
+import dataAccess.lwjgl.ModelData;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;

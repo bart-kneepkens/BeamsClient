@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DataAccess.lwjgl;
+package dataAccess.lwjgl;
 
 import toolbox.Convert;
 import java.io.File;

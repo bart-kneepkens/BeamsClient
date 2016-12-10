@@ -5,20 +5,18 @@
  */
 package GUI;
 
-import DataAccess.FileLoader;
 import GUI.objects.Button;
 import beamsClient.BeamsClient;
+import dataAccess.FileLoader;
 import java.awt.FileDialog;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
-import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
-import renderEngine.DisplayManager;
 import userInput.Event;
 import userInput.MouseInput;
 

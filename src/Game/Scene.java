@@ -5,23 +5,15 @@
  */
 package Game;
 
-import DataAccess.OBJLoader;
-import DataAccess.lwjgl.Loader;
 import entity.Entity;
 import entity.Light;
 import entity.Player;
-import entity.LightSpell;
-import entity.texture.ModelTexture;
 import entity.texture.TexturedModel;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import models.RawModel;
-import org.lwjgl.util.vector.Vector3f;
-import renderEngine.DisplayManager;
 import terrain.Terrain;
 
 /**

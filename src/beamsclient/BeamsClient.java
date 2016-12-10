@@ -5,14 +5,14 @@
  */
 package beamsClient;
 
-import DataAccess.FileLoader;
-import DataAccess.OBJLoader;
 import GUI.UserInterface;
 import org.lwjgl.opengl.Display;
 import renderEngine.DisplayManager;
-import DataAccess.lwjgl.Loader;
+import dataAccess.lwjgl.Loader;
 import Game.Camera;
 import Game.Scene;
+import dataAccess.FileLoader;
+import dataAccess.OBJLoader;
 import entity.Entity;
 import entity.Lamp;
 import entity.Light;

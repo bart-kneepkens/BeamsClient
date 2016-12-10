@@ -34,6 +34,7 @@ public class FileLoader {
      * @throws IOException
      */
     public static Terrain loadTerrain(File file) throws FileNotFoundException, IOException {
+        System.out.println("Loading terrain file...");
         Terrain terrain = new Terrain();
 
         float[][] heightTable = null;

@@ -7,6 +7,8 @@ package entity;
 
 import beamsClient.BeamsClient;
 import entity.texture.TexturedModel;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 import terrain.Terrain;
@@ -122,6 +124,7 @@ public class Player extends Entity {
 
     public void update() {
         this.gravitate();
+        this.checkInputs();
         if (this.activeSpell != null) {
             if (this.activeSpell.getDeathTime() < DisplayManager.getCurrentTime()) {
                 BeamsClient.getScene().getEntities().remove(activeSpell.getModel());
@@ -130,6 +133,41 @@ public class Player extends Entity {
             } else {
                 this.activeSpell.update();
             }
+        }
+    }
+    
+    private void checkInputs(){
+        if (Keyboard.isKeyDown(Keyboard.KEY_W) || Mouse.isButtonDown(0) && Mouse.isButtonDown(1)) {
+            this.moveForward();
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
+            this.moveBackward();
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
+            if (Mouse.isButtonDown(1)) {
+                this.strafeRight();
+            } else {
+                this.turnRight();
+            }
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
+            if (Mouse.isButtonDown(1)) {
+                this.strafeLeft();
+            } else {
+                this.turnLeft();
+            }
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
+            this.strafeLeft();
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_E)){
+            this.strafeRight();
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+            this.jump();
+        }
+        if(Mouse.isButtonDown(1)){
+            this.increaseRotation(new Vector3f(0, Mouse.getDX() * -0.003f, 0));
         }
     }
 

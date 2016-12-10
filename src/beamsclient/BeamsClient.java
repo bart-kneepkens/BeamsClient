@@ -171,7 +171,8 @@ public class BeamsClient {
      * @throws IOException
      */
     private static void loadDefaultScene() throws IOException {
-
+        System.out.println("Loading default scene..");
+        
         //<editor-fold defaultstate="collapsed" desc="Terrain">
         // Loads the default terrain.
         Terrain terrain = FileLoader.loadTerrain(DEFAULT_TERRAIN);

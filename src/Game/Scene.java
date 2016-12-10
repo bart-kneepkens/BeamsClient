@@ -63,7 +63,7 @@ public class Scene {
 
     public void update() {
         this.getPlayer().update();
-        this.getCamera().move();
+        this.getCamera().update();
     }
 
 

@@ -20,7 +20,7 @@ public class Camera {
     private float angleAroundPlayer = 0;
 
     private final Vector3f position = new Vector3f(0, 0, 0);
-    private float pitch = 20;
+    private float pitch = 10;
     private float yaw = 0;
     private float roll;
 
@@ -66,45 +66,20 @@ public class Camera {
     }
 
     private void calculatePitch() {
-        float minimumPitch = this.calculateMinimumPitch();
         if (Mouse.isButtonDown(1) || Mouse.isButtonDown(0)) {
-
             float pitchChange = Mouse.getDY() * 0.1f;
-            if (pitchChange > 0) {
-                if (pitch - pitchChange >= minimumPitch) {
-                    pitch -= pitchChange;
-                }
-            } else {
-                if (pitch - pitchChange <= 90) {
-                    pitch -= pitchChange;
-                }
+            if (this.pitch - pitchChange > 0 && this.pitch - pitchChange < 90) {
+                this.pitch -= pitchChange;
             }
-
         }
-        else{
-            
-            this.pitch = 5;
-        }
-        if (pitch < minimumPitch) {
-            pitch = minimumPitch;
-        }
-    }
-
-    private float calculateMinimumPitch() {
-        float minimumHeight = BeamsClient.getScene().getTerrain().getHeightOfTerrain(this.position.getX(), this.position.getZ());
-        float relativeMinimumHeight = minimumHeight - this.player.getPosition().getY();
-        return (float) Math.toDegrees(Math.asin((relativeMinimumHeight / distanceFromPlayer)));
     }
 
     private void calculateAngleAroundPlayer() {
-        if (Mouse.isButtonDown(1)) {
-            this.player.increaseRotation(new Vector3f(0, Mouse.getDX() * -0.003f, 0));
-        }
         if (Mouse.isButtonDown(0)) {
-            float angleChange = Mouse.getDX() * 0.003f;
-            this.angleAroundPlayer -= angleChange;
-        } else {
-            angleAroundPlayer = 0;
+            this.angleAroundPlayer += Mouse.getDX() * -0.003f;
+        }
+        else{
+            this.angleAroundPlayer = 0;
         }
     }
 
@@ -126,7 +101,7 @@ public class Camera {
         this.position.y = player.getPosition().getY() + 1 + verticalDistance;
     }
 
-    public void move() {
+    public void update() {
         this.calculateZoom();
         this.calculatePitch();
         this.calculateAngleAroundPlayer();

@@ -31,7 +31,9 @@ void main(void){
 
     vec4 totalColour = backgroundTextureColour + rTextureColour + gTextureColour + bTextureColour;
 
-
+    if(totalColour.a < 0.1){
+        discard;
+    }
 
     vec3 unitNormal = normalize(surfaceNormal);
     vec3 unitVectorToCamera = normalize(toCameraVector);

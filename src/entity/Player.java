@@ -97,12 +97,12 @@ public class Player extends Entity {
 
     public void fireHalo() {
         if (this.activeSpell == null) {
-                        LightSpell halo = new Halo(
+            LightSpell halo = new Halo(
                     DisplayManager.getCurrentTime(),
                     2000,
                     null,
                     new Vector3f(this.getPosition().getX(), this.getPosition().getY() + 1, this.getPosition().getZ()),
-                    new Vector3f(0,0,0));
+                    new Vector3f(0, 0, 0));
             BeamsClient.getScene().getLights().add(halo.getLight());
             this.activeSpell = halo;
             LightSpell.LAST_ONE_FIRED = DisplayManager.getCurrentTime();
@@ -110,8 +110,7 @@ public class Player extends Entity {
     }
 
     private boolean isMovementAllowed(Vector3f nextPosition) {
-        return (nextPosition.getX() > Terrain.BORDER_SIZE && nextPosition.getX() < Terrain.SIZE - Terrain.BORDER_SIZE
-                && nextPosition.getZ() > Terrain.BORDER_SIZE && nextPosition.getZ() < Terrain.SIZE - Terrain.BORDER_SIZE);
+        return BeamsClient.getScene().getTerrain().getHeightOfTerrain(nextPosition.getX(), nextPosition.getZ()) - this.getPosition().getY() < 0.3;
     }
 
     public void turnRight() {
@@ -135,8 +134,8 @@ public class Player extends Entity {
             }
         }
     }
-    
-    private void checkInputs(){
+
+    private void checkInputs() {
         if (Keyboard.isKeyDown(Keyboard.KEY_W) || Mouse.isButtonDown(0) && Mouse.isButtonDown(1)) {
             this.moveForward();
         }
@@ -157,16 +156,16 @@ public class Player extends Entity {
                 this.turnLeft();
             }
         }
-        if(Keyboard.isKeyDown(Keyboard.KEY_Q)){
+        if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
             this.strafeLeft();
         }
-        if(Keyboard.isKeyDown(Keyboard.KEY_E)){
+        if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
             this.strafeRight();
         }
-        if(Keyboard.isKeyDown(Keyboard.KEY_SPACE)){
+        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
             this.jump();
         }
-        if(Mouse.isButtonDown(1)){
+        if (Mouse.isButtonDown(1)) {
             this.increaseRotation(new Vector3f(0, Mouse.getDX() * -0.003f, 0));
         }
     }

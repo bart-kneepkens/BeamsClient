@@ -8,7 +8,6 @@ package Game;
 import entity.Player;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
-import beamsClient.BeamsClient;
 
 /**
  *
@@ -20,7 +19,8 @@ public class Camera {
     private float angleAroundPlayer = 0;
 
     private final Vector3f position = new Vector3f(0, 0, 0);
-    private float pitch = 10;
+    private float pitch;
+    private final float defaultPitch = 10;
     private float yaw = 0;
     private float roll;
 
@@ -71,14 +71,23 @@ public class Camera {
             if (this.pitch - pitchChange > 0 && this.pitch - pitchChange < 90) {
                 this.pitch -= pitchChange;
             }
+        } else {
+            if (this.pitch < this.defaultPitch - 2) {
+                this.pitch += 2;
+            } else if (this.pitch < this.defaultPitch) {
+                this.pitch = this.defaultPitch;
+            } else if (this.pitch > this.defaultPitch + 2) {
+                this.pitch -= 2;
+            } else if (this.pitch > this.defaultPitch) {
+                this.pitch = this.defaultPitch;
+            }
         }
     }
 
     private void calculateAngleAroundPlayer() {
         if (Mouse.isButtonDown(0)) {
             this.angleAroundPlayer += Mouse.getDX() * -0.003f;
-        }
-        else{
+        } else {
             this.angleAroundPlayer = 0;
         }
     }

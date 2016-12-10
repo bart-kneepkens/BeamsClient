@@ -31,11 +31,21 @@ public class Light {
     public Vector3f getAttenuation() {
         return attenuation;
     }
+    
+    public void increaseAttenuation(float x, float y, float z){
+        this.attenuation = this.attenuation.translate(this.attenuation.getX() + x, this.attenuation.getY() + y, this.attenuation.getZ() + z);
+    }
+    
+    public void multiplyAttenuation(float x, float y, float z){
+        this.attenuation = new Vector3f(this.attenuation.getX() * x, this.attenuation.getY() * y, this.attenuation.getZ() * z);
+    }
 
     public void setAttenuation(Vector3f attenuation) {
         this.attenuation = attenuation;
     }
 
+    
+    
     public Vector3f getPosition() {
         return position;
     }

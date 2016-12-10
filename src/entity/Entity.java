@@ -106,7 +106,7 @@ public class Entity {
      *
      * @return The position.
      */
-    public Vector3f getPosition() {
+    public final Vector3f getPosition() {
         return position;
     }
 

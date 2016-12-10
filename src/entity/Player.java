@@ -7,8 +7,6 @@ package entity;
 
 import beamsClient.BeamsClient;
 import entity.texture.TexturedModel;
-import java.util.ArrayList;
-import java.util.List;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 import terrain.Terrain;
@@ -26,7 +24,7 @@ public class Player extends Entity {
     private float turnSpeed = 4f;
     private float upwardsSpeed = 0;
 
-    private List<Bullet> bullets;
+    private LightSpell activeSpell;
 
     private TexturedModel bulletModel;
 
@@ -35,7 +33,6 @@ public class Player extends Entity {
     public Player(TexturedModel model, Vector3f position, Vector3f rotation, float scale, TexturedModel bulletModel) {
         super(model, position, rotation, scale);
         this.bulletModel = bulletModel;
-        this.bullets = new ArrayList<>();
     }
 
     public void moveForward() {
@@ -77,22 +74,36 @@ public class Player extends Entity {
 
     public void fireBullet() {
 
-        if (Math.abs(Bullet.LAST_ONE_FIRED - DisplayManager.getCurrentTime()) > 1000) {
-            Bullet bullet = new Bullet(
+        if (this.activeSpell == null) {
+            LightSpell bullet = new Bullet(
                     DisplayManager.getCurrentTime(),
                     1000,
                     new Vector3f((float) Math.sin(this.getRotation().getY()) * 2,
                             0,
                             (float) Math.cos(this.getRotation().getY()) * 2),
                     bulletModel,
-                    new Vector3f(this.getPosition().getX(), this.getPosition().getY()+1, this.getPosition().getZ()),
+                    new Vector3f(this.getPosition().getX(), this.getPosition().getY() + 1, this.getPosition().getZ()),
                     new Vector3f(this.getRotation().getX(), this.getRotation().getY(), this.getRotation().getZ()),
                     0.2f);
-            BeamsClient.getScene().getEntities().get(this.bulletModel).add(bullet);
+            BeamsClient.getScene().addEntity(bullet);
             BeamsClient.getScene().getLights().add(bullet.getLight());
 
-            this.bullets.add(bullet);
-            Bullet.LAST_ONE_FIRED = DisplayManager.getCurrentTime();
+            this.activeSpell = bullet;
+            LightSpell.LAST_ONE_FIRED = DisplayManager.getCurrentTime();
+        }
+    }
+
+    public void fireHalo() {
+        if (this.activeSpell == null) {
+                        LightSpell halo = new Halo(
+                    DisplayManager.getCurrentTime(),
+                    2000,
+                    null,
+                    new Vector3f(this.getPosition().getX(), this.getPosition().getY() + 1, this.getPosition().getZ()),
+                    new Vector3f(0,0,0));
+            BeamsClient.getScene().getLights().add(halo.getLight());
+            this.activeSpell = halo;
+            LightSpell.LAST_ONE_FIRED = DisplayManager.getCurrentTime();
         }
     }
 
@@ -111,17 +122,15 @@ public class Player extends Entity {
 
     public void update() {
         this.gravitate();
-        this.bullets.stream().forEach(x
-                -> {
-            if (x.getDeathTime() < DisplayManager.getCurrentTime()) {
-                BeamsClient.getScene().getEntities().get(this.bulletModel).remove(x);
-                BeamsClient.getScene().getLights().remove(x.getLight());
+        if (this.activeSpell != null) {
+            if (this.activeSpell.getDeathTime() < DisplayManager.getCurrentTime()) {
+                BeamsClient.getScene().getEntities().remove(activeSpell.getModel());
+                BeamsClient.getScene().getLights().remove(this.activeSpell.getLight());
+                this.activeSpell = null;
             } else {
-                x.travel();
+                this.activeSpell.update();
             }
-        });
-        this.bullets.removeIf(x -> x.getDeathTime() < DisplayManager.getCurrentTime());
-
+        }
     }
 
     private void gravitate() {

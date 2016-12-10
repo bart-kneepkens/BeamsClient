@@ -104,7 +104,7 @@ public class StaticShader extends ShaderProgram {
             } else {
                 super.loadVector(location_lightPosition[i], new Vector3f(0,0,0));
                 super.loadVector(location_lightColour[i], new Vector3f(0,0,0));
-                super.loadVector(location_attenuation[i], new Vector3f(1,0,0));
+                super.loadVector(location_attenuation[i], new Vector3f(4,0,0));
             }
         }
     }

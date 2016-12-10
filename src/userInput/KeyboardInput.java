@@ -58,6 +58,9 @@ public class KeyboardInput {
         if(Keyboard.isKeyDown(Keyboard.KEY_1)){
             BeamsClient.getScene().getPlayer().fireBullet();
         }
+        if(Keyboard.isKeyDown(Keyboard.KEY_2)){
+            BeamsClient.getScene().getPlayer().fireHalo();
+        }
         if(Keyboard.isKeyDown(Keyboard.KEY_UP)){
             DisplayManager.FPS_CAP++;
             System.out.println(DisplayManager.FPS_CAP);

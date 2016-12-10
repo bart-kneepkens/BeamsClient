@@ -39,5 +39,9 @@ public class Lamp extends Entity {
     public Light getLight() {
         return light;
     }
+    
+    public void decreaseAttenuation(){
+        this.light.multiplyAttenuation(1, 0.95f, 1);
+    }
 
 }

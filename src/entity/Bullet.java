@@ -13,35 +13,23 @@ import renderEngine.DisplayManager;
  *
  * @author Blackened
  */
-public class Bullet extends Entity {
+public class Bullet extends LightSpell{
     
-    public static long LAST_ONE_FIRED = 0;
     private static final float SPEED = 100;
     
-    private final long deathTime;
     private final Vector3f travelDirection;
-    private final Light light;
     
     public Bullet(long creationTime, long duration, Vector3f travelDirection, TexturedModel model, Vector3f position, Vector3f rotation, float scale) {
-        super(model, position, rotation, scale);
-        this.deathTime = creationTime + duration;
+        super(model, creationTime + duration, position, rotation, scale);
         this.travelDirection = new Vector3f();
         travelDirection.normalise(this.travelDirection);
-        this.light = new Light(this.getPosition(), new Vector3f(1,1,1), new Vector3f(0.001f, 0.01f, 0.005f));
-    }
-
-    public long getDeathTime() {
-        return deathTime;
+        super.setLight(new Light(this.getPosition(), new Vector3f(1,1,1), new Vector3f(0.001f, 0.01f, 0.005f)));
     }
     
-    public void travel(){
+    
+
+    @Override
+    public void update() {
         this.increasePosition(travelDirection.getX() * DisplayManager.getFrameTimeSeconds() * SPEED, travelDirection.getY(), travelDirection.getZ() * DisplayManager.getFrameTimeSeconds() * SPEED);
     }
-
-    public Light getLight() {
-        return light;
-    }
-    
-    
-    
 }

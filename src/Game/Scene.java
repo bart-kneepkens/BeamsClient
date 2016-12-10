@@ -10,7 +10,7 @@ import DataAccess.lwjgl.Loader;
 import entity.Entity;
 import entity.Light;
 import entity.Player;
-import entity.Bullet;
+import entity.LightSpell;
 import entity.texture.ModelTexture;
 import entity.texture.TexturedModel;
 import java.io.File;

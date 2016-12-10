@@ -45,8 +45,8 @@ public class BeamsClient {
     private static final File DEFAULT_OBJECT_TEXTURE = new File("res/textures/targetTexture.png");
     private static final File DEFAULT_LAMP_MODEL = new File("res/models/lamp.obj");
     private static final File DEFAULT_LAMP_TEXTURE = new File("res/textures/lampTexture.png");
-    private static final File DEFAULT_SUN_MODEL = new File("res/models/ball.obj");
-    private static final File DEFAULT_SUN_TEXTURE = new File("res/textures/WhiteTexture.png");
+    public static final File DEFAULT_SUN_MODEL = new File("res/models/ball.obj");
+    public static final File DEFAULT_SUN_TEXTURE = new File("res/textures/WhiteTexture.png");
     private static final File DEFAULT_BULLET_MODEL = new File("res/models/bullet.obj");
     private static final File DEFAULT_BULLET_TEXTURE = new File("res/textures/WhiteTexture.png");
     //</editor-fold>
@@ -69,6 +69,8 @@ public class BeamsClient {
      */
     private static UserInterface userInterface;
 
+    
+    private static Lamp lamp;
     /**
      * The main program loop.
      *
@@ -111,7 +113,6 @@ public class BeamsClient {
                 System.out.println("fps: " + fps);
             }
             //</editor-fold>
-
         }
 
         Loader.cleanUp();
@@ -231,7 +232,7 @@ public class BeamsClient {
         lampTexture.setShineDamper(10);
 
         // Loads the default two different lamp entities with this lamp model.
-        Lamp lamp = new Lamp(
+        lamp = new Lamp(
                 texturedLampModel,
                 new Vector3f(40, terrain.getHeightOfTerrain(40, 40), 40),
                 new Vector3f(0, 0, 0),

@@ -37,19 +37,43 @@ public class UserInterface {
 
         //<editor-fold defaultstate="collapsed" desc="Buttons">
         // Button 1
-        Button buttonExit = new Button(30, 30, new Vector2f(10, Display.getHeight() - 40), 0);
+        Button buttonExit = new Button(50, 50, new Vector2f(Display.getWidth() / 2 - 100, 15), 0);
         buttonExit.loadTextureAtlas("buttons/buttonExit_Atlas");
         buttonExit.load();
         buttonExit.subscribe(MouseInput.getMouseSubject());
         buttonExit.onClick(x -> this.buttonExit_Click(x));
         this.gui.addElement(buttonExit.getGUIElement());
 
-        Button buttonLoadTerrain = new Button(30, 30, new Vector2f(50, Display.getHeight() - 40), 0);
+        Button buttonLoadTerrain = new Button(50, 50, new Vector2f(Display.getWidth() / 2 - 25, 15), 0);
         buttonLoadTerrain.loadTextureAtlas("buttons/buttonTerrain_Atlas");
         buttonLoadTerrain.load();
         buttonLoadTerrain.subscribe(MouseInput.getMouseSubject());
         buttonLoadTerrain.onClick(x -> this.buttonLoadTerrain_Click(x));
-        this.gui.addElement(buttonLoadTerrain.getGUIElement());        
+        this.gui.addElement(buttonLoadTerrain.getGUIElement());  
+        
+        Button buttonResetAll = new Button(50, 50, new Vector2f(Display.getWidth() / 2 + 50, 15), 0);
+        buttonResetAll.loadTextureAtlas("buttons/buttonReset_Atlas");
+        buttonResetAll.load();
+        buttonResetAll.subscribe(MouseInput.getMouseSubject());
+        buttonResetAll.onClick(x -> {
+            try {
+                this.buttonResetAll_Click(x);
+            } catch (IOException ex) {
+                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
+        this.gui.addElement(buttonResetAll.getGUIElement());  
+        
+        Panel panel = new Panel(250, 250, new Vector2f(Display.getWidth() / 2 - 125,-160), 1);
+        panel.loadTexture("panel");
+        panel.load();
+        this.gui.addElement(panel.getGUIElement());
+        
+//        Panel panel2 = new Panel(100, 100, new Vector2f(Display.getWidth() / 2 - 150,0), 1);
+//        panel2.loadTexture("vine2");
+//        panel2.load();
+//        this.gui.addElement(panel2.getGUIElement());
+        
         //</editor-fold>
         
     }
@@ -87,5 +111,11 @@ public class UserInterface {
             }
         }
         dialog.dispose();
+    }
+    
+    private void buttonResetAll_Click(Event event) throws IOException{
+        BeamsClient.loadDefaultScene();
+        BeamsClient.loadDefaultUserInterface();
+        Mouse.setCursorPosition(Display.getWidth()/2, Display.getHeight()/2);
     }
 }

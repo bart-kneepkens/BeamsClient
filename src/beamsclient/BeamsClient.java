@@ -170,7 +170,7 @@ public class BeamsClient {
      *
      * @throws IOException
      */
-    private static void loadDefaultScene() throws IOException {
+    public static void loadDefaultScene() throws IOException {
         System.out.println("Loading default scene..");
         
         //<editor-fold defaultstate="collapsed" desc="Terrain">
@@ -295,7 +295,7 @@ public class BeamsClient {
     /**
      * Loads default user interface object.
      */
-    private static void loadDefaultUserInterface() throws IOException {
+    public static void loadDefaultUserInterface() throws IOException {
 
         //<editor-fold defaultstate="collapsed" desc="User Interface">
         // Loads the default user interface.

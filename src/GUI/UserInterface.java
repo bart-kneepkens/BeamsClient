@@ -6,6 +6,7 @@
 package GUI;
 
 import GUI.objects.Button;
+import GUI.objects.Panel;
 import beamsClient.BeamsClient;
 import dataAccess.FileLoader;
 import java.awt.FileDialog;
@@ -17,6 +18,8 @@ import javax.swing.JDialog;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
+import org.newdawn.slick.opengl.TextureLoader;
+import org.newdawn.slick.util.ResourceLoader;
 import userInput.Event;
 import userInput.MouseInput;
 
@@ -34,19 +37,19 @@ public class UserInterface {
 
         //<editor-fold defaultstate="collapsed" desc="Buttons">
         // Button 1
-        Button buttonExit = new Button(30, 30, new Vector2f(10, Display.getHeight() - 40));
+        Button buttonExit = new Button(30, 30, new Vector2f(10, Display.getHeight() - 40), 0);
         buttonExit.loadTextureAtlas("buttons/buttonExit_Atlas");
         buttonExit.load();
         buttonExit.subscribe(MouseInput.getMouseSubject());
         buttonExit.onClick(x -> this.buttonExit_Click(x));
-        this.gui.addElement(buttonExit.getGUIElement(), 0);
+        this.gui.addElement(buttonExit.getGUIElement());
 
-        Button buttonLoadTerrain = new Button(30, 30, new Vector2f(50, Display.getHeight() - 40));
+        Button buttonLoadTerrain = new Button(30, 30, new Vector2f(50, Display.getHeight() - 40), 0);
         buttonLoadTerrain.loadTextureAtlas("buttons/buttonTerrain_Atlas");
         buttonLoadTerrain.load();
         buttonLoadTerrain.subscribe(MouseInput.getMouseSubject());
         buttonLoadTerrain.onClick(x -> this.buttonLoadTerrain_Click(x));
-        this.gui.addElement(buttonLoadTerrain.getGUIElement(), 0);
+        this.gui.addElement(buttonLoadTerrain.getGUIElement());        
         //</editor-fold>
         
     }

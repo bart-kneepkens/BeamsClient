@@ -112,7 +112,7 @@ public class MasterRenderer {
      */
     public void render(GUI gui) {
         this.guiRenderer.start();
-        gui.getGuiElements().keySet().forEach(x -> {
+        gui.getGuiElements().forEach(x -> {
             this.guiRenderer.render(x);
         });
         this.guiRenderer.stop();

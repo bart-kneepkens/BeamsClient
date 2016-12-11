@@ -257,7 +257,7 @@ public class BeamsClient {
         sunTexture.setShineDamper(10);
         
         // Loads the default sun entity
-        Lamp sun = new Lamp(texturedSunModel, new Vector3f(0,30,0), new Vector3f(0,0,0), 10, new Vector3f(0,0,0), new Vector3f(1,1,1), new Vector3f(1f, 0f, 0));
+        Lamp sun = new Lamp(texturedSunModel, new Vector3f(10,30,0), new Vector3f(0,0,0), 10, new Vector3f(0,0,0), new Vector3f(1,1,1), new Vector3f(1f, 0f, 0));
         //</editor-fold>
         
         //<editor-fold defaultstate="collapsed" desc="Lights">

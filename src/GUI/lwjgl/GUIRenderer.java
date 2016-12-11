@@ -25,7 +25,7 @@ import toolbox.Maths;
  * @author Blackened
  */
 public class GUIRenderer extends GUIShader implements Renderer<GUIElement> {
-    
+
     public GUIRenderer() {
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
@@ -49,6 +49,7 @@ public class GUIRenderer extends GUIShader implements Renderer<GUIElement> {
                 element.getRotation(),
                 element.getWidth() / (float) (Display.getWidth() / 2),
                 element.getHeight() / (float) (Display.getHeight() / 2));
+
         this.loadUniformMatrix("transformationMatrix", transformationMatrix);
 
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
@@ -58,6 +59,5 @@ public class GUIRenderer extends GUIShader implements Renderer<GUIElement> {
         GL20.glDisableVertexAttribArray(VERTEX_POSITIONS);
         GL20.glDisableVertexAttribArray(TEXTURE_COORDS);
         GL30.glBindVertexArray(0);
-    }   
-    
+    }
 }

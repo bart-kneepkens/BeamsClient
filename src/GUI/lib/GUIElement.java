@@ -8,6 +8,7 @@ package GUI.lib;
 import GUI.lwjgl.GUIElementLoader;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+import org.newdawn.slick.opengl.Texture;
 import userInput.MouseState;
 
 /**
@@ -21,9 +22,10 @@ public class GUIElement {
      */
     private int width;
     private int height;
+    
+    private int z_index;
 
     private int textureID;
-
     /**
      * IN PIXELS!
      */
@@ -57,17 +59,19 @@ public class GUIElement {
      * @param position The position of the left bottom corner of the GUI-element
      * @param rotation
      */
-    public GUIElement(int width, int height, Vector2f position, Vector3f rotation) {
+    public GUIElement(int width, int height, Vector2f position, int z_index, Vector3f rotation) {
         this.width = width;
         this.height = height;
         this.position = position;
+        this.z_index = z_index;
         this.rotation = rotation;
     }
 
-    public GUIElement(int width, int height, Vector2f position) {
+    public GUIElement(int width, int height, Vector2f position, int z_index) {
         this.width = width;
         this.height = height;
         this.position = position;
+        this.z_index = z_index;
         this.rotation = new Vector3f(0, 0, 0);
     }
 
@@ -83,7 +87,12 @@ public class GUIElement {
     public void increasePosition(Vector2f delta) {
         this.position = new Vector2f(this.position.x + delta.x, this.position.y + delta.y);
     }
+    
+    public int getZ_index() {
+        return z_index;
+    }
 
+    
     public int getVaoID() {
         return vaoID;
     }

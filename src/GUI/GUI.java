@@ -6,9 +6,10 @@
 package GUI;
 
 import GUI.lib.GUIElement;
+import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  *
@@ -16,18 +17,26 @@ import java.util.Map;
  */
 public class GUI {
     
-    private Map<GUIElement, Integer> guiElements;
+    private List<GUIElement> guiElements;
 
     public GUI() {
-        this.guiElements = new HashMap<>();
+        this.guiElements = new ArrayList<>();
     }
     
-    public void addElement(GUIElement element, int z_index){
-        this.guiElements.put(element, z_index);
+    public void addElement(GUIElement element){
+        this.guiElements.add(element);
+        Collections.sort(guiElements, new Comparator<GUIElement>() {
+            @Override
+            public int compare(GUIElement o1, GUIElement o2) {
+                Integer z_index1 = o1.getZ_index();
+                Integer z_index2 = o2.getZ_index();
+                return z_index1.compareTo(z_index2);
+            }
+        });
     }
 
-    public Map<GUIElement, Integer> getGuiElements() {
-        return Collections.unmodifiableMap(guiElements);
+    public List<GUIElement> getGuiElements() {
+        return guiElements;
     }
     
     

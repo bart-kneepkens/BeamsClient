@@ -12,6 +12,7 @@ import GUI.lwjgl.GUIElementLoader;
 import java.io.IOException;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+import org.newdawn.slick.opengl.Texture;
 import rx.Observable;
 import userInput.MouseState;
 
@@ -36,12 +37,12 @@ public class Button extends MouseActor implements Renderable {
      * pixels.
      * @param rotation The Euler rotation of the button.
      */
-    public Button(int width, int height, Vector2f position, Vector3f rotation) {
-        this.guiElement = new GUIElement(width, height, position, rotation);
+    public Button(int width, int height, Vector2f position, int z_index, Vector3f rotation) {
+        this.guiElement = new GUIElement(width, height, position, z_index,rotation);
     }
 
-    public Button(int width, int height, Vector2f position) {
-        this.guiElement = new GUIElement(width, height, position);
+    public Button(int width, int height, Vector2f position, int z_index) {
+        this.guiElement = new GUIElement(width, height, position, z_index);
     }
 
     /**

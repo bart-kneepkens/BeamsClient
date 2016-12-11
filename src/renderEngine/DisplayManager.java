@@ -36,7 +36,7 @@ public class DisplayManager {
     /**
      * The maximum frames per seconds that will be rendered to the screen.
      */
-    public static int FPS_CAP = 60;
+    public static int FPS_CAP = 120;
 
     /**
      * The time in milliseconds when last frame was rendered.

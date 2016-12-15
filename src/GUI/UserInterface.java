@@ -5,24 +5,24 @@
  */
 package GUI;
 
-import GUI.lib.Renderable;
 import GUI.objects.Button;
 import GUI.objects.Container;
+import GUI.objects.Window;
+import GUI.objects.MovingContainer;
 import GUI.objects.Panel;
+import GUI.objects.SettingsWindow;
 import beamsClient.BeamsClient;
 import dataAccess.FileLoader;
 import java.awt.FileDialog;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
+import toolbox.Autonomous;
 import userInput.Event;
 import userInput.MouseInput;
 
@@ -30,13 +30,15 @@ import userInput.MouseInput;
  *
  * @author Blackened
  */
-public class UserInterface {
-    
+public class UserInterface implements Autonomous{
+
     private final GUI gui;
+    
+    private boolean active = true;
 
     public UserInterface() throws IOException {
         this.gui = new GUI();
-        
+
         //<editor-fold defaultstate="collapsed" desc="Buttons">
         Button buttonExit = new Button(50, 50, new Vector2f(0, 0), 0);
         buttonExit.loadTextureAtlas("buttons/buttonExit_Atlas");
@@ -46,71 +48,85 @@ public class UserInterface {
         Button buttonLoadTerrain = new Button(50, 50, new Vector2f(75, 0), 0);
         buttonLoadTerrain.loadTextureAtlas("buttons/buttonTerrain_Atlas");
         buttonLoadTerrain.subscribe(MouseInput.getMouseSubject());
-        buttonLoadTerrain.onClick(x -> this.buttonLoadTerrain_Click(x));
-        
-        Button buttonResetAll = new Button(50, 50, new Vector2f(150, 0), 0);
-        buttonResetAll.loadTextureAtlas("buttons/buttonReset_Atlas");
-        buttonResetAll.subscribe(MouseInput.getMouseSubject());
-        buttonResetAll.onClick(x -> {
+        buttonLoadTerrain.onClick(x -> {
             try {
-                this.buttonResetAll_Click(x);
+                this.buttonLoadTerrain_Click(x);
             } catch (IOException ex) {
                 Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
+
         
-        Panel panel = new Panel(250, 250, new Vector2f(Display.getWidth() / 2 - 125,-160), 1);
+
+        Panel panel = new Panel(250, 250, new Vector2f(Display.getWidth() / 2 - 125, -160), 1);
         panel.loadTexture("panel");
         panel.load();
         gui.addElement(panel);
-        
-        Container container = new Container(200, 50, new Vector2f(Display.getWidth()/2 - 100, 20), 0);
+
+        Container container = new Container(200, 50, new Vector2f(Display.getWidth() / 2 - 100, 20), 0);
         container.addChild(buttonExit);
         container.addChild(buttonLoadTerrain);
-        container.addChild(buttonResetAll);
         container.load();
-        container.renderContainer(true);
+        container.setRendered(true);
         gui.addElement(container);
         
-        //</editor-fold>
         
+        //</editor-fold>
+
     }
 
     public GUI getGui() {
         return gui;
     }
-    
-    
+
+    @Override
+    public void update() {
+        this.gui.getAutonomousElements().forEach(x -> x.update());
+    }
 
     private void buttonExit_Click(Event event) {
         BeamsClient.exit();
     }
 
-    private void buttonLoadTerrain_Click(Event event) {
-        Mouse.setGrabbed(false);
-        JDialog dialog = new JDialog();
-        FileDialog fd = new FileDialog(dialog, "Choose a file", FileDialog.LOAD);
-        fd.setDirectory("C:\\");
-        fd.setFilenameFilter((File dir, String name) -> name.endsWith(".ter"));
-        fd.setVisible(true);
-
-        String filename = fd.getDirectory() + fd.getFile();
-        if (fd.getFile() == null) {
-            System.out.println("You cancelled the choice");
-        } else {
-            try {
-                BeamsClient.getScene().setTerrain(FileLoader.loadTerrain(new File(filename)));
-            } catch (IOException ex) {
-                dialog.dispose();
-                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        dialog.dispose();
+    private void buttonLoadTerrain_Click(Event event) throws IOException {
+//        Mouse.setGrabbed(false);
+//        JDialog dialog = new JDialog();
+//        FileDialog fd = new FileDialog(dialog, "Choose a file", FileDialog.LOAD);
+//        fd.setDirectory("C:\\");
+//        fd.setFilenameFilter((File dir, String name) -> name.endsWith(".ter"));
+//        fd.setVisible(true);
+//
+//        String filename = fd.getDirectory() + fd.getFile();
+//        if (fd.getFile() == null) {
+//            System.out.println("You cancelled the choice");
+//        } else {
+//            try {
+//                BeamsClient.getScene().setTerrain(FileLoader.loadTerrain(new File(filename)));
+//            } catch (IOException ex) {
+//                dialog.dispose();
+//                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+//        dialog.dispose();
+        
+        this.openWindow(new SettingsWindow(this).loadWindow());
     }
     
-    private void buttonResetAll_Click(Event event) throws IOException{
-        BeamsClient.loadDefaultScene();
-        BeamsClient.loadDefaultUserInterface();
-        Mouse.setCursorPosition(Display.getWidth()/2, Display.getHeight()/2);
+    public void openWindow(Window window){
+        this.gui.addElement(window);
+    }
+    
+    public void closeWindow(Window window){
+        this.gui.removeElement(window);
+    }
+
+    @Override
+    public boolean isActive() {
+        return this.active;
+    }
+
+    @Override
+    public void setActive(boolean value) {
+        this.active = value;
     }
 }

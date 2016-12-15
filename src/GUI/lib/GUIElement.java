@@ -93,8 +93,8 @@ public class GUIElement {
         this.vaoID = GUIElementLoader.loadToVAO(this);
     }
 
-    public void increasePosition(Vector2f delta) {
-        this.position = new Vector2f(this.position.x + delta.x, this.position.y + delta.y);
+    public void increasePosition(float dx, float dy) {
+        this.position = new Vector2f(this.position.x + dx, this.position.y + dy);
     }
     
     public int getZ_index() {

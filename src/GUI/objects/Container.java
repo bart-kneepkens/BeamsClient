@@ -11,7 +11,6 @@ import GUI.lwjgl.GUIRenderer;
 import java.util.ArrayList;
 import java.util.List;
 import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
 
 /**
  *
@@ -23,7 +22,7 @@ public class Container implements Renderable {
 
     private final List<Renderable> children;
 
-    private boolean renderContainer = false;
+    private boolean rendered = false;
 
     public Container(int width, int height, Vector2f position, int z_index) {
         this.guiElement = new GUIElement(width, height, position, z_index);
@@ -31,20 +30,20 @@ public class Container implements Renderable {
     }
 
     @Override
-    public GUIElement getGUIElement() {
+    public final GUIElement getGUIElement() {
         return this.guiElement;
     }
 
     @Override
     public void render(GUIRenderer renderer) {
         this.children.forEach(x -> x.render(renderer));
-        if (this.renderContainer) {
+        if (this.rendered) {
             this.guiElement.render(renderer);
         }
     }
 
-    public void addChild(Renderable child) {
-        child.getGUIElement().increasePosition(this.guiElement.getPosition());
+    public final void addChild(Renderable child) {
+        child.getGUIElement().increasePosition(this.guiElement.getPosition().getX(), this.guiElement.getPosition().getY());
         this.children.add(child);
     }
 
@@ -54,12 +53,12 @@ public class Container implements Renderable {
         this.children.forEach(x -> x.load());
     }
 
-    public boolean renderContainer() {
-        return renderContainer;
+    public final boolean isRendered() {
+        return rendered;
     }
 
-    public void renderContainer(boolean renderContainer) {
-        this.renderContainer = renderContainer;
+    public final void setRendered(boolean value) {
+        this.rendered = value;
     }
 
 }

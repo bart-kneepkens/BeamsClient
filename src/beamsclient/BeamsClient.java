@@ -93,6 +93,7 @@ public class BeamsClient {
 
         while (!Display.isCloseRequested() && keepRunning) {
             scene.update();
+            userInterface.update();
 
             masterRenderer.prepare();
 

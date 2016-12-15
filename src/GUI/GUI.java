@@ -5,7 +5,7 @@
  */
 package GUI;
 
-import GUI.lib.GUIElement;
+import GUI.lib.Renderable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -17,26 +17,23 @@ import java.util.List;
  */
 public class GUI {
     
-    private List<GUIElement> guiElements;
+    private final List<Renderable> elements;
 
     public GUI() {
-        this.guiElements = new ArrayList<>();
+        this.elements = new ArrayList<>();
     }
     
-    public void addElement(GUIElement element){
-        this.guiElements.add(element);
-        Collections.sort(guiElements, new Comparator<GUIElement>() {
-            @Override
-            public int compare(GUIElement o1, GUIElement o2) {
-                Integer z_index1 = o1.getZ_index();
-                Integer z_index2 = o2.getZ_index();
-                return z_index1.compareTo(z_index2);
-            }
+    public void addElement(Renderable element){
+        this.elements.add(element);
+        Collections.sort(elements, (Renderable o1, Renderable o2) -> {
+            Integer z_index1 = o1.getGUIElement().getZ_index();
+            Integer z_index2 = o2.getGUIElement().getZ_index();
+            return z_index1.compareTo(z_index2);
         });
     }
 
-    public List<GUIElement> getGuiElements() {
-        return guiElements;
+    public List<Renderable> getGuiElements() {
+        return elements;
     }
     
     

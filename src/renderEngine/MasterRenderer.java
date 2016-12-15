@@ -113,7 +113,7 @@ public class MasterRenderer {
      */
     public void render(UserInterface userInterface) {
         this.guiRenderer.start();
-        userInterface.getElements().forEach(x -> guiRenderer.render(x));
+        userInterface.getGui().getGuiElements().forEach(x -> guiRenderer.render(x));
         this.guiRenderer.stop();
     }
 

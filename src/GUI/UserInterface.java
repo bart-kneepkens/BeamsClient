@@ -7,6 +7,7 @@ package GUI;
 
 import GUI.lib.Renderable;
 import GUI.objects.Button;
+import GUI.objects.Container;
 import GUI.objects.Panel;
 import beamsClient.BeamsClient;
 import dataAccess.FileLoader;
@@ -21,6 +22,7 @@ import javax.swing.JDialog;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 import userInput.Event;
 import userInput.MouseInput;
 
@@ -29,29 +31,25 @@ import userInput.MouseInput;
  * @author Blackened
  */
 public class UserInterface {
-    private final List<Renderable> elements;
+    
+    private final GUI gui;
 
     public UserInterface() throws IOException {
-        this.elements = new ArrayList<>();
-
+        this.gui = new GUI();
+        
         //<editor-fold defaultstate="collapsed" desc="Buttons">
-        Button buttonExit = new Button(50, 50, new Vector2f(Display.getWidth() / 2 - 100, 15), 0);
+        Button buttonExit = new Button(50, 50, new Vector2f(0, 0), 0);
         buttonExit.loadTextureAtlas("buttons/buttonExit_Atlas");
-        buttonExit.load();
         buttonExit.subscribe(MouseInput.getMouseSubject());
         buttonExit.onClick(x -> this.buttonExit_Click(x));
-        this.elements.add(buttonExit);
 
-        Button buttonLoadTerrain = new Button(50, 50, new Vector2f(Display.getWidth() / 2 - 25, 15), 0);
+        Button buttonLoadTerrain = new Button(50, 50, new Vector2f(75, 0), 0);
         buttonLoadTerrain.loadTextureAtlas("buttons/buttonTerrain_Atlas");
-        buttonLoadTerrain.load();
         buttonLoadTerrain.subscribe(MouseInput.getMouseSubject());
         buttonLoadTerrain.onClick(x -> this.buttonLoadTerrain_Click(x));
-        this.elements.add(buttonLoadTerrain);
         
-        Button buttonResetAll = new Button(50, 50, new Vector2f(Display.getWidth() / 2 + 50, 15), 0);
+        Button buttonResetAll = new Button(50, 50, new Vector2f(150, 0), 0);
         buttonResetAll.loadTextureAtlas("buttons/buttonReset_Atlas");
-        buttonResetAll.load();
         buttonResetAll.subscribe(MouseInput.getMouseSubject());
         buttonResetAll.onClick(x -> {
             try {
@@ -60,20 +58,29 @@ public class UserInterface {
                 Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        this.elements.add(buttonResetAll);
         
         Panel panel = new Panel(250, 250, new Vector2f(Display.getWidth() / 2 - 125,-160), 1);
         panel.loadTexture("panel");
         panel.load();
-        this.elements.add(panel);
+        gui.addElement(panel);
+        
+        Container container = new Container(200, 50, new Vector2f(Display.getWidth()/2 - 100, 20), 0);
+        container.addChild(buttonExit);
+        container.addChild(buttonLoadTerrain);
+        container.addChild(buttonResetAll);
+        container.load();
+        container.renderContainer(true);
+        gui.addElement(container);
         
         //</editor-fold>
         
     }
 
-    public List<Renderable> getElements() {
-        return elements;
+    public GUI getGui() {
+        return gui;
     }
+    
+    
 
     private void buttonExit_Click(Event event) {
         BeamsClient.exit();

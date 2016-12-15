@@ -89,7 +89,7 @@ public class GUIElement {
         GUIElementLoader.reloadTextureCoords(this);
     }
 
-    protected void load() {
+    public void load() {
         this.vaoID = GUIElementLoader.loadToVAO(this);
     }
 

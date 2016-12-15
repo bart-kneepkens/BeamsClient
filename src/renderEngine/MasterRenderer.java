@@ -6,6 +6,7 @@
 package renderEngine;
 
 import GUI.GUI;
+import GUI.UserInterface;
 import terrain.lwjgl.TerrainRenderer;
 import GUI.lwjgl.GUIRenderer;
 import Game.Scene;
@@ -108,13 +109,11 @@ public class MasterRenderer {
     /**
      * Renders a graphical user interface to the display.
      *
-     * @param gui The user interface to be rendered to the display.
+     * @param userInterface
      */
-    public void render(GUI gui) {
+    public void render(UserInterface userInterface) {
         this.guiRenderer.start();
-        gui.getGuiElements().forEach(x -> {
-            this.guiRenderer.render(x);
-        });
+        userInterface.getElements().forEach(x -> guiRenderer.render(x));
         this.guiRenderer.stop();
     }
 

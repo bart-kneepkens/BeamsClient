@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import GUI.lib.Renderable;
 import GUI.objects.Button;
 import GUI.objects.Panel;
 import beamsClient.BeamsClient;
@@ -12,14 +13,14 @@ import dataAccess.FileLoader;
 import java.awt.FileDialog;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JDialog;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
-import org.newdawn.slick.opengl.TextureLoader;
-import org.newdawn.slick.util.ResourceLoader;
 import userInput.Event;
 import userInput.MouseInput;
 
@@ -28,28 +29,25 @@ import userInput.MouseInput;
  * @author Blackened
  */
 public class UserInterface {
-
-    private final GUI gui;
+    private final List<Renderable> elements;
 
     public UserInterface() throws IOException {
-
-        this.gui = new GUI();
+        this.elements = new ArrayList<>();
 
         //<editor-fold defaultstate="collapsed" desc="Buttons">
-        // Button 1
         Button buttonExit = new Button(50, 50, new Vector2f(Display.getWidth() / 2 - 100, 15), 0);
         buttonExit.loadTextureAtlas("buttons/buttonExit_Atlas");
         buttonExit.load();
         buttonExit.subscribe(MouseInput.getMouseSubject());
         buttonExit.onClick(x -> this.buttonExit_Click(x));
-        this.gui.addElement(buttonExit.getGUIElement());
+        this.elements.add(buttonExit);
 
         Button buttonLoadTerrain = new Button(50, 50, new Vector2f(Display.getWidth() / 2 - 25, 15), 0);
         buttonLoadTerrain.loadTextureAtlas("buttons/buttonTerrain_Atlas");
         buttonLoadTerrain.load();
         buttonLoadTerrain.subscribe(MouseInput.getMouseSubject());
         buttonLoadTerrain.onClick(x -> this.buttonLoadTerrain_Click(x));
-        this.gui.addElement(buttonLoadTerrain.getGUIElement());  
+        this.elements.add(buttonLoadTerrain);
         
         Button buttonResetAll = new Button(50, 50, new Vector2f(Display.getWidth() / 2 + 50, 15), 0);
         buttonResetAll.loadTextureAtlas("buttons/buttonReset_Atlas");
@@ -62,29 +60,19 @@ public class UserInterface {
                 Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        this.gui.addElement(buttonResetAll.getGUIElement());  
+        this.elements.add(buttonResetAll);
         
         Panel panel = new Panel(250, 250, new Vector2f(Display.getWidth() / 2 - 125,-160), 1);
         panel.loadTexture("panel");
         panel.load();
-        this.gui.addElement(panel.getGUIElement());
-        
-//        Panel panel2 = new Panel(100, 100, new Vector2f(Display.getWidth() / 2 - 150,0), 1);
-//        panel2.loadTexture("vine2");
-//        panel2.load();
-//        this.gui.addElement(panel2.getGUIElement());
+        this.elements.add(panel);
         
         //</editor-fold>
         
     }
 
-    /**
-     * Returns all elements of the GUI that need to be rendered.
-     *
-     * @return
-     */
-    public GUI getGUI() {
-        return this.gui;
+    public List<Renderable> getElements() {
+        return elements;
     }
 
     private void buttonExit_Click(Event event) {

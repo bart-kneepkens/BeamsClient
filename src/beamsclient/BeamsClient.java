@@ -80,7 +80,6 @@ public class BeamsClient {
     public static void main(String[] args) throws IOException {
 
         DisplayManager.createDisplay();
-
         loadDefaultUserInterface();
         loadDefaultScene();
 
@@ -97,7 +96,7 @@ public class BeamsClient {
 
             masterRenderer.prepare();
 
-            masterRenderer.render(userInterface.getGUI());
+            masterRenderer.render(userInterface);
             masterRenderer.render(scene);
 
             MouseInput.checkInputs();

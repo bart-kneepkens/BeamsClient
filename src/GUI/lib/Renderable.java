@@ -5,6 +5,8 @@
  */
 package GUI.lib;
 
+import GUI.lwjgl.GUIRenderer;
+
 
 /**
  *
@@ -17,5 +19,9 @@ public interface Renderable {
     default void load(){
         this.getGUIElement().load();
     }
+    
+    default void render(GUIRenderer renderer){
+        this.getGUIElement().render(renderer);
+    };
     
 }

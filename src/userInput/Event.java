@@ -5,9 +5,6 @@
  */
 package userInput;
 
-import GUI.lib.GUIElement;
-import userInput.MouseState;
-
 /**
  *
  * @author Blackened

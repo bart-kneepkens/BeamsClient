@@ -8,26 +8,26 @@ package userInput;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
-import renderEngine.DisplayManager;
 import rx.subjects.PublishSubject;
 
 /**
  *
  * @author Blackened
  */
-public class MouseInput {
+public class MouseInput{
 
-    private static final PublishSubject<MouseState> mouseSubject = PublishSubject.create();
+    private static PublishSubject<MouseState> mouseSubject = PublishSubject.create();
 
     private static boolean btn1Pressed;
 
     private static Vector2f pressOrigin;
 
     private static boolean btn2Pressed;
+    
+    private static MouseState mouseState;
 
     public static void checkInputs() {
-        MouseState mouseState = new MouseState(false, false, Mouse.getX(), Mouse.getY(), Mouse.getDX(), Mouse.getDY(), Mouse.getDWheel());
+        mouseState = new MouseState(false, false, Mouse.getX(), Mouse.getY(), Mouse.getDX(), Mouse.getDY(), Mouse.getDWheel());
         if (!Mouse.isGrabbed()) {
             if (btn2Pressed || btn1Pressed) {
                 Mouse.setGrabbed(true);
@@ -64,11 +64,14 @@ public class MouseInput {
             btn2Pressed = false;
             Mouse.setCursorPosition((int) pressOrigin.x, (int) ((int) Display.getHeight()-pressOrigin.y));
         }
-
         mouseSubject.onNext(mouseState);
     }
 
     public static PublishSubject<MouseState> getMouseSubject() {
         return mouseSubject;
+    }
+    
+    public static void clearSubject(){
+        mouseSubject = null;
     }
 }

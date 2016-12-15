@@ -112,7 +112,7 @@ public class MouseState {
         return new MouseState(this.button0Down, this.button1Down, this.X, this.Y, this.dX, value, this.scroll, this.pressOrigin);
     }
 
-    public boolean equals(MouseState other) {
+    public boolean doesEqual(MouseState other) {
         return this.isButton0Down() == other.isButton0Down()
                 && this.isButton1Down() == other.isButton1Down()
                 && this.getX() == other.getX()

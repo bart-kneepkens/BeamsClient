@@ -6,9 +6,18 @@
 package GUI.lib;
 
 import GUI.lwjgl.GUIElementLoader;
+import GUI.lwjgl.GUIRenderer;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
+import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
+import toolbox.Maths;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import org.newdawn.slick.opengl.Texture;
+import static toolbox.AttributeListPosition.TEXTURE_COORDS;
 import userInput.MouseState;
 
 /**
@@ -151,6 +160,29 @@ public class GUIElement {
                     && pos.y < this.getPosition().y + this.getHeight();
         }
         return false;
+    }
+
+    public void render(GUIRenderer renderer) {
+        GL30.glBindVertexArray(this.getVaoID());
+        GL20.glEnableVertexAttribArray(VERTEX_POSITIONS);
+        GL20.glEnableVertexAttribArray(TEXTURE_COORDS);
+
+        Matrix4f transformationMatrix = Maths.createTransformationMatrix(
+                new Vector2f(((2.0f * this.getPosition().x) / Display.getWidth()) - 1,
+                        ((2.0f * this.getPosition().y) / Display.getHeight()) - 1),
+                this.getRotation(),
+                this.getWidth() / (float) (Display.getWidth() / 2),
+                this.getHeight() / (float) (Display.getHeight() / 2));
+
+        renderer.loadUniformMatrix("transformationMatrix", transformationMatrix);
+
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, this.getTextureID());
+        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 6);
+
+        GL20.glDisableVertexAttribArray(VERTEX_POSITIONS);
+        GL20.glDisableVertexAttribArray(TEXTURE_COORDS);
+        GL30.glBindVertexArray(0);
     }
 
 }

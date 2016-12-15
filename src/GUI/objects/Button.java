@@ -12,7 +12,6 @@ import GUI.lwjgl.GUIElementLoader;
 import java.io.IOException;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import org.newdawn.slick.opengl.Texture;
 import rx.Observable;
 import userInput.MouseState;
 

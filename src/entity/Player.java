@@ -138,6 +138,9 @@ public class Player extends Entity {
     private void checkInputs() {
         if (Keyboard.isKeyDown(Keyboard.KEY_W) || Mouse.isButtonDown(0) && Mouse.isButtonDown(1)) {
             this.moveForward();
+            if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
+                this.moveForward();
+            }
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
             this.moveBackward();

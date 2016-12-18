@@ -10,7 +10,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.FloatBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
@@ -22,6 +24,7 @@ import toolbox.Convert;
 
 /**
  * hoi
+ *
  * @author Blackened
  */
 public class GUIElementLoader {
@@ -32,7 +35,7 @@ public class GUIElementLoader {
      */
     private static List<Integer> vaos = new ArrayList<>();
     private static List<Integer> vbos = new ArrayList<>();
-    private static List<Integer> textures = new ArrayList<>();
+    private static Map<String, Integer> textures = new HashMap<>();
 
     /**
      * Creates a new VAO, binds the data to one of the attribute lists.
@@ -48,18 +51,25 @@ public class GUIElementLoader {
 
         return vaoID;
     }
-    
-    public static void reloadTextureCoords(GUIElement guiElement){
+
+    public static void reloadTextureCoords(GUIElement guiElement) {
         storeDataInAttributeList(guiElement.getVaoID(), TEXTURE_COORDS, 2, guiElement.getTextureCoords());
-        
+
     }
 
     public static int loadTexture(String fileName) throws IOException {
-        Texture texture = null;
-            texture = TextureLoader.getTexture("PNG", new FileInputStream("res/textures/" + fileName + ".png"));
 
-        int textureID = texture.getTextureID();
-        return textureID;
+        if (textures.containsKey(fileName)) {
+            return textures.get(fileName);
+        } else {
+            Texture texture = null;
+
+            texture = TextureLoader.getTexture("PNG", new FileInputStream("res/textures/" + fileName + ".png"));
+            
+            int textureID = texture.getTextureID();
+            textures.put(fileName, textureID);
+            return textureID;
+        }
     }
 
     /**
@@ -93,7 +103,7 @@ public class GUIElementLoader {
         vbos.add(vboID);
 
         // VBO has to be bound aswel.
-        bindArrayBuffer(vboID);
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
 
         // Converts float array to an instance of FloatBuffer, which can
         // be stored in a VBO.
@@ -107,7 +117,7 @@ public class GUIElementLoader {
         GL20.glVertexAttribPointer(attributeNumber, coordinateSize, GL11.GL_FLOAT, false, 0, 0);
 
         // Unbind the VBO.
-        unbindArrayBuffer();
+        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
 
         // unbind VAO so that another may be bound.
         unbindVAO();
@@ -130,44 +140,12 @@ public class GUIElementLoader {
     }
 
     /**
-     * Binds the VBO, so that it can be modified.
-     *
-     * @param vboID The ID of the VBO that will be bound.
-     */
-    private static void bindArrayBuffer(int vboID) {
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
-    }
-
-    /**
-     * Binds the VBO, so that it can be modified.
-     *
-     * @param vboID The ID of the VBO that will be bound.
-     */
-    private static void bindElementArrayBuffer(int vboID) {
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, vboID);
-    }
-
-    /**
-     * Unbinds the VBO.
-     */
-    private static void unbindElementArrayBuffer() {
-        GL15.glBindBuffer(GL15.GL_ELEMENT_ARRAY_BUFFER, 0);
-    }
-
-    /**
-     * Unbinds the VBO.
-     */
-    private static void unbindArrayBuffer() {
-        GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-    }
-
-    /**
      * Cleans the memory of all VAO's and VBO's.
      */
     public static void cleanUp() {
         vaos.forEach(x -> GL30.glDeleteVertexArrays(x));
         vbos.forEach(x -> GL15.glDeleteBuffers(x));
-        textures.forEach(x -> GL11.glDeleteTextures(x));
+        textures.values().forEach(x -> GL11.glDeleteTextures(x));
     }
 
 }

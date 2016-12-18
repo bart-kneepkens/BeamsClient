@@ -56,8 +56,10 @@ public class DisplayManager {
     /**
      * Creates a new display, with width, height and the title specified as
      * static variables to the display manager.
+     *
+     * @throws org.lwjgl.LWJGLException
      */
-    public static void createDisplay() {
+    public static void createDisplay() throws LWJGLException {
 
         ContextAttribs attribs = new ContextAttribs(3, 2)
                 .withForwardCompatible(true)
@@ -66,10 +68,13 @@ public class DisplayManager {
         try {
             Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
             Display.create(new PixelFormat().withSamples(4).withDepthBits(24), attribs);
+
+            Display.setResizable(true);
             Display.setTitle(TITLE);
             GL11.glEnable(GL13.GL_MULTISAMPLE);
+            //Display.setVSyncEnabled(true);
             //Display.setFullscreen(true);
-
+            System.setProperty("org.lwjgl.opengl.Display.enableOSXFullscreenModeAPI", "true");
         } catch (LWJGLException ex) {
             Logger.getLogger(DisplayManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -84,11 +89,18 @@ public class DisplayManager {
      * display manager.
      */
     public static void updateDisplay() {
+
         Display.sync(FPS_CAP);
+
+        if (Display.wasResized()) {
+            GL11.glViewport(0, 0, Display.getWidth(), Display.getHeight());
+        }
+
         Display.update();
         long currentFrameTime = getCurrentTime();
         delta = (currentFrameTime - lastFrameTime) / 1000f;
         lastFrameTime = currentFrameTime;
+
     }
 
     /**

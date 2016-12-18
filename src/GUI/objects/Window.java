@@ -6,6 +6,7 @@
 package GUI.objects;
 
 import GUI.UserInterface;
+import GUI.lwjgl.GUIElementLoader;
 import java.io.IOException;
 import org.lwjgl.util.vector.Vector2f;
 import userInput.Event;
@@ -21,9 +22,10 @@ public class Window extends Container{
     
     public Window(UserInterface userInterface) throws IOException {
         super(400, 500, new Vector2f(25,300), 0);
+        this.getGUIElement().setTextureID(GUIElementLoader.loadTexture("window"));
         this.userInterface = userInterface;
         Button buttonClose = new Button(20, 20, 
-                new Vector2f(this.getGUIElement().getWidth() - 30,this.getGUIElement().getHeight() - 30)
+                new Vector2f(this.getGUIElement().getWidth() - 40,this.getGUIElement().getHeight() - 40)
                 , 1);
         buttonClose.loadTextureAtlas("buttons/cross_Atlas");
         buttonClose.onClick(x -> this.buttonClose_Click(x));

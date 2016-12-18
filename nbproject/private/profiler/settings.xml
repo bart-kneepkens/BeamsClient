@@ -3,6 +3,6 @@
 <properties>
 <comment/>
 <entry key="org.netbeans.modules.profiler.v2.features.ObjectsFeature_SETTINGS_FLAG">true</entry>
-<entry key="ACTIVATED_FEATURES">#org.netbeans.modules.profiler.v2.features.MonitorFeature@</entry>
+<entry key="ACTIVATED_FEATURES">#org.netbeans.modules.profiler.v2.features.ObjectsFeature@</entry>
 <entry key="org.netbeans.modules.profiler.v2.features.ObjectsFeature_MODE_FLAG">ProjectClassesMode</entry>
 </properties>

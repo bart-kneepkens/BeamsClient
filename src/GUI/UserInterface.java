@@ -46,7 +46,7 @@ public class UserInterface implements Autonomous{
         buttonExit.onClick(x -> this.buttonExit_Click(x));
 
         Button buttonLoadTerrain = new Button(50, 50, new Vector2f(75, 0), 0);
-        buttonLoadTerrain.loadTextureAtlas("buttons/buttonTerrain_Atlas");
+        buttonLoadTerrain.loadTextureAtlas("buttons/buttonSettings_Atlas");
         buttonLoadTerrain.subscribe(MouseInput.getMouseSubject());
         buttonLoadTerrain.onClick(x -> {
             try {
@@ -58,14 +58,13 @@ public class UserInterface implements Autonomous{
 
         
 
-        Panel panel = new Panel(250, 250, new Vector2f(Display.getWidth() / 2 - 125, -160), 1);
-        panel.loadTexture("panel");
-        panel.load();
-        gui.addElement(panel);
+        Panel panel = new Panel(250, 250, new Vector2f(-25, -170), 1);
+        panel.loadTexture("window");
 
         Container container = new Container(200, 50, new Vector2f(Display.getWidth() / 2 - 100, 20), 0);
         container.addChild(buttonExit);
         container.addChild(buttonLoadTerrain);
+        container.addChild(panel);
         container.load();
         container.setRendered(true);
         gui.addElement(container);

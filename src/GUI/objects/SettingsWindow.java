@@ -10,7 +10,10 @@ import beamsClient.BeamsClient;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.vector.Vector2f;
+import renderEngine.DisplayManager;
 import userInput.Event;
 import userInput.MouseInput;
 
@@ -23,7 +26,7 @@ public class SettingsWindow extends Window {
     public SettingsWindow(UserInterface userInterface) throws IOException {
         super(userInterface);
 
-        Button btnResetScene = new Button(40, 40, new Vector2f(150, 20), 1);
+        Button btnResetScene = new Button(40, 40, new Vector2f(150, 25), 1);
         btnResetScene.loadTextureAtlas("buttons/buttonReset_Atlas");
         btnResetScene.subscribe(MouseInput.getMouseSubject());
         btnResetScene.onClick(x -> {
@@ -34,7 +37,8 @@ public class SettingsWindow extends Window {
             }
         });
         this.addChild(btnResetScene);
-        Button btnResetUI = new Button(40, 40, new Vector2f(210, 20), 1);
+
+        Button btnResetUI = new Button(40, 40, new Vector2f(210, 25), 1);
         btnResetUI.loadTextureAtlas("buttons/buttonReset_Atlas");
         btnResetUI.subscribe(MouseInput.getMouseSubject());
         btnResetUI.onClick(x -> {
@@ -45,16 +49,26 @@ public class SettingsWindow extends Window {
             }
         });
         this.addChild(btnResetUI);
+
+        Checkbox cboxAntiAliasing = new Checkbox(17, 17, new Vector2f(40, 400 - 25), 1);
+        cboxAntiAliasing.subscribe(MouseInput.getMouseSubject());
+        cboxAntiAliasing.onClick(x -> this.cboxAntiAliasing_Toggle(x));
+        this.addChild(cboxAntiAliasing);
+
     }
 
     private void btnResetScene_Click(Event event) throws IOException {
         BeamsClient.loadDefaultScene();
         System.out.println("Resetted scene!");
     }
-    
-    private void btnResetUI_Click(Event event) throws IOException{
+
+    private void btnResetUI_Click(Event event) throws IOException {
         BeamsClient.loadDefaultUserInterface();
         System.out.println("Resetted user interface!");
+    }
+    
+    private void cboxAntiAliasing_Toggle(Event event){
+        Checkbox cbox = (Checkbox) event.getSender();
     }
 
 }

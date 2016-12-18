@@ -67,6 +67,21 @@ public class Loader {
         return rawModel;
     }
 
+    /**
+     * Used for fonts so far!
+     * @param positions
+     * @param textureCoords
+     * @return 
+     */
+    public static int loadToVAO(float[] positions, float[] textureCoords) {
+        int vaoID = createVAO();
+        unbindVAO();
+        storeDataInAttributeList(vaoID, VERTEX_POSITIONS, 2, positions);
+        storeDataInAttributeList(vaoID, TEXTURE_COORDS, 2, textureCoords);
+
+        return vaoID;
+    }
+
     public static int loadTexture(File file) {
         int textureID;
         if (textureMap.containsKey(file.getAbsolutePath())) {

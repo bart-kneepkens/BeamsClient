@@ -57,9 +57,8 @@ public class DisplayManager {
      * Creates a new display, with width, height and the title specified as
      * static variables to the display manager.
      *
-     * @throws org.lwjgl.LWJGLException
      */
-    public static void createDisplay() throws LWJGLException {
+    public static void createDisplay(){
 
         ContextAttribs attribs = new ContextAttribs(3, 2)
                 .withForwardCompatible(true)
@@ -74,7 +73,7 @@ public class DisplayManager {
             GL11.glEnable(GL13.GL_MULTISAMPLE);
             //Display.setVSyncEnabled(true);
             //Display.setFullscreen(true);
-            System.setProperty("org.lwjgl.opengl.Display.enableOSXFullscreenModeAPI", "true");
+            
         } catch (LWJGLException ex) {
             Logger.getLogger(DisplayManager.class.getName()).log(Level.SEVERE, null, ex);
         }

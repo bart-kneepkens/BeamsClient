@@ -7,19 +7,22 @@ package GUI.objects;
 
 import GUI.lib.GUIElement;
 import GUI.lib.MouseActor;
-import GUI.lib.Renderable;
 import GUI.lwjgl.GUIElementLoader;
 import java.io.IOException;
 import org.lwjgl.util.vector.Vector2f;
 import rx.Observable;
 import userInput.MouseState;
+import GUI.lib.GUIRenderable;
+import dataAccess.lwjgl.Loader;
+import fontMeshCreator.FontType;
+import java.io.File;
 
 /**
  * TODO
  *
  * @author Blackened
  */
-public class Checkbox extends MouseActor implements Renderable {
+public class Checkbox extends MouseActor implements GUIRenderable {
 
     private boolean checked = false;
 
@@ -28,6 +31,12 @@ public class Checkbox extends MouseActor implements Renderable {
     public Checkbox(int width, int height, Vector2f position, int z_index) throws IOException {
         this.guiElement = new GUIElement(width, height, position, z_index);
         this.loadTextureAtlas("buttons/ckbox");
+        
+        FontType font = new FontType(Loader.loadTexture(new File("res/fonts/arial.png")), new File("res/fonts/arial.fnt"));
+
+        Label label = new Label("hello does this wosdafdddasdfadsfsadfasdfasdfsdafsadfsadfsadfsdfrk?", 1f, font, new Vector2f(position.getX(), position.getY()), 1, false);
+        label.setColour(1, 1, 1);
+        this.guiElement.setLabel(label);
     }
 
     @Override

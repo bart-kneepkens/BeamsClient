@@ -6,16 +6,16 @@
 package GUI.objects;
 
 import GUI.lib.GUIElement;
-import GUI.lib.Renderable;
 import GUI.lwjgl.GUIElementLoader;
 import java.io.IOException;
 import org.lwjgl.util.vector.Vector2f;
+import GUI.lib.GUIRenderable;
 
 /**
  *
  * @author Blackened
  */
-public class Panel implements Renderable {
+public class Panel implements GUIRenderable {
 
     private final GUIElement guiElement;
 

@@ -5,9 +5,18 @@
  */
 package GUI.lwjgl;
 
-import GUI.lib.Renderable;
-import org.lwjgl.opengl.GL11;
 import renderEngine.Renderer;
+import GUI.lib.GUIRenderable;
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL13;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
+import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector2f;
+import static toolbox.AttributeListPosition.TEXTURE_COORDS;
+import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
+import toolbox.Maths;
 
 /**
  * Renders GUI elements. IE elements that don't transform due to view matrix
@@ -15,15 +24,29 @@ import renderEngine.Renderer;
  *
  * @author Blackened
  */
-public class GUIRenderer extends GUIShader implements Renderer<Renderable> {
+public class GUIRenderer extends GUIShader implements Renderer<GUIRenderable> {
 
-    public GUIRenderer() {
-        GL11.glEnable(GL11.GL_CULL_FACE);
-        GL11.glCullFace(GL11.GL_BACK);
-    }
-    
     @Override
-    public void render(Renderable element){
-        element.render(this);
+    public void render(GUIRenderable element) {
+        GL30.glBindVertexArray(element.getGUIElement().getVaoID());
+        GL20.glEnableVertexAttribArray(VERTEX_POSITIONS);
+        GL20.glEnableVertexAttribArray(TEXTURE_COORDS);
+
+        Matrix4f transformationMatrix = Maths.createTransformationMatrix(
+                new Vector2f(((2.0f * element.getGUIElement().getPosition().x) / Display.getWidth()) - 1,
+                        ((2.0f * element.getGUIElement().getPosition().y) / Display.getHeight()) - 1),
+                element.getGUIElement().getRotation(),
+                element.getGUIElement().getWidth() / (float) (Display.getWidth() / 2),
+                element.getGUIElement().getHeight() / (float) (Display.getHeight() / 2));
+
+        this.loadUniformMatrix("transformationMatrix", transformationMatrix);
+
+        GL13.glActiveTexture(GL13.GL_TEXTURE0);
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, element.getGUIElement().getTextureID());
+        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 6);
+
+        GL20.glDisableVertexAttribArray(VERTEX_POSITIONS);
+        GL20.glDisableVertexAttribArray(TEXTURE_COORDS);
+        GL30.glBindVertexArray(0);
     }
 }

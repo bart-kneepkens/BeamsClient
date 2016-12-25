@@ -12,6 +12,7 @@ import GUI.lwjgl.GUIRenderer;
 import Game.Scene;
 import entity.Entity;
 import entity.lwjgl.EntityRenderer;
+import fontRendering.FontRenderer;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
@@ -59,6 +60,8 @@ public class MasterRenderer {
      */
     private final TerrainRenderer terrainRenderer;
 
+    private final FontRenderer fontRenderer;
+
     /**
      * This matrix determines which objects can be seen with the camera object,
      * and is used for all 3D rendering.
@@ -71,8 +74,11 @@ public class MasterRenderer {
     public MasterRenderer() {
         Matrix4f projectionMatrix = this.createProjectionMatrix();
         this.guiRenderer = new GUIRenderer();
+        this.fontRenderer = new FontRenderer();
+
         this.terrainRenderer = new TerrainRenderer(projectionMatrix);
         this.entityRenderer = new EntityRenderer(projectionMatrix);
+
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
     }
@@ -112,9 +118,19 @@ public class MasterRenderer {
      * @param userInterface
      */
     public void render(UserInterface userInterface) {
-        this.guiRenderer.start();
+        this.startFontRendering(userInterface);
+        userInterface.getGui().getElements().forEach(x -> {
+            if(x.getGUIElement().getLabel() != null){
+                this.fontRenderer.renderText(x.getGUIElement().getLabel());
+            }
+                });
+        this.stopFontRendering();
+        
+        this.startGUIElementRendering(userInterface);
         userInterface.getGui().getElements().forEach(x -> guiRenderer.render(x));
-        this.guiRenderer.stop();
+        this.stopGUIElementRendering();
+
+        
     }
 
     /**
@@ -135,9 +151,30 @@ public class MasterRenderer {
         this.viewMatrix = Maths.createViewMatrix(scene.getCamera());
     }
 
+    private void startFontRendering(UserInterface userInterface) {
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        //GL11.glDisable(GL11.GL_DEPTH_TEST);
+        this.fontRenderer.start();
+    }
+
+    private void stopFontRendering() {
+        this.fontRenderer.stop();
+        GL11.glDisable(GL11.GL_BLEND);
+        //GL11.glEnable(GL11.GL_DEPTH_TEST);
+    }
+
+    private void startGUIElementRendering(UserInterface userInterface) {
+        this.guiRenderer.start();
+    }
+
+    private void stopGUIElementRendering() {
+        this.guiRenderer.stop();
+    }
+
     /**
-     * Does all the necessary preparations needed to renderBatch the terrain of a
- scene.
+     * Does all the necessary preparations needed to renderBatch the terrain of
+     * a scene.
      *
      * @param scene The scene of which the terrain will be rendered.
      */
@@ -148,8 +185,8 @@ public class MasterRenderer {
     }
 
     /**
-     * Does all the necessary preparations needed to renderBatch the entities of a
- scene.
+     * Does all the necessary preparations needed to renderBatch the entities of
+     * a scene.
      *
      * @param scene The scene of which the entities will be rendered.
      */

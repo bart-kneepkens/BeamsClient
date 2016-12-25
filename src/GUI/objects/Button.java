@@ -6,7 +6,6 @@
 package GUI.objects;
 
 import GUI.lib.MouseActor;
-import GUI.lib.Renderable;
 import GUI.lib.GUIElement;
 import GUI.lwjgl.GUIElementLoader;
 import java.io.IOException;
@@ -14,6 +13,7 @@ import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import rx.Observable;
 import userInput.MouseState;
+import GUI.lib.GUIRenderable;
 
 /**
  * An instance of this class represents a button that can be clicked, pressed
@@ -21,7 +21,7 @@ import userInput.MouseState;
  *
  * @author Blackened
  */
-public class Button extends MouseActor implements Renderable {
+public class Button extends MouseActor implements GUIRenderable {
 
     private int textureID;
 

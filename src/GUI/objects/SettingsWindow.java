@@ -10,10 +10,7 @@ import beamsClient.BeamsClient;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.vector.Vector2f;
-import renderEngine.DisplayManager;
 import userInput.Event;
 import userInput.MouseInput;
 
@@ -26,7 +23,7 @@ public class SettingsWindow extends Window {
     public SettingsWindow(UserInterface userInterface) throws IOException {
         super(userInterface);
 
-        Button btnResetScene = new Button(40, 40, new Vector2f(150, 25), 1);
+        Button btnResetScene = new Button(40, 40, new Vector2f(150, 25), -1);
         btnResetScene.loadTextureAtlas("buttons/buttonReset_Atlas");
         btnResetScene.subscribe(MouseInput.getMouseSubject());
         btnResetScene.onClick(x -> {
@@ -36,9 +33,9 @@ public class SettingsWindow extends Window {
                 Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        this.addChild(btnResetScene);
+        this.addChild(btnResetScene, true);
 
-        Button btnResetUI = new Button(40, 40, new Vector2f(210, 25), 1);
+        Button btnResetUI = new Button(40, 40, new Vector2f(210, 25), -1);
         btnResetUI.loadTextureAtlas("buttons/buttonReset_Atlas");
         btnResetUI.subscribe(MouseInput.getMouseSubject());
         btnResetUI.onClick(x -> {
@@ -48,12 +45,12 @@ public class SettingsWindow extends Window {
                 Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
             }
         });
-        this.addChild(btnResetUI);
+        this.addChild(btnResetUI, true);
 
-        Checkbox cboxAntiAliasing = new Checkbox(17, 17, new Vector2f(40, 400 - 25), 1);
+        Checkbox cboxAntiAliasing = new Checkbox(17, 17, new Vector2f(400, 600 - 25), -1);
         cboxAntiAliasing.subscribe(MouseInput.getMouseSubject());
         cboxAntiAliasing.onClick(x -> this.cboxAntiAliasing_Toggle(x));
-        this.addChild(cboxAntiAliasing);
+        this.addChild(cboxAntiAliasing, true);
 
     }
 

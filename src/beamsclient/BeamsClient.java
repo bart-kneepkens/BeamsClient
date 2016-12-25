@@ -53,7 +53,6 @@ public class BeamsClient {
     public static final File DEFAULT_SUN_TEXTURE = new File("res/textures/WhiteTexture.png");
     private static final File DEFAULT_BULLET_MODEL = new File("res/models/bullet.obj");
     private static final File DEFAULT_BULLET_TEXTURE = new File("res/textures/WhiteTexture.png");
-    private static final File DEFAULT_FONT_TEXTURE = new File("res/fonts/helvetica.png");
     //</editor-fold>
 
     /**
@@ -87,11 +86,6 @@ public class BeamsClient {
         DisplayManager.createDisplay();
         loadDefaultUserInterface();
         loadDefaultScene();
-        
-        FontType font = new FontType(Loader.loadTexture(DEFAULT_FONT_TEXTURE), new File("res/fonts/helvetica.fnt"));
-        GUIText text = new GUIText("hello does this work? lele kekekek", 1, font, new Vector2f(0,0.5f), 1, true);
-        
-        text.setColour(1, 1, 1);
 
         MasterRenderer masterRenderer = new MasterRenderer();
 
@@ -112,8 +106,6 @@ public class BeamsClient {
 
             MouseInput.checkInputs();
             KeyboardInput.checkInputs();
-            
-            TextMaster.render();
 
             DisplayManager.updateDisplay();
 

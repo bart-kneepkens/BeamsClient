@@ -5,6 +5,7 @@
  */
 package GUI.objects;
 
+import GUI.UserInterface;
 import org.lwjgl.util.vector.Vector2f;
 import renderEngine.DisplayManager;
 import toolbox.Autonomous;
@@ -21,8 +22,8 @@ public class MovingContainer extends Container implements Autonomous{
     
     private boolean active = false;
     
-    public MovingContainer(int width, int height, Vector2f position, int z_index) {
-        super(width, height, position, z_index);
+    public MovingContainer(int width, int height, Vector2f position, int z_index, UserInterface userInterface) {
+        super(width, height, position, z_index, userInterface);
         this.activePosition = new Vector2f(position.getX(), position.getY());
         this.restPosition = new Vector2f(position.getX(), position.getY() - 100);
     }

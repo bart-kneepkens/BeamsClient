@@ -7,15 +7,15 @@ package GUI.objects;
 
 import GUI.lib.GUIElement;
 import GUI.lib.MouseActor;
-import GUI.lib.Renderable;
 import rx.Observable;
 import userInput.MouseState;
+import GUI.lib.GUIRenderable;
 
 /**
  * TODO
  * @author Blackened
  */
-public class Slider extends MouseActor implements Renderable{
+public class Slider extends MouseActor implements GUIRenderable{
 
     @Override
     public void subscribe(Observable<MouseState> inputObservable) {

@@ -7,19 +7,17 @@ package GUI;
 
 import GUI.objects.Button;
 import GUI.objects.Container;
+import GUI.objects.Label;
 import GUI.objects.Window;
-import GUI.objects.MovingContainer;
 import GUI.objects.Panel;
 import GUI.objects.SettingsWindow;
 import beamsClient.BeamsClient;
-import dataAccess.FileLoader;
-import java.awt.FileDialog;
+import dataAccess.lwjgl.Loader;
+import fontMeshCreator.FontType;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JDialog;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import toolbox.Autonomous;
@@ -30,10 +28,10 @@ import userInput.MouseInput;
  *
  * @author Blackened
  */
-public class UserInterface implements Autonomous{
+public class UserInterface implements Autonomous {
 
     private final GUI gui;
-    
+
     private boolean active = true;
 
     public UserInterface() throws IOException {
@@ -56,22 +54,17 @@ public class UserInterface implements Autonomous{
             }
         });
 
-        
-
         Panel panel = new Panel(250, 250, new Vector2f(-25, -170), 1);
         panel.loadTexture("window");
 
-        Container container = new Container(200, 50, new Vector2f(Display.getWidth() / 2 - 100, 20), 0);
-        container.addChild(buttonExit);
-        container.addChild(buttonLoadTerrain);
-        container.addChild(panel);
+        Container container = new Container(200, 50, new Vector2f(Display.getWidth() / 2 - 100, 20), 0, this);
+        container.addChild(buttonExit, true);
+        container.addChild(buttonLoadTerrain, true);
+        container.addChild(panel, true);
         container.load();
         container.setRendered(true);
         gui.addElement(container);
-        
-        
         //</editor-fold>
-
     }
 
     public GUI getGui() {
@@ -107,15 +100,16 @@ public class UserInterface implements Autonomous{
 //            }
 //        }
 //        dialog.dispose();
-        
+
         this.openWindow(new SettingsWindow(this).loadWindow());
     }
-    
-    public void openWindow(Window window){
+
+    public void openWindow(Window window) {
         this.gui.addElement(window);
     }
-    
-    public void closeWindow(Window window){
+
+    public void closeWindow(Window window) {
+        
         this.gui.removeElement(window);
     }
 

@@ -5,23 +5,17 @@
  */
 package GUI.lib;
 
-import GUI.lwjgl.GUIRenderer;
 
 
 /**
  *
  * @author Blackened
  */
-public interface Renderable {
+public interface GUIRenderable {
     
     GUIElement getGUIElement();
     
     default void load(){
         this.getGUIElement().load();
     }
-    
-    default void render(GUIRenderer renderer){
-        this.getGUIElement().render(renderer);
-    };
-    
 }

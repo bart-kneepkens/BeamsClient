@@ -34,10 +34,10 @@ public class Character {
 	 * @param yTexSize
 	 *            - the height of the character in the texture atlas.
 	 * @param xOffset
-	 *            - the x distance from the curser to the left edge of the
+	 *            - the x distance from the cursor to the left edge of the
 	 *            character's quad.
 	 * @param yOffset
-	 *            - the y distance from the curser to the top edge of the
+	 *            - the y distance from the cursor to the top edge of the
 	 *            character's quad.
 	 * @param sizeX
 	 *            - the width of the character's quad in screen space.

@@ -5,11 +5,11 @@
  */
 package GUI;
 
-import GUI.lib.Renderable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import toolbox.Autonomous;
+import GUI.lib.GUIRenderable;
 
 /**
  *
@@ -17,7 +17,7 @@ import toolbox.Autonomous;
  */
 public class GUI {
     
-    private final List<Renderable> elements;
+    private final List<GUIRenderable> elements;
     
     private final List<Autonomous> autonomousElements;
 
@@ -26,9 +26,9 @@ public class GUI {
         this.autonomousElements = new ArrayList<>();
     }
     
-    public void addElement(Renderable element){
+    public void addElement(GUIRenderable element){
         this.elements.add(element);
-        Collections.sort(elements, (Renderable o1, Renderable o2) -> {
+        Collections.sort(elements, (GUIRenderable o1, GUIRenderable o2) -> {
             Integer z_index1 = o1.getGUIElement().getZ_index();
             Integer z_index2 = o2.getGUIElement().getZ_index();
             return z_index1.compareTo(z_index2);
@@ -39,7 +39,7 @@ public class GUI {
         }
     }
 
-    public List<Renderable> getElements() {
+    public List<GUIRenderable> getElements() {
         return elements;
     }
 
@@ -47,7 +47,7 @@ public class GUI {
         return autonomousElements;
     }
     
-    public void removeElement(Renderable element){
+    public void removeElement(GUIRenderable element){
         this.elements.remove(element);
     }
     

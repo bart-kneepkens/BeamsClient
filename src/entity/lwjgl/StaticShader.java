@@ -29,8 +29,8 @@ public class StaticShader extends ShaderProgram {
     /**
      * The locations of the shader files.
      */
-    private static final String VERTEX_FILE = "src/entity/lwjgl/vertexShader";
-    private static final String FRAGMENT_FILE = "src/entity/lwjgl/fragmentShader";
+    private static final String VERTEX_FILE = "src/entity/lwjgl/vertexShader.glsl";
+    private static final String FRAGMENT_FILE = "src/entity/lwjgl/fragmentShader.glsl";
 
     /**
      * Creates a new instance of the static shader class.

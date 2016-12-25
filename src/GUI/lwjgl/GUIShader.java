@@ -20,8 +20,8 @@ public class GUIShader extends ShaderProgram{
     /**
      * The locations of the shader files.
      */
-    private static final String VERTEX_FILE = "src/GUI/lwjgl/vertexShaderGUI";
-    private static final String FRAGMENT_FILE = "src/GUI/lwjgl/fragmentShaderGUI";
+    private static final String VERTEX_FILE = "src/GUI/lwjgl/vertexShaderGUI.glsl";
+    private static final String FRAGMENT_FILE = "src/GUI/lwjgl/fragmentShaderGUI.glsl";
 
     public GUIShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);

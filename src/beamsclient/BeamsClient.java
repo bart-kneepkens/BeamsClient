@@ -272,7 +272,6 @@ public class BeamsClient {
         List<Light> lights = new ArrayList<>();
         lights.add(lamp.getLight());
         lights.add(lamp1.getLight());
-        lights.add(sun.getLight());
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Scene">
@@ -294,7 +293,8 @@ public class BeamsClient {
         // Adds the lamp entities to the scene.
         scene.addEntity(lamp);
         scene.addEntity(lamp1);
-        scene.addEntity(sun);
+        
+        scene.setSun(sun);
         //</editor-fold>
         
         System.out.println("Default scene successfully loaded.");

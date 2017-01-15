@@ -90,7 +90,7 @@ public class MasterRenderer {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         if(DisplayManager.white){
-            GL11.glClearColor(1, 1, 1, 1);
+            GL11.glClearColor(0.9f, 1f, 1, 1);
         }
         else{
             GL11.glClearColor(0, 0, 0, 1);
@@ -171,11 +171,14 @@ public class MasterRenderer {
     }
 
     private void startGUIElementRendering(UserInterface userInterface) {
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         this.guiRenderer.start();
     }
 
     private void stopGUIElementRendering() {
         this.guiRenderer.stop();
+        GL11.glDisable(GL11.GL_BLEND);
     }
 
     /**

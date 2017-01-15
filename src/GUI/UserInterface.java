@@ -9,6 +9,7 @@ import GUI.lib.GUIParent;
 import GUI.lib.GUIRenderable;
 import GUI.objects.Button;
 import GUI.objects.Container;
+import GUI.objects.Panel;
 import GUI.objects.SettingsWindow;
 import beamsClient.BeamsClient;
 import java.io.IOException;
@@ -41,12 +42,18 @@ public class UserInterface implements Autonomous, GUIParent {
         this.children = new ArrayList<>();
 
         //<editor-fold defaultstate="collapsed" desc="Buttons">
-        Button buttonExit = new Button(this, 50, 50, new Vector2f(75, 25), 1);
+        Button buttonExit = new Button(this, 50, 50, new Vector2f(75, 40), 1);
         buttonExit.loadTextureAtlas("buttons/buttonExit_Atlas");
         buttonExit.subscribe(MouseInput.getMouseSubject());
-        buttonExit.onClick(x -> this.buttonExit_Click(x));
+        buttonExit.onClick(x -> {
+            try {
+                this.buttonExit_Click(x);
+            } catch (IOException ex) {
+                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        });
 
-        Button buttonSettings = new Button(this, 50, 50, new Vector2f(175, 25), 1);
+        Button buttonSettings = new Button(this, 50, 50, new Vector2f(175, 40), 1);
         buttonSettings.loadTextureAtlas("buttons/buttonSettings_Atlas");
         buttonSettings.subscribe(MouseInput.getMouseSubject());
         buttonSettings.onClick(x -> {
@@ -57,8 +64,8 @@ public class UserInterface implements Autonomous, GUIParent {
             }
         });
 
-        Container container = new Container(this, 300, 100, new Vector2f(Display.getWidth() / 2 - 150, Display.getHeight() - 100), 1);
-        container.loadBackground("window");
+        Container container = new Container(this, 300, 120, new Vector2f(Display.getWidth() / 2 - 150, Display.getHeight() - 120), 1);
+        container.loadBackground("dockBackdrop");
         container.enableBackground();
         container.addChild(buttonExit);
         container.addChild(buttonSettings);
@@ -72,7 +79,7 @@ public class UserInterface implements Autonomous, GUIParent {
         //this.gui.getAutonomousElements().forEach(x -> x.update());
     }
 
-    private void buttonExit_Click(Event event) {
+    private void buttonExit_Click(Event event) throws IOException {
         BeamsClient.exit();
     }
 
@@ -93,6 +100,8 @@ public class UserInterface implements Autonomous, GUIParent {
     @Override
     public Collection<GUIRenderable> getChildren() {
         return this.children;
+        
+        
     }
 
     @Override

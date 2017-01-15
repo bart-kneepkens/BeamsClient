@@ -7,7 +7,6 @@ package GUI.objects;
 
 import fontMeshCreator.FontType;
 import fontMeshCreator.GUIText;
-import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 
 /**
@@ -24,8 +23,6 @@ public class Label extends GUIText{
                 position, 
         maxLineLength, 
         centered);
-        
-        System.out.println("x: " + this.getPosition().getX() + ", y: " + this.getPosition().getY());
     }
     
     

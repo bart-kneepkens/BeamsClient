@@ -43,8 +43,6 @@ public class Panel implements GUIRenderable {
         };
 
         this.guiElement.setTextureCoords(newTextureCoords);
-        
-        System.out.println("TextureHeight: " + texture.getHeight() + ", TextureWidth: " + texture.getWidth());
     }
 
     @Override

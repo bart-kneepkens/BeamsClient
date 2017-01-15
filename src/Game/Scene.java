@@ -6,6 +6,7 @@
 package Game;
 
 import entity.Entity;
+import entity.Lamp;
 import entity.Light;
 import entity.Player;
 import entity.texture.TexturedModel;
@@ -27,11 +28,22 @@ public class Scene {
     private List<Light> lights;
 
     private Player player;
+    
+    private Lamp sun;
 
     private Terrain terrain;
     
     Map<TexturedModel, List<Entity>> entities;
 
+    public Lamp getSun() {
+        return sun;
+    }
+
+    public void setSun(Lamp sun) {
+        this.sun = sun;
+        this.addEntity(sun);
+        this.lights.add(sun.getLight());
+    }
 
     public void setTerrain(Terrain terrain) {
         this.terrain = terrain;

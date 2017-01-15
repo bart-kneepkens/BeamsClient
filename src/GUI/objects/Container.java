@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.lwjgl.util.vector.Vector2f;
 import GUI.lib.GUIRenderable;
+import GUI.lib.MouseActor;
 import java.io.IOException;
 import java.util.Collection;
 
@@ -97,6 +98,9 @@ public class Container implements GUIRenderable, GUIParent {
         this.children.forEach(x -> {
                 this.getParent().removeChild(x);
                 x.unload();
+                if(x instanceof MouseActor){
+                    ((MouseActor) x).unsubscribeToUserInput();
+                }
         });
         this.children.clear();
         
@@ -109,6 +113,9 @@ public class Container implements GUIRenderable, GUIParent {
     public void hide(){
         this.children.forEach(x -> {
                 this.getParent().removeChild(x);
+                if(x instanceof MouseActor){
+                    ((MouseActor) x).unsubscribeToUserInput();
+                }
         });
         
         this.getParent().removeChild(this.panel);

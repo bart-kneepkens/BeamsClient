@@ -10,7 +10,7 @@ void main(void){
 
     out_Colour = texture(textureSampler, pass_textureCoords);
 
-    if(out_Colour.a<0.9){
+    if(out_Colour.a<0.01){
         discard;
     }
 

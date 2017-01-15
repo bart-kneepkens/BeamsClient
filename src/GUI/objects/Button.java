@@ -55,12 +55,12 @@ public class Button extends MouseActor implements GUIRenderable {
      */
     private void changeToHoverTexture() {
         this.guiElement.loadTextureCoords(new float[]{
-            0.5f, 0,
-            0.5f, 0.5f,
-            1f, 0.5f,
-            1f, 0.5f,
-            1f, 0,
-            0.5f, 0
+            this.guiElement.getTexture().getWidth()/ 2, 0,
+            this.guiElement.getTexture().getWidth()/ 2, this.guiElement.getTexture().getHeight() / 2,
+            this.guiElement.getTexture().getWidth(), this.guiElement.getTexture().getHeight() / 2,
+            this.guiElement.getTexture().getWidth(), this.guiElement.getTexture().getHeight() / 2,
+            this.guiElement.getTexture().getWidth(), 0,
+            this.guiElement.getTexture().getWidth()/ 2, 0
         });
     }
 
@@ -70,10 +70,10 @@ public class Button extends MouseActor implements GUIRenderable {
     private void changeToMainTexture() {
         this.guiElement.loadTextureCoords(new float[]{
             0, 0,
-            0, 0.5f,
-            0.5f, 0.5f,
-            0.5f, 0.5f,
-            0.5f, 0,
+            0, this.guiElement.getTexture().getHeight() / 2,
+            this.guiElement.getTexture().getWidth()/ 2, this.guiElement.getTexture().getHeight() / 2,
+            this.guiElement.getTexture().getWidth()/ 2, this.guiElement.getTexture().getHeight() / 2,
+            this.guiElement.getTexture().getWidth()/ 2, 0,
             0, 0
         });
     }
@@ -83,12 +83,12 @@ public class Button extends MouseActor implements GUIRenderable {
      */
     private void changeToClickTexture() {
         this.guiElement.loadTextureCoords(new float[]{
-            0f, 0.5f,
-            0f, 1f,
-            0.5f, 1f,
-            0.5f, 1f,
-            0.5f, 0.5f,
-            0f, 0.5f
+            0f, this.guiElement.getTexture().getHeight() / 2,
+            0f, this.guiElement.getTexture().getHeight(),
+            this.guiElement.getTexture().getWidth()/ 2, this.guiElement.getTexture().getHeight(),
+            this.guiElement.getTexture().getWidth()/ 2, this.guiElement.getTexture().getHeight(),
+            this.guiElement.getTexture().getWidth()/ 2, this.guiElement.getTexture().getHeight() / 2,
+            0f, this.guiElement.getTexture().getHeight() / 2
         });
     }
 
@@ -118,7 +118,19 @@ public class Button extends MouseActor implements GUIRenderable {
     }
 
     public void loadTextureAtlas(String name) throws IOException {
-        this.guiElement.setTexture(GUIElementLoader.loadTexture(name));
+        Texture texture = GUIElementLoader.loadTexture(name);
+        this.guiElement.setTexture(texture);
+        
+        float[] newTextureCoords = new float[]{
+            0, 0,
+            0, texture.getHeight(),
+            texture.getWidth(), texture.getHeight(),
+            texture.getWidth(), texture.getHeight(),
+            texture.getWidth(), 0,
+            0, 0
+        };
+
+        this.guiElement.setTextureCoords(newTextureCoords);
         this.changeToMainTexture();
     }
 

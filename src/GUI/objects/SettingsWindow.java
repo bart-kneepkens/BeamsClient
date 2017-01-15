@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import javax.swing.JDialog;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
+import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 import userInput.Event;
 import userInput.MouseInput;
@@ -122,9 +123,13 @@ public class SettingsWindow extends Window {
         Checkbox cbox = (Checkbox) event.getSender();
         if (cbox.isChecked()){
             DisplayManager.white = true;
+            BeamsClient.getScene().getSun().getLight().setColour(new Vector3f(1f,1f,0.9f));
+            BeamsClient.getScene().getSun().getLight().setAttenuation(new Vector3f(0.5f,0,0));
         }
         else{
             DisplayManager.white = false;
+            BeamsClient.getScene().getSun().getLight().setColour(new Vector3f(1,1,1));
+            BeamsClient.getScene().getSun().getLight().setAttenuation(new Vector3f(1f,0,0));
         }
     }
 

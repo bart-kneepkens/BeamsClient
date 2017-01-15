@@ -15,7 +15,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,7 +33,6 @@ import userInput.MouseInput;
  */
 public class UserInterface implements Autonomous, GUIParent {
 
-    
     private final List<GUIRenderable> children;
 
     private boolean active = true;
@@ -56,13 +57,13 @@ public class UserInterface implements Autonomous, GUIParent {
             }
         });
 
-
         Container container = new Container(this, 300, 100, new Vector2f(Display.getWidth() / 2 - 150, Display.getHeight() - 100), 1);
         container.loadBackground("window");
         container.enableBackground();
         container.addChild(buttonExit);
         container.addChild(buttonSettings);
         container.load();
+        container.show();
         //</editor-fold>
     }
 
@@ -76,7 +77,7 @@ public class UserInterface implements Autonomous, GUIParent {
     }
 
     private void buttonLoadTerrain_Click(Event event) throws IOException {
-        new SettingsWindow(this).loadWindow();
+        new SettingsWindow(this).loadWindow().show();
     }
 
     @Override
@@ -96,12 +97,14 @@ public class UserInterface implements Autonomous, GUIParent {
 
     @Override
     public void addChild(GUIRenderable child) {
-        this.children.add(child);
-        Collections.sort(this.children, (GUIRenderable o1, GUIRenderable o2) -> {
-            Integer z_index1 = o1.getGUIElement().getZ_index();
-            Integer z_index2 = o2.getGUIElement().getZ_index();
-            return z_index2.compareTo(z_index1);
-        });
+        if (!this.children.contains(child)) {
+            this.children.add(child);
+            Collections.sort(this.children, (GUIRenderable o1, GUIRenderable o2) -> {
+                Integer z_index1 = o1.getGUIElement().getZ_index();
+                Integer z_index2 = o2.getGUIElement().getZ_index();
+                return z_index2.compareTo(z_index1);
+            });
+        }
     }
 
     @Override

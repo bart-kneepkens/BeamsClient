@@ -23,8 +23,12 @@ public class Container implements GUIRenderable, GUIParent {
     private final List<GUIRenderable> children;
 
     private final Panel panel;
+    
+    private int paddingLeft = 0;
+    private int paddingTop = 0;
 
     protected GUIParent parent;
+    
 
     public Container(GUIParent parent, int width, int height, Vector2f position, int z_index) throws IOException {
         this.parent = parent;
@@ -39,7 +43,7 @@ public class Container implements GUIRenderable, GUIParent {
 
     @Override
     public final void addChild(GUIRenderable child) {
-        child.getGUIElement().increasePosition(this.panel.getGUIElement().getPosition().getX(), this.panel.getGUIElement().getPosition().getY());
+        child.getGUIElement().increasePosition(this.panel.getGUIElement().getPosition().getX() + this.paddingLeft, this.panel.getGUIElement().getPosition().getY() + this.paddingTop);
         child.getGUIElement().setZ_index(this.getGUIElement().getZ_index() + child.getGUIElement().getZ_index());
         this.children.add(child);
     }
@@ -49,7 +53,6 @@ public class Container implements GUIRenderable, GUIParent {
         this.children.forEach(x
                 -> {
             x.load();
-            this.parent.addChild(x);
         });
     }
 
@@ -62,6 +65,23 @@ public class Container implements GUIRenderable, GUIParent {
         this.parent.addChild(this.panel);
     }
 
+    public int getPaddingLeft() {
+        return paddingLeft;
+    }
+
+    public void setPaddingLeft(int paddingLeft) {
+        this.paddingLeft = paddingLeft;
+    }
+
+    public int getPaddingTop() {
+        return paddingTop;
+    }
+
+    public void setPaddingTop(int paddingTop) {
+        this.paddingTop = paddingTop;
+    }
+
+    
     public void disableBackground() {
         this.panel.unload();
         this.parent.removeChild(this.panel);
@@ -85,12 +105,21 @@ public class Container implements GUIRenderable, GUIParent {
         GUIRenderable.super.unload();
     }
     
+    @Override
     public void hide(){
         this.children.forEach(x -> {
                 this.getParent().removeChild(x);
         });
         
         this.getParent().removeChild(this.panel);
+    }
+    
+    @Override
+    public void show(){
+        this.children.forEach(x -> {
+            this.getParent().addChild(x);
+            });
+        this.getParent().addChild(this.panel);
     }
 
     @Override

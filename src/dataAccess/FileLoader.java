@@ -77,8 +77,6 @@ public class FileLoader {
                 }
             }
 
-            System.out.println("File reading complete!");
-
             if (model == null || heightTable == null || blendMap == null || bgTexture == null || rTexture == null || gTexture == null || bTexture == null) {
                 System.out.println("But went wrong!");
             }
@@ -87,7 +85,8 @@ public class FileLoader {
             terrain.setBlendMap(blendMap);
             TerrainTexturePack texturePack = new TerrainTexturePack(bgTexture, rTexture, gTexture, bTexture);
             terrain.setTexturePack(texturePack);
-
+            
+            System.out.println("Terrain file successfully loaded.");
             return terrain;
         }
 

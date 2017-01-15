@@ -24,4 +24,12 @@ public interface GUIRenderable {
     default void unload(){
         this.getGUIElement().unload();
     }
+    
+    default void show(){
+        this.getParent().addChild(this);
+    }
+    
+    default void hide(){
+        this.getParent().removeChild(this);
+    }
 }

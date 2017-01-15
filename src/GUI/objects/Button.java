@@ -16,6 +16,7 @@ import org.lwjgl.util.vector.Vector3f;
 import rx.Observable;
 import userInput.MouseState;
 import GUI.lib.GUIRenderable;
+import org.newdawn.slick.opengl.Texture;
 
 /**
  * An instance of this class represents a button that can be clicked, pressed
@@ -25,7 +26,6 @@ import GUI.lib.GUIRenderable;
  */
 public class Button extends MouseActor implements GUIRenderable {
 
-    private int textureID;
     
     private GUIParent parent;
 
@@ -118,12 +118,8 @@ public class Button extends MouseActor implements GUIRenderable {
     }
 
     public void loadTextureAtlas(String name) throws IOException {
-        this.guiElement.setTextureID(GUIElementLoader.loadTexture(name));
+        this.guiElement.setTexture(GUIElementLoader.loadTexture(name));
         this.changeToMainTexture();
-    }
-
-    public int getTextureID() {
-        return textureID;
     }
 
     @Override

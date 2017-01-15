@@ -132,7 +132,7 @@ public class Checkbox extends MouseActor implements GUIRenderable {
     }
 
     public final void loadTextureAtlas(String name) throws IOException {
-        this.guiElement.setTextureID(GUIElementLoader.loadTexture(name));
+        this.guiElement.setTexture(GUIElementLoader.loadTexture(name));
         this.changeToUncheckedTexture();
     }
 

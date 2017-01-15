@@ -35,7 +35,7 @@ public class GUIElementLoader {
      */
     private static List<Integer> vaos = new ArrayList<>();
     private static List<Integer> vbos = new ArrayList<>();
-    private static Map<String, Integer> textures = new HashMap<>();
+    private static Map<String, Texture> textures = new HashMap<>();
 
     /**
      * Creates a new VAO, binds the data to one of the attribute lists.
@@ -61,7 +61,7 @@ public class GUIElementLoader {
 
     }
 
-    public static int loadTexture(String fileName) throws IOException {
+    public static Texture loadTexture(String fileName) throws IOException {
 
         if (textures.containsKey(fileName)) {
             return textures.get(fileName);
@@ -69,10 +69,10 @@ public class GUIElementLoader {
             Texture texture = null;
 
             texture = TextureLoader.getTexture("PNG", new FileInputStream("res/textures/" + fileName + ".png"));
-            
+
             int textureID = texture.getTextureID();
-            textures.put(fileName, textureID);
-            return textureID;
+            textures.put(fileName, texture);
+            return texture;
         }
     }
 
@@ -153,7 +153,7 @@ public class GUIElementLoader {
     public static void cleanUp() {
         vaos.forEach(x -> GL30.glDeleteVertexArrays(x));
         vbos.forEach(x -> GL15.glDeleteBuffers(x));
-        textures.values().forEach(x -> GL11.glDeleteTextures(x));
+        textures.values().forEach(x -> GL11.glDeleteTextures(x.getTextureID()));
     }
 
 }

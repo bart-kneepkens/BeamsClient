@@ -5,10 +5,8 @@
  */
 package GUI.objects;
 
-import GUI.UserInterface;
 import GUI.lib.GUIParent;
 import java.io.IOException;
-import java.util.Random;
 import org.lwjgl.util.vector.Vector2f;
 import userInput.Event;
 import userInput.MouseInput;
@@ -19,14 +17,14 @@ import userInput.MouseInput;
  */
 public class Window extends Container{
     
-    public static Random random = new Random();
-    
     public Window(GUIParent parent) throws IOException {
-        super(parent, 400 + random.nextInt(100), 500, new Vector2f(25,300), 0);
-        super.loadBackground("window");
+        super(parent, 400, 500, new Vector2f(25,300), 0);
+        super.loadBackground("testWindow");
+        super.setPaddingLeft(33);
+        super.setPaddingTop(32);
         super.enableBackground();
         Button buttonClose = new Button(this, 20, 20, 
-                new Vector2f(this.getGUIElement().getWidth() - 40, 20)
+                new Vector2f(this.getGUIElement().getWidth() - 63, -5)
                 , 1);
         buttonClose.loadTextureAtlas("buttons/cross_Atlas");
         buttonClose.onClick(x -> this.buttonClose_Click(x));

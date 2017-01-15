@@ -296,6 +296,8 @@ public class BeamsClient {
         scene.addEntity(lamp1);
         scene.addEntity(sun);
         //</editor-fold>
+        
+        System.out.println("Default scene successfully loaded.");
     }
 
     /**

@@ -11,6 +11,7 @@ import GUI.lwjgl.GUIElementLoader;
 import java.io.IOException;
 import org.lwjgl.util.vector.Vector2f;
 import GUI.lib.GUIRenderable;
+import org.newdawn.slick.opengl.Texture;
 
 /**
  *
@@ -29,7 +30,21 @@ public class Panel implements GUIRenderable {
     
 
     public void loadTexture(String name) throws IOException {
-        this.guiElement.setTextureID(GUIElementLoader.loadTexture(name));
+        Texture texture = GUIElementLoader.loadTexture(name);
+        this.guiElement.setTexture(texture);
+        
+        float[] newTextureCoords = new float[]{
+            0, 0,
+            0, texture.getHeight(),
+            texture.getWidth(), texture.getHeight(),
+            texture.getWidth(), texture.getHeight(),
+            texture.getWidth(), 0,
+            0, 0
+        };
+
+        this.guiElement.setTextureCoords(newTextureCoords);
+        
+        System.out.println("TextureHeight: " + texture.getHeight() + ", TextureWidth: " + texture.getWidth());
     }
 
     @Override

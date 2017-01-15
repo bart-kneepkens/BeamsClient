@@ -10,6 +10,7 @@ import GUI.objects.Label;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
+import org.newdawn.slick.opengl.Texture;
 import userInput.MouseState;
 
 /**
@@ -26,7 +27,7 @@ public class GUIElement {
     
     private int z_index;
 
-    private int textureID;
+    private Texture texture;
     /**
      * IN PIXELS!
      */
@@ -109,10 +110,6 @@ public class GUIElement {
     public Label getLabel() {
         return label;
     }
-    
-    public int getTextureID() {
-        return textureID;
-    }
 
     public float[] getTextureCoords() {
         return textureCoords;
@@ -142,8 +139,12 @@ public class GUIElement {
         return origin;
     }
 
-    public void setTextureID(int textureID) {
-        this.textureID = textureID;
+    public Texture getTexture() {
+        return texture;
+    }
+
+    public void setTexture(Texture texture) {
+        this.texture = texture;
     }
 
     public void setLabel(Label label) {

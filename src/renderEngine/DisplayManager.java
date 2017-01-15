@@ -22,6 +22,8 @@ import org.lwjgl.opengl.PixelFormat;
  * @author Blackened
  */
 public class DisplayManager {
+    
+    public static boolean white = false;
 
     /**
      * The width of the display in pixels.

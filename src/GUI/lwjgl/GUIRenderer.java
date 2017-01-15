@@ -42,7 +42,7 @@ public class GUIRenderer extends GUIShader implements Renderer<GUIRenderable> {
         this.loadUniformMatrix("transformationMatrix", transformationMatrix);
 
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, element.getGUIElement().getTextureID());
+        GL11.glBindTexture(GL11.GL_TEXTURE_2D, element.getGUIElement().getTexture().getTextureID());
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, 6);
 
         GL20.glDisableVertexAttribArray(VERTEX_POSITIONS);

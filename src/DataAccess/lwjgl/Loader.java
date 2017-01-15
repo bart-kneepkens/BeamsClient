@@ -106,7 +106,6 @@ public class Loader {
             if (Settings.ANISOTROPIC_FILTERING) {
                 float amount = Math.min(4f, GL11.glGetFloat(EXTTextureFilterAnisotropic.GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT));
                 GL11.glTexParameterf(GL11.GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, amount);
-                System.out.println("anisotropic filtering enabled with amount = " + amount);
             }
         } else {
             System.out.println("no anisotropic filtering possible!");

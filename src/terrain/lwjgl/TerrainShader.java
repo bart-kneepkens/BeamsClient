@@ -26,8 +26,8 @@ public class TerrainShader extends ShaderProgram{
     /**
      * The locations of the shader files.
      */
-    private static final String VERTEX_FILE = "src/terrain/lwjgl/vertexShader";
-    private static final String FRAGMENT_FILE = "src/terrain/lwjgl/fragmentShader";
+    private static final String VERTEX_FILE = "src/terrain/lwjgl/vertexShader.glsl";
+    private static final String FRAGMENT_FILE = "src/terrain/lwjgl/fragmentShader.glsl";
     
     
 

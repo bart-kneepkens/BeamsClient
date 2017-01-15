@@ -33,8 +33,8 @@ public class GUIRenderer extends GUIShader implements Renderer<GUIRenderable> {
         GL20.glEnableVertexAttribArray(TEXTURE_COORDS);
 
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(
-                new Vector2f(((2.0f * element.getGUIElement().getPosition().x) / Display.getWidth()) - 1,
-                        ((2.0f * element.getGUIElement().getPosition().y) / Display.getHeight()) - 1),
+                new Vector2f(((2.0f * element.getGUIElement().getPosition().x) / Display.getWidth() - 1),
+                        -1 * ((2.0f * element.getGUIElement().getPosition().y) / Display.getHeight()) + 1f),
                 element.getGUIElement().getRotation(),
                 element.getGUIElement().getWidth() / (float) (Display.getWidth() / 2),
                 element.getGUIElement().getHeight() / (float) (Display.getHeight() / 2));

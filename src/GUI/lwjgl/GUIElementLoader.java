@@ -43,13 +43,17 @@ public class GUIElementLoader {
      * @param guiElement
      * @return
      */
-    public static int loadToVAO(GUIElement guiElement) {
+    public static int loadVAO(GUIElement guiElement) {
         int vaoID = createVAO();
         unbindVAO();
         storeDataInAttributeList(vaoID, VERTEX_POSITIONS, 3, guiElement.getOrigin());
         storeDataInAttributeList(vaoID, TEXTURE_COORDS, 2, guiElement.getTextureCoords());
 
         return vaoID;
+    }
+    
+    public static void unloadVAO(GUIElement guiElement){
+        destroyVAO(guiElement.getVaoID());
     }
 
     public static void reloadTextureCoords(GUIElement guiElement) {
@@ -82,6 +86,10 @@ public class GUIElementLoader {
         // Adds VAO to list so that it can be cleared when needed.
         vaos.add(vaoID);
         return vaoID;
+    }
+    
+    private static void destroyVAO(int vaoID){
+        GL30.glDeleteVertexArrays(vaoID);
     }
 
     /**

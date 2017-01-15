@@ -5,17 +5,18 @@
  */
 package GUI;
 
+import GUI.lib.GUIParent;
+import GUI.lib.GUIRenderable;
 import GUI.objects.Button;
 import GUI.objects.Container;
-import GUI.objects.Label;
-import GUI.objects.Window;
-import GUI.objects.Panel;
 import GUI.objects.SettingsWindow;
 import beamsClient.BeamsClient;
-import dataAccess.lwjgl.Loader;
-import fontMeshCreator.FontType;
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.opengl.Display;
@@ -28,25 +29,26 @@ import userInput.MouseInput;
  *
  * @author Blackened
  */
-public class UserInterface implements Autonomous {
+public class UserInterface implements Autonomous, GUIParent {
 
-    private final GUI gui;
+    
+    private final List<GUIRenderable> children;
 
     private boolean active = true;
 
     public UserInterface() throws IOException {
-        this.gui = new GUI();
+        this.children = new ArrayList<>();
 
         //<editor-fold defaultstate="collapsed" desc="Buttons">
-        Button buttonExit = new Button(50, 50, new Vector2f(0, 0), 0);
+        Button buttonExit = new Button(this, 50, 50, new Vector2f(75, 25), 1);
         buttonExit.loadTextureAtlas("buttons/buttonExit_Atlas");
         buttonExit.subscribe(MouseInput.getMouseSubject());
         buttonExit.onClick(x -> this.buttonExit_Click(x));
 
-        Button buttonLoadTerrain = new Button(50, 50, new Vector2f(75, 0), 0);
-        buttonLoadTerrain.loadTextureAtlas("buttons/buttonSettings_Atlas");
-        buttonLoadTerrain.subscribe(MouseInput.getMouseSubject());
-        buttonLoadTerrain.onClick(x -> {
+        Button buttonSettings = new Button(this, 50, 50, new Vector2f(175, 25), 1);
+        buttonSettings.loadTextureAtlas("buttons/buttonSettings_Atlas");
+        buttonSettings.subscribe(MouseInput.getMouseSubject());
+        buttonSettings.onClick(x -> {
             try {
                 this.buttonLoadTerrain_Click(x);
             } catch (IOException ex) {
@@ -54,26 +56,19 @@ public class UserInterface implements Autonomous {
             }
         });
 
-        Panel panel = new Panel(250, 250, new Vector2f(-25, -170), 1);
-        panel.loadTexture("window");
 
-        Container container = new Container(200, 50, new Vector2f(Display.getWidth() / 2 - 100, 20), 0, this);
-        container.addChild(buttonExit, true);
-        container.addChild(buttonLoadTerrain, true);
-        container.addChild(panel, true);
+        Container container = new Container(this, 300, 100, new Vector2f(Display.getWidth() / 2 - 150, Display.getHeight() - 100), 1);
+        container.loadBackground("window");
+        container.enableBackground();
+        container.addChild(buttonExit);
+        container.addChild(buttonSettings);
         container.load();
-        container.setRendered(true);
-        gui.addElement(container);
         //</editor-fold>
-    }
-
-    public GUI getGui() {
-        return gui;
     }
 
     @Override
     public void update() {
-        this.gui.getAutonomousElements().forEach(x -> x.update());
+        //this.gui.getAutonomousElements().forEach(x -> x.update());
     }
 
     private void buttonExit_Click(Event event) {
@@ -81,36 +76,7 @@ public class UserInterface implements Autonomous {
     }
 
     private void buttonLoadTerrain_Click(Event event) throws IOException {
-//        Mouse.setGrabbed(false);
-//        JDialog dialog = new JDialog();
-//        FileDialog fd = new FileDialog(dialog, "Choose a file", FileDialog.LOAD);
-//        fd.setDirectory("C:\\");
-//        fd.setFilenameFilter((File dir, String name) -> name.endsWith(".ter"));
-//        fd.setVisible(true);
-//
-//        String filename = fd.getDirectory() + fd.getFile();
-//        if (fd.getFile() == null) {
-//            System.out.println("You cancelled the choice");
-//        } else {
-//            try {
-//                BeamsClient.getScene().setTerrain(FileLoader.loadTerrain(new File(filename)));
-//            } catch (IOException ex) {
-//                dialog.dispose();
-//                Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
-//            }
-//        }
-//        dialog.dispose();
-
-        this.openWindow(new SettingsWindow(this).loadWindow());
-    }
-
-    public void openWindow(Window window) {
-        this.gui.addElement(window);
-    }
-
-    public void closeWindow(Window window) {
-        
-        this.gui.removeElement(window);
+        new SettingsWindow(this).loadWindow();
     }
 
     @Override
@@ -121,5 +87,35 @@ public class UserInterface implements Autonomous {
     @Override
     public void setActive(boolean value) {
         this.active = value;
+    }
+
+    @Override
+    public Collection<GUIRenderable> getChildren() {
+        return this.children;
+    }
+
+    @Override
+    public void addChild(GUIRenderable child) {
+        this.children.add(child);
+        Collections.sort(this.children, (GUIRenderable o1, GUIRenderable o2) -> {
+            Integer z_index1 = o1.getGUIElement().getZ_index();
+            Integer z_index2 = o2.getGUIElement().getZ_index();
+            return z_index2.compareTo(z_index1);
+        });
+    }
+
+    @Override
+    public void removeChild(GUIRenderable child) {
+        this.children.remove(child);
+    }
+
+    @Override
+    public void addChildren(Collection<GUIRenderable> children) {
+        this.children.addAll(children);
+        Collections.sort(this.children, (GUIRenderable o1, GUIRenderable o2) -> {
+            Integer z_index1 = o1.getGUIElement().getZ_index();
+            Integer z_index2 = o2.getGUIElement().getZ_index();
+            return z_index2.compareTo(z_index1);
+        });
     }
 }

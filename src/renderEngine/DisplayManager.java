@@ -66,7 +66,7 @@ public class DisplayManager {
 
         try {
             Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
-            Display.create(new PixelFormat().withSamples(4).withDepthBits(24), attribs);
+            Display.create(new PixelFormat().withSamples(8).withDepthBits(24), attribs);
 
             Display.setResizable(true);
             Display.setTitle(TITLE);

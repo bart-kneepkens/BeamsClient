@@ -30,6 +30,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 import static toolbox.AttributeListPosition.NORMAL_VECTORS;
 import static toolbox.AttributeListPosition.TEXTURE_COORDS;
 import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
+import toolbox.Settings;
 
 /**
  * An instance of this class is responsible for loading data into a VAO and
@@ -69,9 +70,10 @@ public class Loader {
 
     /**
      * Used for fonts so far!
+     *
      * @param positions
      * @param textureCoords
-     * @return 
+     * @return
      */
     public static int loadToVAO(float[] positions, float[] textureCoords) {
         int vaoID = createVAO();
@@ -101,11 +103,13 @@ public class Loader {
         GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR_MIPMAP_LINEAR);
         GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL14.GL_TEXTURE_LOD_BIAS, 0f);
         if (GLContext.getCapabilities().GL_EXT_texture_filter_anisotropic) {
-            float amount = Math.min(4f, GL11.glGetFloat(EXTTextureFilterAnisotropic.GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT));
-            GL11.glTexParameterf(GL11.GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, amount);
-            System.out.println("anisotropic filtering enabled with amount = " + amount);
+            if (Settings.ANISOTROPIC_FILTERING) {
+                float amount = Math.min(4f, GL11.glGetFloat(EXTTextureFilterAnisotropic.GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT));
+                GL11.glTexParameterf(GL11.GL_TEXTURE_2D, EXTTextureFilterAnisotropic.GL_TEXTURE_MAX_ANISOTROPY_EXT, amount);
+                System.out.println("anisotropic filtering enabled with amount = " + amount);
+            }
         } else {
-            System.out.println("no anisotropic filtering!");
+            System.out.println("no anisotropic filtering possible!");
         }
         return textureID;
     }

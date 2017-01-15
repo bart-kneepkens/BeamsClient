@@ -5,7 +5,9 @@
  */
 package GUI.objects;
 
+import GUI.UserInterface;
 import GUI.lib.GUIElement;
+import GUI.lib.GUIParent;
 import GUI.lib.MouseActor;
 import GUI.lwjgl.GUIElementLoader;
 import java.io.IOException;
@@ -27,14 +29,18 @@ public class Checkbox extends MouseActor implements GUIRenderable {
     private boolean checked = false;
 
     private final GUIElement guiElement;
+    
+    private GUIParent parent;
 
-    public Checkbox(int width, int height, Vector2f position, int z_index) throws IOException {
+    public Checkbox(GUIParent parent, int width, int height, Vector2f position, int z_index) throws IOException {
         this.guiElement = new GUIElement(width, height, position, z_index);
         this.loadTextureAtlas("buttons/ckbox");
-        
+        this.parent = parent;
+    }
+    
+    public void setLabel(String text){
         FontType font = new FontType(Loader.loadTexture(new File("res/fonts/arial.png")), new File("res/fonts/arial.fnt"));
-
-        Label label = new Label("hello does this wosdafdddasdfadsfsadfasdfasdfsdafsadfsadfsadfsdfrk?", 1f, font, new Vector2f(position.getX(), position.getY()), 1, false);
+        Label label = new Label(text, 0.65f, font, new Vector2f(this.guiElement.getPosition().getX() + this.guiElement.getWidth() + 10, this.guiElement.getPosition().getY()), 0.5f, false);
         label.setColour(1, 1, 1);
         this.guiElement.setLabel(label);
     }
@@ -137,5 +143,10 @@ public class Checkbox extends MouseActor implements GUIRenderable {
         } else {
             this.changeToUncheckedTexture();
         }
+    }
+
+    @Override
+    public GUIParent getParent() {
+        return this.parent;
     }
 }

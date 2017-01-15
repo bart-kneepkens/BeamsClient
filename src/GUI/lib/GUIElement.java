@@ -6,19 +6,10 @@
 package GUI.lib;
 
 import GUI.lwjgl.GUIElementLoader;
-import GUI.lwjgl.GUIRenderer;
 import GUI.objects.Label;
 import org.lwjgl.opengl.Display;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL13;
-import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
-import toolbox.Maths;
-import org.lwjgl.opengl.GL20;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
-import static toolbox.AttributeListPosition.TEXTURE_COORDS;
 import userInput.MouseState;
 
 /**
@@ -47,12 +38,12 @@ public class GUIElement {
     private Label label;
 
     private final float[] origin = {
-        0f, 1f, 0f,
         0f, 0f, 0f,
+        0f, -1f, 0f,
+        1f, -1f, 0f,
+        1f, -1f, 0f,
         1f, 0f, 0f,
-        1f, 0f, 0f,
-        1f, 1f, 0f,
-        0f, 1f, 0f
+        0f, 0f, 0f
     };
 
     public float[] textureCoords = new float[]{
@@ -69,6 +60,7 @@ public class GUIElement {
      * @param width
      * @param height
      * @param position The position of the left bottom corner of the GUI-element
+     * @param z_index
      * @param rotation
      */
     public GUIElement(int width, int height, Vector2f position, int z_index, Vector3f rotation) {
@@ -93,11 +85,16 @@ public class GUIElement {
     }
 
     public void load() {
-        this.vaoID = GUIElementLoader.loadToVAO(this);
+        this.vaoID = GUIElementLoader.loadVAO(this);
+    }
+    
+    public void unload(){
+        GUIElementLoader.unloadVAO(this);
     }
 
     public void increasePosition(float dx, float dy) {
         this.position = new Vector2f(this.position.x + dx, this.position.y + dy);
+        if(this.label != null)this.label.setPosition(new Vector2f(this.label.getPosition().getX() + dx, this.label.getPosition().getY() + dy));
     }
     
     public int getZ_index() {
@@ -121,6 +118,10 @@ public class GUIElement {
         return textureCoords;
     }
 
+    public void setZ_index(int z_index) {
+        this.z_index = z_index;
+    }
+    
     public int getWidth() {
         return width;
     }
@@ -160,8 +161,8 @@ public class GUIElement {
     public boolean inRange(MouseState mouseState) {
         if (mouseState.getX() > this.getPosition().x
                 && mouseState.getX() < this.getPosition().x + this.getWidth()) {
-            return mouseState.getY() > this.getPosition().y
-                    && mouseState.getY() < this.getPosition().y + this.getHeight();
+            return Display.getHeight() -  mouseState.getY() > this.getPosition().y
+                    && Display.getHeight() - mouseState.getY() < this.getPosition().y + this.getHeight();
         }
         return false;
     }
@@ -169,8 +170,8 @@ public class GUIElement {
     public boolean inRange(Vector2f pos) {
         if (pos.x > this.getPosition().x
                 && pos.x < this.getPosition().x + this.getWidth()) {
-            return pos.y > this.getPosition().y
-                    && pos.y < this.getPosition().y + this.getHeight();
+            return Display.getHeight() - pos.y > this.getPosition().y
+                    && Display.getHeight() - pos.y < this.getPosition().y + this.getHeight();
         }
         return false;
     }

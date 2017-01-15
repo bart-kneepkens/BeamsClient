@@ -101,8 +101,9 @@ public class BeamsClient {
 
             masterRenderer.prepare();
 
-            masterRenderer.render(userInterface);
+            
             masterRenderer.render(scene);
+            masterRenderer.render(userInterface);
 
             MouseInput.checkInputs();
             KeyboardInput.checkInputs();
@@ -114,7 +115,7 @@ public class BeamsClient {
             if (frameCount % 100 == 0) {
                 fps = 1f / (((System.currentTimeMillis() - lastTime) / 1000f) / 100f);
                 lastTime = System.currentTimeMillis();
-                System.out.println("fps: " + fps);
+                Display.setTitle("Beams (fps: " + Math.round(fps) + ")");
             }
             //</editor-fold>
         }

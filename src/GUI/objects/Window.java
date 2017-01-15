@@ -6,8 +6,9 @@
 package GUI.objects;
 
 import GUI.UserInterface;
-import GUI.lwjgl.GUIElementLoader;
+import GUI.lib.GUIParent;
 import java.io.IOException;
+import java.util.Random;
 import org.lwjgl.util.vector.Vector2f;
 import userInput.Event;
 import userInput.MouseInput;
@@ -18,22 +19,23 @@ import userInput.MouseInput;
  */
 public class Window extends Container{
     
-    public Window(UserInterface userInterface) throws IOException {
-        super(400, 500, new Vector2f(25,300), 0, userInterface);
-        this.getGUIElement().setTextureID(GUIElementLoader.loadTexture("window"));
-        super.userInterface = userInterface;
-        Button buttonClose = new Button(20, 20, 
-                new Vector2f(this.getGUIElement().getWidth() - 40,this.getGUIElement().getHeight() - 40)
-                , -1);
+    public static Random random = new Random();
+    
+    public Window(GUIParent parent) throws IOException {
+        super(parent, 400 + random.nextInt(100), 500, new Vector2f(25,300), 0);
+        super.loadBackground("window");
+        super.enableBackground();
+        Button buttonClose = new Button(this, 20, 20, 
+                new Vector2f(this.getGUIElement().getWidth() - 40, 20)
+                , 1);
         buttonClose.loadTextureAtlas("buttons/cross_Atlas");
         buttonClose.onClick(x -> this.buttonClose_Click(x));
         buttonClose.subscribe(MouseInput.getMouseSubject());
-        this.addChild(buttonClose, true);
-        this.setRendered(true);
+        this.addChild(buttonClose);
     }
     
     private void buttonClose_Click(Event event){
-        super.close();
+        super.hide();
     }
     
     public final Window loadWindow(){

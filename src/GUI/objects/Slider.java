@@ -6,6 +6,7 @@
 package GUI.objects;
 
 import GUI.lib.GUIElement;
+import GUI.lib.GUIParent;
 import GUI.lib.MouseActor;
 import rx.Observable;
 import userInput.MouseState;
@@ -16,6 +17,8 @@ import GUI.lib.GUIRenderable;
  * @author Blackened
  */
 public class Slider extends MouseActor implements GUIRenderable{
+    
+    private GUIParent parent;
 
     @Override
     public void subscribe(Observable<MouseState> inputObservable) {
@@ -25,6 +28,11 @@ public class Slider extends MouseActor implements GUIRenderable{
     @Override
     public GUIElement getGUIElement() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public GUIParent getParent() {
+        return this.parent;
     }
     
 }

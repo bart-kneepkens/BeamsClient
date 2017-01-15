@@ -15,7 +15,13 @@ public interface GUIRenderable {
     
     GUIElement getGUIElement();
     
+    GUIParent getParent();
+    
     default void load(){
         this.getGUIElement().load();
+    }
+    
+    default void unload(){
+        this.getGUIElement().unload();
     }
 }

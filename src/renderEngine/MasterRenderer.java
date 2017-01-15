@@ -5,7 +5,6 @@
  */
 package renderEngine;
 
-import GUI.GUI;
 import GUI.UserInterface;
 import terrain.lwjgl.TerrainRenderer;
 import GUI.lwjgl.GUIRenderer;
@@ -118,19 +117,19 @@ public class MasterRenderer {
      * @param userInterface
      */
     public void render(UserInterface userInterface) {
+        
+        
+        this.startGUIElementRendering(userInterface);
+        userInterface.getChildren().forEach(x -> guiRenderer.render(x));
+        this.stopGUIElementRendering();
+        
         this.startFontRendering(userInterface);
-        userInterface.getGui().getElements().forEach(x -> {
+        userInterface.getChildren().forEach(x -> {
             if(x.getGUIElement().getLabel() != null){
                 this.fontRenderer.renderText(x.getGUIElement().getLabel());
             }
                 });
         this.stopFontRendering();
-        
-        this.startGUIElementRendering(userInterface);
-        userInterface.getGui().getElements().forEach(x -> guiRenderer.render(x));
-        this.stopGUIElementRendering();
-
-        
     }
 
     /**
@@ -140,6 +139,7 @@ public class MasterRenderer {
         this.guiRenderer.cleanUp();
         this.entityRenderer.cleanUp();
         this.terrainRenderer.cleanUp();
+        this.fontRenderer.cleanUp();
     }
 
     /**
@@ -154,14 +154,14 @@ public class MasterRenderer {
     private void startFontRendering(UserInterface userInterface) {
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        //GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
         this.fontRenderer.start();
     }
 
     private void stopFontRendering() {
         this.fontRenderer.stop();
         GL11.glDisable(GL11.GL_BLEND);
-        //GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
     }
 
     private void startGUIElementRendering(UserInterface userInterface) {

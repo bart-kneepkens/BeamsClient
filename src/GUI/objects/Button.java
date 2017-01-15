@@ -5,8 +5,10 @@
  */
 package GUI.objects;
 
+import GUI.UserInterface;
 import GUI.lib.MouseActor;
 import GUI.lib.GUIElement;
+import GUI.lib.GUIParent;
 import GUI.lwjgl.GUIElementLoader;
 import java.io.IOException;
 import org.lwjgl.util.vector.Vector2f;
@@ -24,6 +26,8 @@ import GUI.lib.GUIRenderable;
 public class Button extends MouseActor implements GUIRenderable {
 
     private int textureID;
+    
+    private GUIParent parent;
 
     private final GUIElement guiElement;
 
@@ -36,12 +40,14 @@ public class Button extends MouseActor implements GUIRenderable {
      * pixels.
      * @param rotation The Euler rotation of the button.
      */
-    public Button(int width, int height, Vector2f position, int z_index, Vector3f rotation) {
+    public Button(GUIParent parent, int width, int height, Vector2f position, int z_index, Vector3f rotation) {
         this.guiElement = new GUIElement(width, height, position, z_index,rotation);
+        this.parent = parent;
     }
 
-    public Button(int width, int height, Vector2f position, int z_index) {
+    public Button(GUIParent parent, int width, int height, Vector2f position, int z_index) {
         this.guiElement = new GUIElement(width, height, position, z_index);
+        this.parent = parent;
     }
 
     /**
@@ -123,6 +129,11 @@ public class Button extends MouseActor implements GUIRenderable {
     @Override
     public GUIElement getGUIElement() {
         return this.guiElement;
+    }
+
+    @Override
+    public GUIParent getParent() {
+        return this.parent;
     }
 
 }

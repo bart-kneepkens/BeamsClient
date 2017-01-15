@@ -19,11 +19,11 @@ public class Label extends GUIText{
     public Label(String text, float fontSize, FontType font, Vector2f position, float maxLineLength, boolean centered) {
         super(
                 text, 
-                0.5f, 
+                fontSize, 
                 font, 
                 position, 
         maxLineLength, 
-        false);
+        centered);
         
         System.out.println("x: " + this.getPosition().getX() + ", y: " + this.getPosition().getY());
     }

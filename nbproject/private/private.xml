@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-private xmlns="http://www.netbeans.org/ns/project-private/1">
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
+        <group>
+            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/toolbox/Maths.java</file>
+            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/DataAccess/lwjgl/Loader.java</file>
+            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/Game/Scene.java</file>
+            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/beamsClient/BeamsClient.java</file>
+            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/DataAccess/lwjgl/ModelData.java</file>
+            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/entity/Player.java</file>
+            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/renderEngine/MasterRenderer.java</file>
+            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/Game/Camera.java</file>
+            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/Game/ThirdPersonCamera.java</file>
+            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/entity/Bullet.java</file>
+            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/DataAccess/OBJLoader.java</file>
+        </group>
+    </open-files>
+</project-private>

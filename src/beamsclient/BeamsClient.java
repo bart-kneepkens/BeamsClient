@@ -9,7 +9,7 @@ import GUI.UserInterface;
 import org.lwjgl.opengl.Display;
 import renderEngine.DisplayManager;
 import dataAccess.lwjgl.Loader;
-import Game.Camera;
+import Game.ThirdPersonCamera;
 import Game.Scene;
 import dataAccess.FileLoader;
 import dataAccess.OBJLoader;
@@ -43,10 +43,10 @@ public class BeamsClient {
 
     //<editor-fold defaultstate="collapsed" desc="Default files">
     private static final File DEFAULT_TERRAIN = new File("res/terrains/arenaTerrain/arenaTerrain.ter");
-    private static final File DEFAULT_PLAYER_MODEL = new File("res/models/homo misluktus.obj");
-    private static final File DEFAULT_PLAYER_TEXTURE = new File("res/textures/textureThing.png");
-    private static final File DEFAULT_OBJECT_MODEL = new File("res/models/target.obj");
-    private static final File DEFAULT_OBJECT_TEXTURE = new File("res/textures/targetTexture.png");
+    private static final File DEFAULT_PLAYER_MODEL = new File("res/models/poppetje.obj");
+    private static final File DEFAULT_PLAYER_TEXTURE = new File("res/textures/planks.png");
+    private static final File DEFAULT_OBJECT_MODEL = new File("res/models/bobcat.obj");
+    private static final File DEFAULT_OBJECT_TEXTURE = new File("res/textures/WhiteTexture.png");
     private static final File DEFAULT_LAMP_MODEL = new File("res/models/lamp.obj");
     private static final File DEFAULT_LAMP_TEXTURE = new File("res/textures/lampTexture.png");
     public static final File DEFAULT_SUN_MODEL = new File("res/models/ball.obj");
@@ -202,7 +202,7 @@ public class BeamsClient {
                 texturedPlayerModel,
                 new Vector3f(15, 0, 15),
                 new Vector3f(0, (float) Math.toRadians(45), 0),
-                0.3f,
+                0.1f,
                 texturedBulletModel);
 
         // Loads the default textured object model.
@@ -210,12 +210,12 @@ public class BeamsClient {
         ModelTexture objectTexture = new ModelTexture(Loader.loadTexture(DEFAULT_OBJECT_TEXTURE));
         TexturedModel texturedObjectModel = new TexturedModel(objectModel, objectTexture);
         objectTexture.setReflectivity(1);
-        objectTexture.setShineDamper(100);
+        objectTexture.setShineDamper(10);
 
         // Loads the default three different entities with this object model.
         Entity entity = new Entity(
                 texturedObjectModel,
-                new Vector3f(60, terrain.getHeightOfTerrain(60, 60), 60),
+                new Vector3f(20, terrain.getHeightOfTerrain(60, 60), 20),
                 new Vector3f(0, (float) Math.toRadians(-45), 0),
                 0.5f);
         Entity entity1 = new Entity(
@@ -279,7 +279,7 @@ public class BeamsClient {
         // is relative to the player, the list of lights and the terrain.
         scene = new Scene(
                 player,
-                new Camera(player),
+                new ThirdPersonCamera(player),
                 lights,
                 terrain);
 

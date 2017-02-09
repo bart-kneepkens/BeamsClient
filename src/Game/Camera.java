@@ -1,122 +1,88 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * An OpenGL GameEngine test project.
+ * By BlackenedSandman - marcvandeuren@gmail.com
  */
 package Game;
 
-import entity.Player;
-import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
- *
+ * Abstract camera class for viewing a 3D scene.
  * @author Blackened
  */
-public class Camera {
+public abstract class Camera {
 
-    private float distanceFromPlayer = 6;
-    private float angleAroundPlayer = 0;
+    /**
+     * The exact position of the camera.
+     */
+    protected final Vector3f position = new Vector3f(0, 0, 0);
 
-    private final Vector3f position = new Vector3f(0, 0, 0);
-    private float pitch;
-    private final float defaultPitch = 10;
-    private float yaw = 0;
-    private float roll;
+    /**
+     * The vertical angle of the camera.
+     */
+    protected float pitch;
 
-    private Player player;
+    /**
+     * The default pitch for the camera objects.
+     */
+    public static float MINIMUM_PITCH = 10;
 
-    public Camera(Player player) {
-        this.player = player;
-    }
+    /**
+     * The horizontal angle of the camera (around the y-axis).
+     */
+    protected float yaw = 0;
 
-    public void increasePosition(Vector3f amount) {
+    /**
+     * The sideways vertical angle of the camera.
+     */
+    protected float roll;
+
+    /**
+     * Increases the position of this camera object by the given amount.
+     * @param amount A 3D vector that contains the amounts that have to be added 
+     * onto the position.
+     */
+    public final void increasePosition(Vector3f amount) {
         this.position.x += amount.x;
         this.position.y += amount.y;
         this.position.z += amount.z;
     }
 
-    public Vector3f getPosition() {
+    /**
+     * Getter for the position of this camera object.
+     * @return The position of this camera object.
+     */
+    public final Vector3f getPosition() {
         return position;
     }
 
-    public float getPitch() {
+    /**
+     * Getter for the pitch of this camera object.
+     * @return The pitch of this camera object (vertical angle).
+     */
+    public final float getPitch() {
         return pitch;
     }
 
-    public float getYaw() {
+    /**
+     * Getter for the yaw of this camera object.
+     * @return The yaw of this camera object (horizontal angle).
+     */
+    public final float getYaw() {
         return yaw;
     }
 
-    public float getRoll() {
+    /**
+     * Getter for the roll of this camera object.
+     * @return The sideways vertical angle of the camera.
+     */
+    public final float getRoll() {
         return roll;
     }
 
-    private void calculateZoom() {
-        float zoomLevel = Mouse.getDWheel() * 0.001f;
-        if (zoomLevel > 0) {
-            if (distanceFromPlayer > 4) {
-                distanceFromPlayer -= zoomLevel;
-            }
-        } else {
-            if (distanceFromPlayer < 10) {
-                distanceFromPlayer -= zoomLevel;
-            }
-        }
-    }
-
-    private void calculatePitch() {
-        if (Mouse.isButtonDown(1) || Mouse.isButtonDown(0)) {
-            float pitchChange = Mouse.getDY() * 0.1f;
-            if (this.pitch - pitchChange > 0 && this.pitch - pitchChange < 90) {
-                this.pitch -= pitchChange;
-            }
-        } else {
-            if (this.pitch < this.defaultPitch - 2) {
-                this.pitch += 2;
-            } else if (this.pitch < this.defaultPitch) {
-                this.pitch = this.defaultPitch;
-            } else if (this.pitch > this.defaultPitch + 2) {
-                this.pitch -= 2;
-            } else if (this.pitch > this.defaultPitch) {
-                this.pitch = this.defaultPitch;
-            }
-        }
-    }
-
-    private void calculateAngleAroundPlayer() {
-        if (Mouse.isButtonDown(0)) {
-            this.angleAroundPlayer += Mouse.getDX() * -0.003f;
-        } else {
-            this.angleAroundPlayer = 0;
-        }
-    }
-
-    private float calculateHorizontalDistance() {
-        return (float) (distanceFromPlayer * Math.cos(Math.toRadians(pitch)));
-    }
-
-    private float calculateVerticalDistance() {
-        return (float) (distanceFromPlayer * Math.sin(Math.toRadians(pitch)));
-    }
-
-    private void calculateCameraPosition(float horizontalDistance, float verticalDistance) {
-        float theta = player.getRotation().getY() + 0.2f + angleAroundPlayer;
-        float offsetX = (float) (horizontalDistance * Math.sin(theta));
-        float offsetZ = (float) (horizontalDistance * Math.cos(theta));
-        this.yaw = (float) (180 - Math.toDegrees(theta - 0.2f));
-        position.x = player.getPosition().x - offsetX;
-        position.z = player.getPosition().z - offsetZ;
-        this.position.y = player.getPosition().getY() + 1 + verticalDistance;
-    }
-
-    public void update() {
-        this.calculateZoom();
-        this.calculatePitch();
-        this.calculateAngleAroundPlayer();
-        float horizontalDistance = calculateHorizontalDistance();
-        float verticalDistance = calculateVerticalDistance();
-        calculateCameraPosition(horizontalDistance, verticalDistance);
-    }
+    /**
+     * Performs all state updates required each frame.
+     */
+    public abstract void update();
 
 }

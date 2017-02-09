@@ -28,12 +28,12 @@ public class DisplayManager {
     /**
      * The width of the display in pixels.
      */
-    private static final int WIDTH = 1920;
+    private static final int WIDTH = 1280;
 
     /**
      * The height of the display in pixels.
      */
-    private static final int HEIGHT = 1080;
+    private static final int HEIGHT = 720;
 
     /**
      * The maximum frames per seconds that will be rendered to the screen.

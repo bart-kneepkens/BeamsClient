@@ -23,22 +23,49 @@ import terrain.Terrain;
  */
 public class Scene {
 
+    /**
+     * The camera that will be used to render the scene.
+     */
     private Camera camera;
 
+    /**
+     * A list of all lights present in the scene.
+     */
     private List<Light> lights;
 
+    /**
+     * The player object of the scene.
+     */
     private Player player;
     
+    /**
+     * The sun of the scene.
+     */
     private Lamp sun;
 
+    /**
+     * The terrain of the scene.
+     */
     private Terrain terrain;
     
+    /**
+     * A map of all entities present in the scene, mapped to their textured 
+     * model.
+     */
     Map<TexturedModel, List<Entity>> entities;
 
+    /**
+     * Getter for the sun of this scene object.
+     * @return The sun.
+     */
     public Lamp getSun() {
         return sun;
     }
 
+    /**
+     * 
+     * @param sun 
+     */
     public void setSun(Lamp sun) {
         this.sun = sun;
         this.addEntity(sun);
@@ -65,7 +92,7 @@ public class Scene {
         return player;
     }
 
-    public Scene(Player player, Camera camera, List<Light> lights, Terrain terrain) {
+    public Scene(Player player, ThirdPersonCamera camera, List<Light> lights, Terrain terrain) {
         this.player = player;
         this.camera = camera;
         this.lights = lights;

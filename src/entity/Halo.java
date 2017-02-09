@@ -24,8 +24,8 @@ public class Halo extends LightSpell{
     private float b = 0.5f;
     
 
-    public Halo(long creationTime, long duration, TexturedModel model, Vector3f position, Vector3f rotation) {
-        super(model, creationTime+duration,  position, rotation, 1);
+    public Halo(String name, long creationTime, long duration, TexturedModel model, Vector3f position, Vector3f rotation) {
+        super(name, model, creationTime+duration,  position, rotation, 1);
         
         
         super.setLight(new Light(this.getPosition(), new Vector3f(0.1f,0.1f,0.1f), new Vector3f(0.2f, -0.08f, -0.1f)));

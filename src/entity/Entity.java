@@ -5,7 +5,11 @@
  */
 package entity;
 
+import beamsClient.BeamsClient;
 import entity.texture.TexturedModel;
+import java.util.List;
+import java.util.Map;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 
 /**
@@ -13,6 +17,11 @@ import org.lwjgl.util.vector.Vector3f;
  * @author Blackened
  */
 public class Entity {
+
+    /**
+     * For testing purposes only!
+     */
+    private final String name;
 
     /**
      * The textured model that is being used by this entity.
@@ -35,20 +44,35 @@ public class Entity {
     private float scale;
 
     /**
+     * The radius of the collision circle for this entity.
+     */
+    private final float collisionRadius;
+
+    /**
      * Creates a new instance of the Entity class.
      *
+     * @param name For testing purposes only!
      * @param model The textured model that is being used by this entity.
      * @param position The position of the entity.
      * @param rotation The Euler rotation of the entity.
      * @param scale The scale of the entity.
      */
-    public Entity(TexturedModel model, Vector3f position, Vector3f rotation, float scale) {
+    public Entity(String name, TexturedModel model, Vector3f position, Vector3f rotation, float scale) {
         this.model = model;
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
+        this.name = name;
+        this.collisionRadius = 0.25f;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public float getCollisionRadius() {
+        return collisionRadius;
+    }
 
     /**
      * Increases the position of the entity.
@@ -79,9 +103,6 @@ public class Entity {
         this.rotation.y += vector.y;
         this.rotation.z += vector.z;
     }
-
-    
-    
 
     /**
      * Getter for the textured model of this entity.
@@ -153,6 +174,48 @@ public class Entity {
      */
     public void setScale(float scale) {
         this.scale = scale;
+    }
+
+    protected void checkCollisions() {
+        Vector2f ownPosition = new Vector2f(this.getPosition().getX(), this.getPosition().getZ());
+
+        for (Map.Entry entry : BeamsClient.getScene().getEntities().entrySet()) {
+            for (Entity entity : (List<Entity>) entry.getValue()) {
+                if (entity != this) {
+
+                    Vector2f entityPosition = new Vector2f(entity.getPosition().getX(), entity.getPosition().getZ());
+                    Vector2f distanceVector = new Vector2f();
+                    Vector2f.sub(ownPosition, entityPosition, distanceVector);
+                    float distance = distanceVector.length();
+                    if (distance < this.getCollisionRadius() + entity.getCollisionRadius()) {
+                        System.out.println(this.getName() + " is colliding with: " + entity.getName());
+                    }
+                }
+
+            }
+        }
+    }
+
+    protected boolean checkCollisions(Vector3f nextPosition) {
+        Vector2f ownPosition = new Vector2f(nextPosition.getX(), nextPosition.getZ());
+
+        for (Map.Entry entry : BeamsClient.getScene().getEntities().entrySet()) {
+            for (Entity entity : (List<Entity>) entry.getValue()) {
+                if (entity != this) {
+
+                    Vector2f entityPosition = new Vector2f(entity.getPosition().getX(), entity.getPosition().getZ());
+                    Vector2f distanceVector = new Vector2f();
+                    Vector2f.sub(ownPosition, entityPosition, distanceVector);
+                    float distance = distanceVector.length();
+                    if (distance < this.getCollisionRadius() + entity.getCollisionRadius()) {
+                        System.out.println(this.getName() + " is colliding with: " + entity.getName());
+                        return true;
+                    }
+                }
+
+            }
+        }
+        return false;
     }
 
 }

@@ -7,7 +7,6 @@ package userInput;
 
 import beamsClient.BeamsClient;
 import org.lwjgl.input.Keyboard;
-import org.lwjgl.input.Mouse;
 import renderEngine.DisplayManager;
 
 /**
@@ -23,7 +22,7 @@ public class KeyboardInput {
         if(Keyboard.isKeyDown(Keyboard.KEY_F)){
             System.out.println("x: " + BeamsClient.getScene().getPlayer().getPosition().getX() + ", y: " + BeamsClient.getScene().getPlayer().getPosition().getY() + ", z: " + BeamsClient.getScene().getPlayer().getPosition().getZ());
         }
-        if(Keyboard.isKeyDown(Keyboard.KEY_1)){
+        if(Keyboard.isKeyDown(Keyboard.KEY_1) && !Keyboard.isRepeatEvent()){
             BeamsClient.getScene().getPlayer().fireBullet();
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_2)){

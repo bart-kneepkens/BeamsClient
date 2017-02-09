@@ -7,8 +7,11 @@ package entity;
 
 import beamsClient.BeamsClient;
 import entity.texture.TexturedModel;
+import java.util.List;
+import java.util.Map.Entry;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 import terrain.Terrain;
@@ -33,7 +36,7 @@ public class Player extends Entity {
     private boolean isInAir = true;
 
     public Player(TexturedModel model, Vector3f position, Vector3f rotation, float scale, TexturedModel bulletModel) {
-        super(model, position, rotation, scale);
+        super("Player", model, position, rotation, scale);
         this.bulletModel = bulletModel;
     }
 
@@ -44,7 +47,6 @@ public class Player extends Entity {
         if (isMovementAllowed(nextPosition)) {
             super.increasePosition(dx, 0, dz);
         }
-
     }
 
     public void moveBackward() {
@@ -77,7 +79,7 @@ public class Player extends Entity {
     public void fireBullet() {
 
         if (this.activeSpell == null) {
-            LightSpell bullet = new Bullet(
+            LightSpell bullet = new Bullet("bullet " + DisplayManager.getCurrentTime(),
                     DisplayManager.getCurrentTime(),
                     1000,
                     new Vector3f((float) Math.sin(this.getRotation().getY()) * 2,
@@ -97,7 +99,7 @@ public class Player extends Entity {
 
     public void fireHalo() {
         if (this.activeSpell == null) {
-            LightSpell halo = new Halo(
+            LightSpell halo = new Halo("halo" + DisplayManager.getCurrentTime(),
                     DisplayManager.getCurrentTime(),
                     2000,
                     null,
@@ -110,7 +112,8 @@ public class Player extends Entity {
     }
 
     private boolean isMovementAllowed(Vector3f nextPosition) {
-        return BeamsClient.getScene().getTerrain().getHeightOfTerrain(nextPosition.getX(), nextPosition.getZ()) - this.getPosition().getY() < 0.3;
+        
+        return (BeamsClient.getScene().getTerrain().getHeightOfTerrain(nextPosition.getX(), nextPosition.getZ()) - this.getPosition().getY() < 0.3) && !this.checkCollisions(nextPosition);
     }
 
     public void turnRight() {
@@ -124,6 +127,7 @@ public class Player extends Entity {
     public void update() {
         this.gravitate();
         this.checkInputs();
+        this.checkCollisions();
         if (this.activeSpell != null) {
             if (this.activeSpell.getDeathTime() < DisplayManager.getCurrentTime()) {
                 BeamsClient.getScene().getEntities().remove(activeSpell.getModel());

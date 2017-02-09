@@ -214,16 +214,19 @@ public class BeamsClient {
 
         // Loads the default three different entities with this object model.
         Entity entity = new Entity(
+                "target1",
                 texturedObjectModel,
                 new Vector3f(60, terrain.getHeightOfTerrain(60, 60), 60),
                 new Vector3f(0, (float) Math.toRadians(-45), 0),
                 0.5f);
         Entity entity1 = new Entity(
+                "target2",
                 texturedObjectModel,
                 new Vector3f(55, terrain.getHeightOfTerrain(55, 60), 60),
                 new Vector3f(0, (float) Math.toRadians(-60), 0),
                 0.5f);
         Entity entity2 = new Entity(
+                "target3",
                 texturedObjectModel,
                 new Vector3f(60, terrain.getHeightOfTerrain(60, 55), 55),
                 new Vector3f(0, (float) Math.toRadians(-30), 0),
@@ -240,6 +243,7 @@ public class BeamsClient {
 
         // Loads the default two different lamp entities with this lamp model.
         lamp = new Lamp(
+                "lamp1",
                 texturedLampModel,
                 new Vector3f(40, terrain.getHeightOfTerrain(40, 40), 40),
                 new Vector3f(0, 0, 0),
@@ -248,6 +252,7 @@ public class BeamsClient {
                 new Vector3f(1, 1, 0));
 
         Lamp lamp1 = new Lamp(
+                "lamp2",
                 texturedLampModel,
                 new Vector3f(55, terrain.getHeightOfTerrain(55, 55), 55),
                 new Vector3f(0, 0, 0), 
@@ -263,7 +268,7 @@ public class BeamsClient {
         sunTexture.setShineDamper(10);
         
         // Loads the default sun entity
-        Lamp sun = new Lamp(texturedSunModel, new Vector3f(10,30,0), new Vector3f(0,0,0), 10, new Vector3f(0,0,0), new Vector3f(1,1,1), new Vector3f(1f, 0f, 0));
+        Lamp sun = new Lamp("sun", texturedSunModel, new Vector3f(10,30,0), new Vector3f(0,0,0), 10, new Vector3f(0,0,0), new Vector3f(1,1,1), new Vector3f(1f, 0f, 0));
         //</editor-fold>
         
         //<editor-fold defaultstate="collapsed" desc="Lights">

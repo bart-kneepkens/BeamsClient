@@ -20,8 +20,8 @@ public abstract class LightSpell extends Entity {
     private final long deathTime;
     private Light light;
     
-    public LightSpell(TexturedModel model, long deathTime, Vector3f position, Vector3f rotation, float scale) {
-        super(model, position, rotation, scale);
+    public LightSpell(String name, TexturedModel model, long deathTime, Vector3f position, Vector3f rotation, float scale) {
+        super(name, model, position, rotation, scale);
         this.deathTime = deathTime;
     }
 

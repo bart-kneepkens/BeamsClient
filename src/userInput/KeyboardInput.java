@@ -5,7 +5,7 @@
  */
 package userInput;
 
-import beamsClient.BeamsClient;
+import beamsclient.BeamsClient;
 import org.lwjgl.input.Keyboard;
 import renderEngine.DisplayManager;
 

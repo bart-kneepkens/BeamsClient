@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package beamsClient;
+package beamsclient;
 
 import GUI.UserInterface;
 import org.lwjgl.opengl.Display;
@@ -11,8 +11,8 @@ import renderEngine.DisplayManager;
 import dataAccess.lwjgl.Loader;
 import Game.ThirdPersonCamera;
 import Game.Scene;
-import dataAccess.FileLoader;
-import dataAccess.OBJLoader;
+import DataAccess.FileLoader;
+import DataAccess.OBJLoader;
 import entity.Entity;
 import entity.Lamp;
 import entity.Light;

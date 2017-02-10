@@ -6,8 +6,8 @@
 package GUI.objects;
 
 import GUI.UserInterface;
-import beamsClient.BeamsClient;
-import dataAccess.FileLoader;
+import beamsclient.BeamsClient;
+import DataAccess.FileLoader;
 import java.awt.FileDialog;
 import java.io.File;
 import java.io.IOException;

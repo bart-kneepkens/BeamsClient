@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dataAccess;
+package DataAccess;
 
 import dataAccess.lwjgl.Loader;
 import dataAccess.lwjgl.ModelData;

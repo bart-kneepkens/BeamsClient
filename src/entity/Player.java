@@ -73,7 +73,6 @@ public class Player extends Entity {
     }
 
     public void fireBullet() {
-
         if (this.activeSpell == null) {
             LightSpell bullet = new Bullet("bullet " + DisplayManager.getCurrentTime(),
                     DisplayManager.getCurrentTime(),

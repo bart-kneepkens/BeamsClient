@@ -64,6 +64,7 @@ public class MouseInput{
             Mouse.setCursorPosition((int) pressOrigin.x, (int) ((int) Display.getHeight()-pressOrigin.y));
         }
         mouseSubject.onNext(mouseState);
+        //System.gc();
     }
 
     public static PublishSubject<MouseState> getMouseSubject() {

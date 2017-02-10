@@ -8,7 +8,8 @@ package beamsClient;
 import org.lwjgl.opengl.Display;
 
 /**
- *
+ * Abstract class that defines the program loop. 
+ * Should be implemented by main class.
  * @author Blackened
  */
 public abstract class GameApplication {

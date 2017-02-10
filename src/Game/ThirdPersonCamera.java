@@ -86,8 +86,18 @@ public class ThirdPersonCamera extends Camera{
     private void calculateAngleAroundPlayer() {
         if (Mouse.isButtonDown(0)) {
             this.angleAroundPlayer += Mouse.getDX() * -0.003f;
+            this.angleAroundPlayer = this.angleAroundPlayer % ((float)(Math.PI * 2));
+            
         } else {
-            this.angleAroundPlayer = 0;
+            if (this.angleAroundPlayer < -0.075) {
+                this.angleAroundPlayer += 0.075;
+            } else if (this.angleAroundPlayer < 0) {
+                this.angleAroundPlayer = 0;
+            } else if (this.angleAroundPlayer > 0.075) {
+                this.angleAroundPlayer -= 0.075;
+            } else if (this.angleAroundPlayer > 0) {
+                this.angleAroundPlayer = 0;
+            }
         }
     }
 

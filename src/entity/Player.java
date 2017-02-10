@@ -5,7 +5,7 @@
  */
 package entity;
 
-import beamsClient.BeamsClient;
+import beamsclient.BeamsClient;
 import entity.texture.TexturedModel;
 import java.util.List;
 import java.util.Map.Entry;

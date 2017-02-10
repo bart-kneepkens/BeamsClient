@@ -11,7 +11,7 @@ import GUI.objects.Button;
 import GUI.objects.Container;
 import GUI.objects.Panel;
 import GUI.objects.SettingsWindow;
-import beamsClient.BeamsClient;
+import beamsclient.BeamsClient;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;

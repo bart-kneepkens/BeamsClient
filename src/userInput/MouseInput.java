@@ -38,7 +38,6 @@ public class MouseInput{
                 Mouse.setGrabbed(false);
             }
         }
-
         // Checks for main 2 mouse buttons
         if (Mouse.isButtonDown(0) && !btn1Pressed) {
             btn1Pressed = true;

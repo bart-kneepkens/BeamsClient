@@ -5,16 +5,12 @@
  */
 package entity;
 
-import beamsclient.BeamsClient;
+import beamsClient.BeamsClient;
 import entity.texture.TexturedModel;
-import java.util.List;
-import java.util.Map.Entry;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
-import terrain.Terrain;
 
 /**
  *
@@ -89,8 +85,8 @@ public class Player extends Entity {
                     new Vector3f(this.getPosition().getX(), this.getPosition().getY() + 1, this.getPosition().getZ()),
                     new Vector3f(this.getRotation().getX(), this.getRotation().getY(), this.getRotation().getZ()),
                     0.2f);
-            BeamsClient.getScene().addEntity(bullet);
-            BeamsClient.getScene().getLights().add(bullet.getLight());
+            BeamsClient.getInstance().getScene().addEntity(bullet);
+            BeamsClient.getInstance().getScene().getLights().add(bullet.getLight());
 
             this.activeSpell = bullet;
             LightSpell.LAST_ONE_FIRED = DisplayManager.getCurrentTime();
@@ -105,7 +101,7 @@ public class Player extends Entity {
                     null,
                     new Vector3f(this.getPosition().getX(), this.getPosition().getY() + 1, this.getPosition().getZ()),
                     new Vector3f(0, 0, 0));
-            BeamsClient.getScene().getLights().add(halo.getLight());
+            BeamsClient.getInstance().getScene().getLights().add(halo.getLight());
             this.activeSpell = halo;
             LightSpell.LAST_ONE_FIRED = DisplayManager.getCurrentTime();
         }
@@ -113,7 +109,7 @@ public class Player extends Entity {
 
     private boolean isMovementAllowed(Vector3f nextPosition) {
         
-        return (BeamsClient.getScene().getTerrain().getHeightOfTerrain(nextPosition.getX(), nextPosition.getZ()) - this.getPosition().getY() < 0.3) && !this.checkCollisions(nextPosition);
+        return (BeamsClient.getInstance().getScene().getTerrain().getHeightOfTerrain(nextPosition.getX(), nextPosition.getZ()) - this.getPosition().getY() < 0.3) && !this.checkCollisions(nextPosition);
     }
 
     public void turnRight() {
@@ -130,8 +126,8 @@ public class Player extends Entity {
         this.checkCollisions();
         if (this.activeSpell != null) {
             if (this.activeSpell.getDeathTime() < DisplayManager.getCurrentTime()) {
-                BeamsClient.getScene().getEntities().remove(activeSpell.getModel());
-                BeamsClient.getScene().getLights().remove(this.activeSpell.getLight());
+                BeamsClient.getInstance().getScene().getEntities().remove(activeSpell.getModel());
+                BeamsClient.getInstance().getScene().getLights().remove(this.activeSpell.getLight());
                 this.activeSpell = null;
             } else {
                 this.activeSpell.update();
@@ -181,7 +177,7 @@ public class Player extends Entity {
         upwardsSpeed += GRAVITY * DisplayManager.getFrameTimeSeconds();
         float verticalDistance = upwardsSpeed * DisplayManager.getFrameTimeSeconds();
         super.increasePosition(0, verticalDistance, 0);
-        float terrainHeight = BeamsClient.getScene().getTerrain().getHeightOfTerrain(super.getPosition().getX(), super.getPosition().getZ());
+        float terrainHeight = BeamsClient.getInstance().getScene().getTerrain().getHeightOfTerrain(super.getPosition().getX(), super.getPosition().getZ());
         if (super.getPosition().y < terrainHeight) {
             upwardsSpeed = 0;
             isInAir = false;

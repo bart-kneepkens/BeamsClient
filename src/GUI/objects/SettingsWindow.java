@@ -6,8 +6,8 @@
 package GUI.objects;
 
 import GUI.UserInterface;
-import beamsclient.BeamsClient;
-import DataAccess.FileLoader;
+import beamsClient.BeamsClient;
+import dataAccess.FileLoader;
 import java.awt.FileDialog;
 import java.io.File;
 import java.io.IOException;
@@ -99,7 +99,7 @@ public class SettingsWindow extends Window {
             System.out.println("You cancelled the choice");
         } else {
             try {
-                BeamsClient.getScene().setTerrain(FileLoader.loadTerrain(new File(filename)));
+                BeamsClient.getInstance().getScene().setTerrain(FileLoader.loadTerrain(new File(filename)));
             } catch (IOException ex) {
                 dialog.dispose();
                 Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -109,12 +109,12 @@ public class SettingsWindow extends Window {
     }
     
     private void btnResetScene_Click(Event event) throws IOException {
-        BeamsClient.loadDefaultScene();
+        BeamsClient.getInstance().loadDefaultScene();
         System.out.println("Resetted scene!");
     }
 
     private void btnResetUI_Click(Event event) throws IOException {
-        BeamsClient.loadDefaultUserInterface();
+        BeamsClient.getInstance().loadDefaultUserInterface();
         System.out.println("Resetted user interface!");
     }
     
@@ -123,13 +123,13 @@ public class SettingsWindow extends Window {
         Checkbox cbox = (Checkbox) event.getSender();
         if (cbox.isChecked()){
             DisplayManager.white = true;
-            BeamsClient.getScene().getSun().getLight().setColour(new Vector3f(1f,1f,0.9f));
-            BeamsClient.getScene().getSun().getLight().setAttenuation(new Vector3f(0.5f,0,0));
+            BeamsClient.getInstance().getScene().getSun().getLight().setColour(new Vector3f(1f,1f,0.9f));
+            BeamsClient.getInstance().getScene().getSun().getLight().setAttenuation(new Vector3f(0.5f,0,0));
         }
         else{
             DisplayManager.white = false;
-            BeamsClient.getScene().getSun().getLight().setColour(new Vector3f(1,1,1));
-            BeamsClient.getScene().getSun().getLight().setAttenuation(new Vector3f(1f,0,0));
+            BeamsClient.getInstance().getScene().getSun().getLight().setColour(new Vector3f(1,1,1));
+            BeamsClient.getInstance().getScene().getSun().getLight().setAttenuation(new Vector3f(1f,0,0));
         }
     }
 

@@ -9,17 +9,13 @@ import GUI.lib.GUIParent;
 import GUI.lib.GUIRenderable;
 import GUI.objects.Button;
 import GUI.objects.Container;
-import GUI.objects.Panel;
 import GUI.objects.SettingsWindow;
-import beamsclient.BeamsClient;
+import beamsClient.BeamsClient;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.lwjgl.opengl.Display;
@@ -80,7 +76,7 @@ public class UserInterface implements Autonomous, GUIParent {
     }
 
     private void buttonExit_Click(Event event) throws IOException {
-        BeamsClient.exit();
+        BeamsClient.getInstance().exit();
     }
 
     private void buttonLoadTerrain_Click(Event event) throws IOException {

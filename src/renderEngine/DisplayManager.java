@@ -49,7 +49,11 @@ public class DisplayManager {
      * The time it took to render this frame in milliseconds.
      */
     private static float delta;
-
+    
+    private static int amountOfFrames = 0;
+    
+    private static float totalTime = 0;
+    
     /**
      * The title of the display.
      */
@@ -101,6 +105,14 @@ public class DisplayManager {
         long currentFrameTime = getCurrentTime();
         delta = (currentFrameTime - lastFrameTime) / 1000f;
         lastFrameTime = currentFrameTime;
+        amountOfFrames++;
+        totalTime = delta + totalTime;
+        
+        if(amountOfFrames % 1000 == 0){
+            Display.setTitle("Beams (fps: " + String.valueOf(Math.round(amountOfFrames / totalTime)) + ")");
+            amountOfFrames = 0;
+            totalTime = 0;
+        }
 
     }
 

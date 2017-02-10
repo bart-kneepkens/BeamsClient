@@ -5,7 +5,7 @@
  */
 package entity;
 
-import beamsclient.BeamsClient;
+import beamsClient.BeamsClient;
 import entity.texture.TexturedModel;
 import java.util.List;
 import java.util.Map;
@@ -179,7 +179,7 @@ public class Entity {
     protected void checkCollisions() {
         Vector2f ownPosition = new Vector2f(this.getPosition().getX(), this.getPosition().getZ());
 
-        for (Map.Entry entry : BeamsClient.getScene().getEntities().entrySet()) {
+        for (Map.Entry entry : BeamsClient.getInstance().getScene().getEntities().entrySet()) {
             for (Entity entity : (List<Entity>) entry.getValue()) {
                 if (entity != this) {
 
@@ -199,7 +199,7 @@ public class Entity {
     protected boolean checkCollisions(Vector3f nextPosition) {
         Vector2f ownPosition = new Vector2f(nextPosition.getX(), nextPosition.getZ());
 
-        for (Map.Entry entry : BeamsClient.getScene().getEntities().entrySet()) {
+        for (Map.Entry entry : BeamsClient.getInstance().getScene().getEntities().entrySet()) {
             for (Entity entity : (List<Entity>) entry.getValue()) {
                 if (entity != this) {
 

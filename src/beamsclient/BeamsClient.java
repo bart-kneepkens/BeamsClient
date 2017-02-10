@@ -3,16 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package beamsclient;
+package beamsClient;
 
 import GUI.UserInterface;
-import org.lwjgl.opengl.Display;
 import renderEngine.DisplayManager;
 import dataAccess.lwjgl.Loader;
 import Game.ThirdPersonCamera;
 import Game.Scene;
-import DataAccess.FileLoader;
-import DataAccess.OBJLoader;
+import dataAccess.FileLoader;
+import dataAccess.OBJLoader;
 import entity.Entity;
 import entity.Lamp;
 import entity.Light;
@@ -24,6 +23,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import models.RawModel;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.MasterRenderer;
@@ -36,110 +37,47 @@ import userInput.MouseInput;
  *
  * @author Blackened
  */
-public class BeamsClient {
+public class BeamsClient extends GameApplication {
 
     //<editor-fold defaultstate="collapsed" desc="Default files">
-    private static final File DEFAULT_TERRAIN = new File("res/terrains/arenaTerrain/arenaTerrain.ter");
-    private static final File DEFAULT_PLAYER_MODEL = new File("res/models/poppetje.obj");
-    private static final File DEFAULT_PLAYER_TEXTURE = new File("res/textures/planks.png");
-    private static final File DEFAULT_OBJECT_MODEL = new File("res/models/bobcat.obj");
-    private static final File DEFAULT_OBJECT_TEXTURE = new File("res/textures/WhiteTexture.png");
-    private static final File DEFAULT_LAMP_MODEL = new File("res/models/lamp.obj");
-    private static final File DEFAULT_LAMP_TEXTURE = new File("res/textures/lampTexture.png");
-    public static final File DEFAULT_SUN_MODEL = new File("res/models/ball.obj");
-    public static final File DEFAULT_SUN_TEXTURE = new File("res/textures/WhiteTexture.png");
-    private static final File DEFAULT_BULLET_MODEL = new File("res/models/bullet.obj");
-    private static final File DEFAULT_BULLET_TEXTURE = new File("res/textures/WhiteTexture.png");
+    private final File DEFAULT_TERRAIN = new File("res/terrains/arenaTerrain/arenaTerrain.ter");
+    private final File DEFAULT_PLAYER_MODEL = new File("res/models/poppetje.obj");
+    private final File DEFAULT_PLAYER_TEXTURE = new File("res/textures/planks.png");
+    private final File DEFAULT_OBJECT_MODEL = new File("res/models/bobcat.obj");
+    private final File DEFAULT_OBJECT_TEXTURE = new File("res/textures/WhiteTexture.png");
+    private final File DEFAULT_LAMP_MODEL = new File("res/models/lamp.obj");
+    private final File DEFAULT_LAMP_TEXTURE = new File("res/textures/lampTexture.png");
+    private final File DEFAULT_SUN_MODEL = new File("res/models/ball.obj");
+    private final File DEFAULT_SUN_TEXTURE = new File("res/textures/WhiteTexture.png");
+    private final File DEFAULT_BULLET_MODEL = new File("res/models/bullet.obj");
+    private final File DEFAULT_BULLET_TEXTURE = new File("res/textures/WhiteTexture.png");
     //</editor-fold>
-
-    /**
-     * Determines whether the program should be running. This variable is
-     * checked every frame, and triggers a program close if false.
-     */
-    private static boolean keepRunning = true;
 
     /**
      * A reference to everything that should be rendered in 3D space, and
      * contains all logic for this 3D space.
      */
-    private static Scene scene;
+    private Scene scene;
 
     /**
      * A reference to everything that should be rendered in 2D space, and
      * contains all logic for this 2D space.
      */
-    private static UserInterface userInterface;
+    private UserInterface userInterface;
 
-    
-    private static Lamp lamp;
     /**
-     * The main program loop.
-     *
-     * @param args the command line arguments
-     * @throws java.io.IOException
+     * The renderer that is responsible for rendering of the scene and user
+     * interface.
      */
-    public static void main(String[] args) throws IOException {
-
-        DisplayManager.createDisplay();
-        loadDefaultUserInterface();
-        loadDefaultScene();
-
-        MasterRenderer masterRenderer = new MasterRenderer();
-
-        //<editor-fold defaultstate="collapsed" desc="FPS Counter">
-        long frameCount = 0;
-        float fps;
-        long lastTime = System.currentTimeMillis();
-        //</editor-fold>
-
-        while (!Display.isCloseRequested() && keepRunning) {
-            scene.update();
-            userInterface.update();
-
-            masterRenderer.prepare();
-
-            
-            masterRenderer.render(scene);
-            masterRenderer.render(userInterface);
-
-            MouseInput.checkInputs();
-            KeyboardInput.checkInputs();
-
-            DisplayManager.updateDisplay();
-
-            //<editor-fold defaultstate="collapsed" desc="FPS Counter">
-            frameCount++;
-            if (frameCount % 100 == 0) {
-                fps = 1f / (((System.currentTimeMillis() - lastTime) / 1000f) / 100f);
-                lastTime = System.currentTimeMillis();
-                Display.setTitle("Beams (fps: " + Math.round(fps) + ")");
-            }
-            //</editor-fold>
-        }
-
-        TextMaster.cleanUp();
-        Loader.cleanUp();
-        masterRenderer.cleanUp();
-        DisplayManager.closeDisplay();
-
-    }
+    private MasterRenderer masterRenderer;
 
     /**
      * Gets the scene that is currently rendered to the display.
      *
      * @return Instance of scene that is currently rendered.
      */
-    public static Scene getScene() {
-        return scene;
-    }
-
-    /**
-     * Gets the user interface that is currently rendered to the display.
-     *
-     * @return Instance of the user interface that is currently rendered.
-     */
-    public static UserInterface getUserInterface() {
-        return userInterface;
+    public Scene getScene() {
+        return this.scene;
     }
 
     /**
@@ -147,8 +85,17 @@ public class BeamsClient {
      *
      * @param scene Instance of the scene that will be rendered.
      */
-    public static void setScene(Scene scene) {
-        BeamsClient.scene = scene;
+    public void setScene(Scene scene) {
+        this.scene = scene;
+    }
+
+    /**
+     * Gets the user interface that is currently rendered to the display.
+     *
+     * @return Instance of the user interface that is currently rendered.
+     */
+    public UserInterface getUserInterface() {
+        return this.userInterface;
     }
 
     /**
@@ -157,30 +104,22 @@ public class BeamsClient {
      * @param userInterface Instance of the user interface that will be
      * rendered.
      */
-    public static void setUserInterface(UserInterface userInterface) {
-        BeamsClient.userInterface = userInterface;
-    }
-
-    /**
-     * Shuts down the program.
-     */
-    public static void exit() {
-        keepRunning = false;
+    public void setUserInterface(UserInterface userInterface) {
+        this.userInterface = userInterface;
     }
 
     /**
      * Loads default terrain, player object, entities and lights to the scene.
      *
-     * @throws IOException
+     * @throws IOException when files are not found.
      */
-    public static void loadDefaultScene() throws IOException {
-        System.out.println("Loading default scene..");
+    public void loadDefaultScene() throws IOException {
         
         //<editor-fold defaultstate="collapsed" desc="Terrain">
         // Loads the default terrain.
         Terrain terrain = FileLoader.loadTerrain(DEFAULT_TERRAIN);
         //</editor-fold>
-        
+
         //<editor-fold defaultstate="collapsed" desc="Entities">
         // Loads the default bullet textured model.
         RawModel bulletModel = OBJLoader.loadObjModel(DEFAULT_BULLET_MODEL);
@@ -188,7 +127,7 @@ public class BeamsClient {
         TexturedModel texturedBulletModel = new TexturedModel(bulletModel, bulletTexture);
         bulletTexture.setReflectivity(1);
         bulletTexture.setShineDamper(10);
-        
+
         // Loads the default player entity.
         RawModel playerModel = OBJLoader.loadObjModel(DEFAULT_PLAYER_MODEL);
         ModelTexture playerTexture = new ModelTexture(Loader.loadTexture(DEFAULT_PLAYER_TEXTURE));
@@ -239,7 +178,7 @@ public class BeamsClient {
         lampTexture.setShineDamper(10);
 
         // Loads the default two different lamp entities with this lamp model.
-        lamp = new Lamp(
+        Lamp lamp = new Lamp(
                 "lamp1",
                 texturedLampModel,
                 new Vector3f(40, terrain.getHeightOfTerrain(40, 40), 40),
@@ -252,22 +191,22 @@ public class BeamsClient {
                 "lamp2",
                 texturedLampModel,
                 new Vector3f(55, terrain.getHeightOfTerrain(55, 55), 55),
-                new Vector3f(0, 0, 0), 
+                new Vector3f(0, 0, 0),
                 0.5f,
                 new Vector3f(0, 6.6f, 0),
                 new Vector3f(1, 1, 0));
-        
+
         // Loads the default textured sun model.
         RawModel sunModel = OBJLoader.loadObjModel(DEFAULT_SUN_MODEL).containsInvertedNormals();
         ModelTexture sunTexture = new ModelTexture(Loader.loadTexture(DEFAULT_SUN_TEXTURE));
         TexturedModel texturedSunModel = new TexturedModel(sunModel, sunTexture);
         sunTexture.setReflectivity(1);
         sunTexture.setShineDamper(10);
-        
+
         // Loads the default sun entity
-        Lamp sun = new Lamp("sun", texturedSunModel, new Vector3f(10,30,0), new Vector3f(0,0,0), 10, new Vector3f(0,0,0), new Vector3f(1,1,1), new Vector3f(1f, 0f, 0));
+        Lamp sun = new Lamp("sun", texturedSunModel, new Vector3f(10, 30, 0), new Vector3f(0, 0, 0), 10, new Vector3f(0, 0, 0), new Vector3f(1, 1, 1), new Vector3f(1f, 0f, 0));
         //</editor-fold>
-        
+
         //<editor-fold defaultstate="collapsed" desc="Lights">
         // Creates a list for all the lights in the scene, and adds the
         // the lights of the previously created lamps to that list.
@@ -290,28 +229,109 @@ public class BeamsClient {
         scene.addEntity(entity1);
         scene.addEntity(entity2);
         scene.addTexturedModel(texturedBulletModel);
-        
 
         // Adds the lamp entities to the scene.
         scene.addEntity(lamp);
         scene.addEntity(lamp1);
-        
+
         scene.setSun(sun);
         //</editor-fold>
-        
-        System.out.println("Default scene successfully loaded.");
+
     }
 
     /**
      * Loads default user interface object.
+     * @throws java.io.IOException when files are not found.
      */
-    public static void loadDefaultUserInterface() throws IOException {
+    public void loadDefaultUserInterface() throws IOException {
 
         //<editor-fold defaultstate="collapsed" desc="User Interface">
         // Loads the default user interface.
         userInterface = new UserInterface();
         //</editor-fold>
 
+    }
+
+    /**
+     * Creates the display, and sets up everything that is necessary for 
+     * the game.
+     */
+    @Override
+    public void setUp() {
+        try {
+            DisplayManager.createDisplay();
+            loadDefaultUserInterface();
+            loadDefaultScene();
+
+            this.masterRenderer = new MasterRenderer();
+        } catch (IOException ex) {
+            Logger.getLogger(BeamsClient.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Updates state.
+     */
+    @Override
+    public void update() {
+        this.scene.update();
+        this.userInterface.update();
+    }
+
+    /**
+     * Handles user input.
+     */
+    @Override
+    public void handleInput() {
+        MouseInput.checkInputs();
+        KeyboardInput.checkInputs();
+    }
+
+    /**
+     * Renders everything that is necessary for the game.
+     */
+    @Override
+    public void render() {
+        this.masterRenderer.prepare();
+
+        this.masterRenderer.render(this.scene);
+        this.masterRenderer.render(this.userInterface);
+
+        DisplayManager.updateDisplay();
+    }
+
+    /**
+     * Cleans up everything.
+     */
+    @Override
+    public void cleanUp() {
+        TextMaster.cleanUp();
+        Loader.cleanUp();
+        this.masterRenderer.cleanUp();
+        DisplayManager.closeDisplay();
+    }
+
+    /**
+     * Private constructor
+     */
+    private BeamsClient() {
+    }
+
+    /**
+     * The main program loop.
+     *
+     * @param args the command line arguments
+     * @throws java.io.IOException
+     */
+    public static void main(String[] args) throws IOException {
+        beamsClient = new BeamsClient();
+        beamsClient.start();
+    }
+
+    private static BeamsClient beamsClient;
+
+    public static BeamsClient getInstance() {
+        return beamsClient;
     }
 
 }

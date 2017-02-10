@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package DataAccess;
+package dataAccess;
 
 import dataAccess.lwjgl.Loader;
 import java.awt.image.BufferedImage;

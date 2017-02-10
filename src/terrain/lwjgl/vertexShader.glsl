@@ -7,7 +7,6 @@ in vec3 normal;
 out vec2 pass_textureCoords;
 out vec3 surfaceNormal;
 out vec3 toLightVector[4];
-out vec3 toCameraVector;
 
 uniform mat4 transformationMatrix;
 uniform mat4 projectionMatrix;
@@ -24,7 +23,6 @@ void main(void){
     for(int i=0; i<4; i++){
         toLightVector[i] = lightPosition[i] - worldPosition.xyz;
     }
-    toCameraVector = (inverse(viewMatrix) * vec4(0.0,0.0,0.0,1.0)).xyz - worldPosition.xyz;
     
 
 }

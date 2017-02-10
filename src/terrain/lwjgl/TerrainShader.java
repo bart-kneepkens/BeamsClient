@@ -56,8 +56,6 @@ public class TerrainShader extends ShaderProgram{
         uniformLocations.put("transformationMatrix", super.getUniformLocation("transformationMatrix"));
         uniformLocations.put("projectionMatrix", super.getUniformLocation("projectionMatrix"));
         uniformLocations.put("viewMatrix", super.getUniformLocation("viewMatrix"));
-        uniformLocations.put("shineDamper", super.getUniformLocation("shineDamper"));
-        uniformLocations.put("reflectivity", super.getUniformLocation("reflectivity"));
         uniformLocations.put("backgroundTexture", super.getUniformLocation("backgroundTexture"));
         uniformLocations.put("rTexture", super.getUniformLocation("rTexture"));
         uniformLocations.put("gTexture", super.getUniformLocation("gTexture"));

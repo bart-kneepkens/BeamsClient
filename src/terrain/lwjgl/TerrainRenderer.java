@@ -52,8 +52,6 @@ public class TerrainRenderer extends TerrainShader implements Renderer<Terrain>{
         GL20.glEnableVertexAttribArray(TEXTURE_COORDS);
         GL20.glEnableVertexAttribArray(NORMAL_VECTORS);
         bindTextures(terrain);
-        this.loadUniformFloat("shineDamper", 1);
-        this.loadUniformFloat("reflectivity", 0);
     }
 
     private void bindTextures(Terrain terrain) {

@@ -9,7 +9,7 @@ import entity.Entity;
 import entity.Lamp;
 import entity.Light;
 import entity.Player;
-import entity.texture.TexturedModel;
+import entity.models.TexturedModel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;

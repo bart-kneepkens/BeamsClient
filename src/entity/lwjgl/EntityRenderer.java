@@ -6,10 +6,10 @@
 package entity.lwjgl;
 
 import entity.Entity;
-import entity.texture.TexturedModel;
+import entity.models.TexturedModel;
 import java.util.List;
 import java.util.Map.Entry;
-import models.RawModel;
+import entity.models.RawModel;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
 import org.lwjgl.opengl.GL20;

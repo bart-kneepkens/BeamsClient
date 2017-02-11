@@ -150,10 +150,6 @@ public class GUIElement {
     public void setLabel(Label label) {
         this.label = label;
     }
-    
-    
-    
-    
 
     public void setTextureCoords(float[] textureCoords) {
         this.textureCoords = textureCoords;

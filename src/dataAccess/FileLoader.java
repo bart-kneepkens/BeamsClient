@@ -13,7 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import models.RawModel;
+import entity.models.RawModel;
 import terrain.Terrain;
 import terrain.texture.TerrainTexture;
 import terrain.texture.TerrainTexturePack;

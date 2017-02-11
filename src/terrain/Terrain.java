@@ -7,7 +7,7 @@ package terrain;
 
 import dataAccess.lwjgl.ModelData;
 import java.awt.image.BufferedImage;
-import models.RawModel;
+import entity.models.RawModel;
 import org.lwjgl.util.vector.Vector3f;
 import dataAccess.lwjgl.Loader;
 import org.lwjgl.util.vector.Vector2f;

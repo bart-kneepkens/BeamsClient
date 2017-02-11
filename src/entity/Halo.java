@@ -5,7 +5,7 @@
  */
 package entity;
 
-import entity.texture.TexturedModel;
+import entity.models.TexturedModel;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
 

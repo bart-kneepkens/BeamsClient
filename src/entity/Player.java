@@ -6,7 +6,7 @@
 package entity;
 
 import beamsClient.BeamsClient;
-import entity.texture.TexturedModel;
+import entity.models.TexturedModel;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector3f;

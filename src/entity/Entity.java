@@ -6,7 +6,7 @@
 package entity;
 
 import beamsClient.BeamsClient;
-import entity.texture.TexturedModel;
+import entity.models.TexturedModel;
 import java.util.List;
 import java.util.Map;
 import org.lwjgl.util.vector.Vector2f;

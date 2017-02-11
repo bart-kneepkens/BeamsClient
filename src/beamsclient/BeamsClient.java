@@ -5,30 +5,30 @@
  */
 package beamsClient;
 
-import GUI.UserInterface;
+import gui.UserInterface;
 import renderEngine.DisplayManager;
 import dataAccess.lwjgl.Loader;
-import Game.ThirdPersonCamera;
-import Game.Scene;
+import game.camera.ThirdPersonCamera;
+import game.Scene;
 import dataAccess.FileLoader;
 import dataAccess.OBJLoader;
-import entity.Entity;
-import entity.Lamp;
-import entity.Light;
-import entity.Player;
-import entity.models.ModelTexture;
-import entity.models.TexturedModel;
-import fontRendering.TextMaster;
+import game.entity.Entity;
+import game.entity.Lamp;
+import game.entity.Light;
+import game.entity.Player;
+import game.entity.models.ModelTexture;
+import game.entity.models.TexturedModel;
+import gui.font.lwjgl.TextMaster;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import entity.models.RawModel;
+import game.entity.models.RawModel;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.MasterRenderer;
-import terrain.Terrain;
+import game.terrain.Terrain;
 import userInput.KeyboardInput;
 import userInput.MouseInput;
 

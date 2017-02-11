@@ -13,10 +13,10 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-import entity.models.RawModel;
-import terrain.Terrain;
-import terrain.texture.TerrainTexture;
-import terrain.texture.TerrainTexturePack;
+import game.entity.models.RawModel;
+import game.terrain.Terrain;
+import game.terrain.texture.TerrainTexture;
+import game.terrain.texture.TerrainTexturePack;
 
 /**
  *

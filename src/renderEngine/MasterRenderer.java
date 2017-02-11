@@ -5,17 +5,17 @@
  */
 package renderEngine;
 
-import GUI.UserInterface;
-import terrain.lwjgl.TerrainRenderer;
-import GUI.lwjgl.GUIRenderer;
-import Game.Scene;
-import entity.Entity;
-import entity.lwjgl.EntityRenderer;
-import fontRendering.FontRenderer;
+import gui.UserInterface;
+import game.terrain.lwjgl.TerrainRenderer;
+import gui.lwjgl.GUIRenderer;
+import game.Scene;
+import game.entity.Entity;
+import game.entity.lwjgl.EntityRenderer;
+import gui.font.lwjgl.FontRenderer;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Matrix4f;
-import terrain.Terrain;
+import game.terrain.Terrain;
 import toolbox.Maths;
 
 /**

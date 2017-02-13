@@ -15,7 +15,7 @@ public abstract class Camera {
     /**
      * The exact position of the camera.
      */
-    protected final Vector3f position = new Vector3f(0, 0, 0);
+    protected Vector3f position = new Vector3f(0, 0, 0);
 
     /**
      * The vertical angle of the camera.

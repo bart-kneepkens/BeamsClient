@@ -94,7 +94,7 @@ public class Scene {
         return player;
     }
 
-    public Scene(Player player, ThirdPersonCamera camera, List<Light> lights, Terrain terrain) {
+    public Scene(Player player, Camera camera, List<Light> lights, Terrain terrain) {
         this.player = player;
         this.camera = camera;
         this.lights = lights;

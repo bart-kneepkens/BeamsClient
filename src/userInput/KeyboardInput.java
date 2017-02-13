@@ -15,6 +15,8 @@ import org.lwjgl.input.Keyboard;
 public class KeyboardInput {
 
     public static void checkInputs() {
+        
+        
         while (Keyboard.next()) {
             if (Keyboard.getEventKeyState()) {
                 if (Keyboard.getEventKey() == Keyboard.KEY_ESCAPE) {

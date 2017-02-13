@@ -12,6 +12,7 @@ import game.camera.ThirdPersonCamera;
 import game.Scene;
 import dataAccess.FileLoader;
 import dataAccess.OBJLoader;
+import game.camera.FreeCamera;
 import game.entity.Entity;
 import game.entity.Lamp;
 import game.entity.Light;
@@ -29,6 +30,9 @@ import game.entity.models.RawModel;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.MasterRenderer;
 import game.terrain.Terrain;
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Keyboard;
+import org.lwjgl.input.Mouse;
 import userInput.KeyboardInput;
 import userInput.MouseInput;
 
@@ -220,6 +224,7 @@ public class BeamsClient extends GameApplication {
         // is relative to the player, the list of lights and the terrain.
         scene = new Scene(
                 player,
+                //new FreeCamera(new Vector3f(40,100,40), 90, 0,0),
                 new ThirdPersonCamera(player),
                 lights,
                 terrain);
@@ -260,11 +265,15 @@ public class BeamsClient extends GameApplication {
     public void setUp() {
         try {
             DisplayManager.createDisplay();
+            Keyboard.create();
+            Mouse.create();
             loadDefaultUserInterface();
             loadDefaultScene();
 
             this.masterRenderer = new MasterRenderer();
         } catch (IOException ex) {
+            Logger.getLogger(BeamsClient.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (LWJGLException ex) {
             Logger.getLogger(BeamsClient.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -3,12 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/game/camera/Camera.java</file>
-            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/beamsClient/BeamsClient.java</file>
-            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/game/entity/Bullet.java</file>
-            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/userInput/KeyboardInput.java</file>
-            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/gui/objects/SettingsWindow.java</file>
-            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/gui/UserInterface.java</file>
+            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/game/camera/ThirdPersonCamera.java</file>
+            <file>file:/Users/Blackened/NetBeansProjects/BeamsClient/src/dataAccess/FileLoader.java</file>
         </group>
     </open-files>
 </project-private>

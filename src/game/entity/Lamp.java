@@ -14,8 +14,17 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class Lamp extends Entity {
 
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     private final Light light;
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    public Light getLight() {
+        return light;
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
     public Lamp(String name, TexturedModel model, Vector3f position, Vector3f rotation, float scale, Vector3f lightOffSet, Vector3f lightColour) {
         super(name, model, position, rotation, scale);
         this.light = new Light(
@@ -35,13 +44,12 @@ public class Lamp extends Entity {
                 lightColour,
                 attenuation);
     }
+//</editor-fold>
 
-    public Light getLight() {
-        return light;
-    }
-    
-    public void decreaseAttenuation(){
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
+    public void decreaseAttenuation() {
         this.light.multiplyAttenuation(1, 0.95f, 1);
     }
+//</editor-fold>
 
 }

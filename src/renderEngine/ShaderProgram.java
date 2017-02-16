@@ -27,6 +27,7 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public abstract class ShaderProgram {
 
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     /**
      * The ID of the shader program.
      */
@@ -46,8 +47,16 @@ public abstract class ShaderProgram {
      * A map of all single (e.g. no arrays) uniform variable locations mapped to
      * their name.
      */
-    protected Map<String, Integer> uniformLocations = new HashMap<>();
+    private Map<String, Integer> uniformLocations = new HashMap<>();
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    protected Map<String, Integer> getUniformLocations() {
+        return uniformLocations;
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
     /**
      * Creates a new instance of ShaderProgram, and links the program.
      *
@@ -63,35 +72,9 @@ public abstract class ShaderProgram {
         GL20.glAttachShader(programID, fragmentShaderID);
         bindVariablesAndValidate();
     }
+//</editor-fold>
 
-    /**
-     * Binds the <b>in</b> variables of the vertex shader, the uniform variables,
-     * and links and validates both shaders.
-     */
-    private void bindVariablesAndValidate() {
-        bindAttributes();
-        GL20.glLinkProgram(programID);
-        GL20.glValidateProgram(programID);
-        getAllUniformLocations();
-    }
-
-    /**
-     * Will get all uniform locations by calling the getUniformLocation method
-     * for all uniform variables needed.
-     */
-    protected abstract void getAllUniformLocations();
-
-    /**
-     * Get the location for a uniform variable.
-     *
-     * @param uniformName The name of the uniform variable for which the
-     * location will be returned.
-     * @return The location of a uniform variable specified by the name.
-     */
-    protected int getUniformLocation(String uniformName) {
-        return GL20.glGetUniformLocation(programID, uniformName);
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
     /**
      * Starts the program.
      */
@@ -116,6 +99,25 @@ public abstract class ShaderProgram {
         GL20.glDeleteShader(vertexShaderID);
         GL20.glDeleteShader(fragmentShaderID);
         GL20.glDeleteProgram(programID);
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Protected Methods">
+    /**
+     * Will get all uniform locations by calling the getUniformLocation method
+     * for all uniform variables needed.
+     */
+    protected abstract void getAllUniformLocations();
+
+    /**
+     * Get the location for a uniform variable.
+     *
+     * @param uniformName The name of the uniform variable for which the
+     * location will be returned.
+     * @return The location of a uniform variable specified by the name.
+     */
+    protected int getUniformLocation(String uniformName) {
+        return GL20.glGetUniformLocation(programID, uniformName);
     }
 
     /**
@@ -168,8 +170,8 @@ public abstract class ShaderProgram {
     protected void loadVector(int location, Vector3f vector) {
         GL20.glUniform3f(location, vector.x, vector.y, vector.z);
     }
-    
-    protected void load2DVector(int location, Vector2f vector){
+
+    protected void load2DVector(int location, Vector2f vector) {
         GL20.glUniform2f(location, vector.x, vector.y);
     }
 
@@ -204,6 +206,19 @@ public abstract class ShaderProgram {
         matrixBuffer.flip();
         GL20.glUniformMatrix4(location, false, matrixBuffer);
     }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Private Methods">
+    /**
+     * Binds the <b>in</b> variables of the vertex shader, the uniform
+     * variables, and links and validates both shaders.
+     */
+    private void bindVariablesAndValidate() {
+        bindAttributes();
+        GL20.glLinkProgram(programID);
+        GL20.glValidateProgram(programID);
+        getAllUniformLocations();
+    }
 
     /**
      * Loads the shader given its content and type.
@@ -235,4 +250,6 @@ public abstract class ShaderProgram {
         return shaderID;
 
     }
+//</editor-fold>
+
 }

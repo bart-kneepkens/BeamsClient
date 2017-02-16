@@ -22,10 +22,20 @@ import toolbox.Maths;
  *
  * @author Blackened
  */
-public class TerrainRenderer extends TerrainShader implements Renderer<Terrain>{
+public class TerrainRenderer extends TerrainShader implements Renderer<Terrain> {
 
+    //<editor-fold defaultstate="collapsed" desc="Properties">
+    /**
+     *
+     */
     private final Matrix4f projectionMatrix;
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
+    /**
+     *
+     * @param projectionMatrix
+     */
     public TerrainRenderer(Matrix4f projectionMatrix) {
         this.projectionMatrix = projectionMatrix;
         this.start();
@@ -33,7 +43,13 @@ public class TerrainRenderer extends TerrainShader implements Renderer<Terrain>{
         this.connectTextureUnits();
         this.stop();
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
+    /**
+     *
+     * @param terrain
+     */
     @Override
     public void render(Terrain terrain) {
         prepareTerrain(terrain);
@@ -44,7 +60,13 @@ public class TerrainRenderer extends TerrainShader implements Renderer<Terrain>{
         unbindTexturedModel();
 
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Private Methods">
+    /**
+     *
+     * @param terrain
+     */
     private void prepareTerrain(Terrain terrain) {
         RawModel rawModel = terrain.getModel();
         GL30.glBindVertexArray(rawModel.getVaoID());
@@ -54,6 +76,10 @@ public class TerrainRenderer extends TerrainShader implements Renderer<Terrain>{
         bindTextures(terrain);
     }
 
+    /**
+     *
+     * @param terrain
+     */
     private void bindTextures(Terrain terrain) {
         TerrainTexturePack texturePack = terrain.getTexturePack();
         GL13.glActiveTexture(GL13.GL_TEXTURE0);
@@ -68,17 +94,24 @@ public class TerrainRenderer extends TerrainShader implements Renderer<Terrain>{
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, terrain.getBlendMap().getTextureID());
     }
 
+    /**
+     *
+     * @param terrain
+     */
     private void loadModelMatrix(Terrain terrain) {
         Matrix4f transformationMatrix = Maths.createTransformationMatrix(new Vector3f(terrain.getX(), 0, terrain.getZ()), terrain.getRotation(), 1);
         this.loadUniformMatrix("transformationMatrix", transformationMatrix);
     }
 
+    /**
+     *
+     */
     private void unbindTexturedModel() {
         GL20.glDisableVertexAttribArray(VERTEX_POSITIONS);
         GL20.glDisableVertexAttribArray(TEXTURE_COORDS);
         GL20.glDisableVertexAttribArray(NORMAL_VECTORS);
         GL30.glBindVertexArray(0);
     }
-
+//</editor-fold>
 
 }

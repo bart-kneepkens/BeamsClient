@@ -6,7 +6,6 @@
 package game;
 
 import game.camera.Camera;
-import game.camera.ThirdPersonCamera;
 import game.entity.Entity;
 import game.entity.Lamp;
 import game.entity.Light;
@@ -25,6 +24,7 @@ import game.terrain.Terrain;
  */
 public class Scene {
 
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     /**
      * The camera that will be used to render the scene.
      */
@@ -39,7 +39,7 @@ public class Scene {
      * The player object of the scene.
      */
     private Player player;
-    
+
     /**
      * The sun of the scene.
      */
@@ -49,29 +49,22 @@ public class Scene {
      * The terrain of the scene.
      */
     private Terrain terrain;
-    
-    /**
-     * A map of all entities present in the scene, mapped to their textured 
-     * model.
-     */
-    Map<TexturedModel, List<Entity>> entities;
 
     /**
+     * A map of all entities present in the scene, mapped to their textured
+     * model.
+     */
+    private Map<TexturedModel, List<Entity>> entities;
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    /**
      * Getter for the sun of this scene object.
+     *
      * @return The sun.
      */
     public Lamp getSun() {
         return sun;
-    }
-
-    /**
-     * 
-     * @param sun 
-     */
-    public void setSun(Lamp sun) {
-        this.sun = sun;
-        this.addEntity(sun);
-        this.lights.add(sun.getLight());
     }
 
     public void setTerrain(Terrain terrain) {
@@ -94,6 +87,12 @@ public class Scene {
         return player;
     }
 
+    public Map<TexturedModel, List<Entity>> getEntities() {
+        return entities;
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
     public Scene(Player player, Camera camera, List<Light> lights, Terrain terrain) {
         this.player = player;
         this.camera = camera;
@@ -101,33 +100,38 @@ public class Scene {
         this.terrain = terrain;
         this.entities = new HashMap<>();
     }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
+    /**
+     *
+     * @param sun
+     */
+    public void setSun(Lamp sun) {
+        this.sun = sun;
+        this.addEntity(sun);
+        this.lights.add(sun.getLight());
+    }
 
     public void update() {
         this.getPlayer().update();
         this.getCamera().update();
     }
 
-
     public void addEntity(Entity entity) {
         Optional<TexturedModel> optionalKey = this.entities.keySet().stream().filter(x -> x.doesEqual(entity.getModel())).findAny();
-        if(optionalKey.isPresent())
-        {
+        if (optionalKey.isPresent()) {
             this.entities.get(optionalKey.get()).add(entity);
-        }
-        else{
+        } else {
             List<Entity> entityList = new ArrayList<>();
             entityList.add(entity);
             this.entities.put(entity.getModel(), entityList);
         }
     }
-    
-    public void addTexturedModel(TexturedModel texturedModel){
+
+    public void addTexturedModel(TexturedModel texturedModel) {
         this.entities.put(texturedModel, new ArrayList<>());
     }
-    
-    public Map<TexturedModel, List<Entity>> getEntities() {
-        return entities;
-    }
-    
-    
+//</editor-fold>
+
 }

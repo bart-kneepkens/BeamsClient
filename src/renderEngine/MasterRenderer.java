@@ -26,6 +26,7 @@ import toolbox.Maths;
  */
 public class MasterRenderer {
 
+    //<editor-fold defaultstate="collapsed" desc="Static Properties">
     /**
      * The field of view with which the objects will be rendered.
      */
@@ -40,7 +41,9 @@ public class MasterRenderer {
      * The far plane with which the objects will be rendered.
      */
     private static final float FAR_PLANE = 1000;
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     /**
      * A renderer and shader that is specified in rendering graphical user
      * interface elements.
@@ -66,7 +69,9 @@ public class MasterRenderer {
      * and is used for all 3D rendering.
      */
     private Matrix4f viewMatrix;
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
     /**
      * Creates a new instance of the MasterRenderer class.
      */
@@ -81,7 +86,9 @@ public class MasterRenderer {
         GL11.glEnable(GL11.GL_CULL_FACE);
         GL11.glCullFace(GL11.GL_BACK);
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
     /**
      * Clears the display and sets its background colour.
      *
@@ -89,13 +96,12 @@ public class MasterRenderer {
     public void prepare() {
         GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-        if(DisplayManager.white){
+        if (DisplayManager.white) {
             GL11.glClearColor(0.9f, 1f, 1, 1);
-        }
-        else{
+        } else {
             GL11.glClearColor(0, 0, 0, 1);
         }
-        
+
     }
 
     /**
@@ -123,18 +129,17 @@ public class MasterRenderer {
      * @param userInterface
      */
     public void render(UserInterface userInterface) {
-        
-        
+
         this.startGUIElementRendering(userInterface);
         userInterface.getChildren().forEach(x -> guiRenderer.render(x));
         this.stopGUIElementRendering();
-        
+
         this.startFontRendering(userInterface);
         userInterface.getChildren().forEach(x -> {
-            if(x.getGUIElement().getLabel() != null){
+            if (x.getGUIElement().getLabel() != null) {
                 this.fontRenderer.renderText(x.getGUIElement().getLabel());
             }
-                });
+        });
         this.stopFontRendering();
     }
 
@@ -147,7 +152,9 @@ public class MasterRenderer {
         this.terrainRenderer.cleanUp();
         this.fontRenderer.cleanUp();
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Private Methods">
     /**
      * Prepares for 3D rendering by creating the view matrix
      *
@@ -265,5 +272,6 @@ public class MasterRenderer {
 
         return projectionMatrix;
     }
+//</editor-fold>
 
 }

@@ -11,7 +11,10 @@ package toolbox;
  */
 public class AttributeListPosition {
 
+    //<editor-fold defaultstate="collapsed" desc="Static Properties">
     public final static int VERTEX_POSITIONS = 0;
     public final static int TEXTURE_COORDS = 1;
     public final static int NORMAL_VECTORS = 2;
+//</editor-fold>
+
 }

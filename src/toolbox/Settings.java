@@ -10,7 +10,9 @@ package toolbox;
  * @author Blackened
  */
 public class Settings {
-    
+
+    //<editor-fold defaultstate="collapsed" desc="Static Properties">
     public static boolean ANISOTROPIC_FILTERING = true;
-    
+//</editor-fold>
+
 }

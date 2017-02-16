@@ -9,14 +9,14 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import rx.subjects.PublishSubject;
-import userInput.MouseState;
 
 /**
  *
  * @author Blackened
  */
-public class MouseInput{
+public class MouseInput {
 
+    //<editor-fold defaultstate="collapsed" desc="Static Properties">
     private static PublishSubject<MouseState> mouseSubject = PublishSubject.create();
 
     private static boolean btn1Pressed;
@@ -24,18 +24,19 @@ public class MouseInput{
     private static Vector2f pressOrigin;
 
     private static boolean btn2Pressed;
-    
-    private static MouseState mouseState;
 
+    private static MouseState mouseState;
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Static Methods">
     public static void checkInputs() {
         mouseState = new MouseState(false, false, Mouse.getX(), Mouse.getY(), Mouse.getDX(), Mouse.getDY(), Mouse.getDWheel());
         if (!Mouse.isGrabbed()) {
             if (btn2Pressed || btn1Pressed) {
                 Mouse.setGrabbed(true);
             }
-        }
-        else{
-            if(!btn2Pressed && !btn1Pressed){
+        } else {
+            if (!btn2Pressed && !btn1Pressed) {
                 Mouse.setGrabbed(false);
             }
         }
@@ -50,7 +51,7 @@ public class MouseInput{
             mouseState = mouseState.pressOrigin(pressOrigin);
         } else if (!Mouse.isButtonDown(0) && btn1Pressed) {
             btn1Pressed = false;
-            Mouse.setCursorPosition((int) pressOrigin.x, (int) ((int) Display.getHeight() -pressOrigin.y));
+            Mouse.setCursorPosition((int) pressOrigin.x, (int) ((int) Display.getHeight() - pressOrigin.y));
         }
         if (Mouse.isButtonDown(1) && !btn2Pressed) {
             btn2Pressed = true;
@@ -62,7 +63,7 @@ public class MouseInput{
             mouseState = mouseState.pressOrigin(pressOrigin);
         } else if (!Mouse.isButtonDown(1) && btn2Pressed) {
             btn2Pressed = false;
-            Mouse.setCursorPosition((int) pressOrigin.x, (int) ((int) Display.getHeight()-pressOrigin.y));
+            Mouse.setCursorPosition((int) pressOrigin.x, (int) ((int) Display.getHeight() - pressOrigin.y));
         }
         mouseSubject.onNext(mouseState);
     }
@@ -70,8 +71,10 @@ public class MouseInput{
     public static PublishSubject<MouseState> getMouseSubject() {
         return mouseSubject;
     }
-    
-    public static void clearSubject(){
+
+    public static void clearSubject() {
         mouseSubject = null;
     }
+//</editor-fold>
+
 }

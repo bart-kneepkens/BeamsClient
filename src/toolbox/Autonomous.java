@@ -10,11 +10,15 @@ package toolbox;
  * @author Blackened
  */
 public interface Autonomous {
-    
-    void update();
-    
-    boolean isActive();
-    
-    void setActive(boolean value);
-    
+
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    public boolean isActive();
+
+    public void setActive(boolean value);
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
+    public void update();
+//</editor-fold>
+
 }

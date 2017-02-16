@@ -5,23 +5,19 @@
  */
 package gui.lib;
 
-import userInput.MouseState;
-
 /**
  *
  * @author Blackened
  */
 public class Event {
-    
+
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     private MouseState mouseState;
-    
+
     private Object sender;
+//</editor-fold>
 
-    public Event(MouseState mouseState, Object sender) {
-        this.mouseState = mouseState;
-        this.sender = sender;
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
     public MouseState getMouseState() {
         return mouseState;
     }
@@ -29,5 +25,13 @@ public class Event {
     public Object getSender() {
         return sender;
     }
-    
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
+    public Event(MouseState mouseState, Object sender) {
+        this.mouseState = mouseState;
+        this.sender = sender;
+    }
+//</editor-fold>
+
 }

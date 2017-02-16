@@ -22,7 +22,8 @@ import org.lwjgl.opengl.PixelFormat;
  * @author Blackened
  */
 public class DisplayManager {
-    
+
+    //<editor-fold defaultstate="collapsed" desc="Static Properties">
     public static boolean white = false;
 
     /**
@@ -49,22 +50,24 @@ public class DisplayManager {
      * The time it took to render this frame in milliseconds.
      */
     private static float delta;
-    
+
     private static int amountOfFrames = 0;
-    
+
     private static float totalTime = 0;
-    
+
     /**
      * The title of the display.
      */
     private static final String TITLE = "Beams";
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Static Methods">
     /**
      * Creates a new display, with width, height and the title specified as
      * static variables to the display manager.
      *
      */
-    public static void createDisplay(){
+    public static void createDisplay() {
 
         ContextAttribs attribs = new ContextAttribs(3, 2)
                 .withForwardCompatible(true)
@@ -79,7 +82,7 @@ public class DisplayManager {
             GL11.glEnable(GL13.GL_MULTISAMPLE);
             //Display.setVSyncEnabled(true);
             //Display.setFullscreen(true);
-            
+
         } catch (LWJGLException ex) {
             Logger.getLogger(DisplayManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -107,8 +110,8 @@ public class DisplayManager {
         lastFrameTime = currentFrameTime;
         amountOfFrames++;
         totalTime = delta + totalTime;
-        
-        if(amountOfFrames % 1000 == 0){
+
+        if (amountOfFrames % 1000 == 0) {
             Display.setTitle("Beams (fps: " + String.valueOf(Math.round(amountOfFrames / totalTime)) + ")");
             amountOfFrames = 0;
             totalTime = 0;
@@ -140,5 +143,6 @@ public class DisplayManager {
     public static long getCurrentTime() {
         return Sys.getTime() * 1000 / Sys.getTimerResolution();
     }
+//</editor-fold>
 
 }

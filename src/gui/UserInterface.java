@@ -30,10 +30,31 @@ import gui.lib.MouseInput;
  */
 public class UserInterface implements Autonomous, GUIParent {
 
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     private final List<GUIRenderable> children;
 
     private boolean active = true;
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    @Override
+    public boolean isActive() {
+        return this.active;
+    }
+
+    @Override
+    public void setActive(boolean value) {
+        this.active = value;
+    }
+
+    @Override
+    public Collection<GUIRenderable> getChildren() {
+        return this.children;
+
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
     public UserInterface() throws IOException {
         this.children = new ArrayList<>();
 
@@ -69,36 +90,13 @@ public class UserInterface implements Autonomous, GUIParent {
         container.show();
         //</editor-fold>
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
     @Override
     public void update() {
         // Will be changed:
         MouseInput.checkInputs();
-    }
-
-    private void buttonExit_Click(Event event) throws IOException {
-        BeamsClient.getInstance().exit();
-    }
-
-    private void buttonLoadTerrain_Click(Event event) throws IOException {
-        new SettingsWindow(this).loadWindow().show();
-    }
-
-    @Override
-    public boolean isActive() {
-        return this.active;
-    }
-
-    @Override
-    public void setActive(boolean value) {
-        this.active = value;
-    }
-
-    @Override
-    public Collection<GUIRenderable> getChildren() {
-        return this.children;
-        
-        
     }
 
     @Override
@@ -127,4 +125,15 @@ public class UserInterface implements Autonomous, GUIParent {
             return z_index2.compareTo(z_index1);
         });
     }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Private Methods">
+    private void buttonExit_Click(Event event) throws IOException {
+        BeamsClient.getInstance().exit();
+    }
+
+    private void buttonLoadTerrain_Click(Event event) throws IOException {
+        new SettingsWindow(this).loadWindow().show();
+    }
+//</editor-fold>
 }

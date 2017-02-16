@@ -6,20 +6,23 @@
 package gui.lib;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  *
  * @author Blackened
  */
 public interface GUIParent {
-    
+
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
     public Collection<GUIRenderable> getChildren();
-    
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
     public void addChild(GUIRenderable child);
-    
+
     public void removeChild(GUIRenderable child);
-    
+
     public void addChildren(Collection<GUIRenderable> children);
-    
+//</editor-fold>
+
 }

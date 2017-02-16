@@ -24,6 +24,7 @@ import game.terrain.texture.TerrainTexturePack;
  */
 public class FileLoader {
 
+    //<editor-fold defaultstate="collapsed" desc="Static Methods">
     /**
      * Loads a file with .ter extension. Creates a terrain object with all
      * information found in this file.
@@ -85,7 +86,7 @@ public class FileLoader {
             terrain.setBlendMap(blendMap);
             TerrainTexturePack texturePack = new TerrainTexturePack(bgTexture, rTexture, gTexture, bTexture);
             terrain.setTexturePack(texturePack);
-            
+
             System.out.println("Terrain file successfully loaded.");
             return terrain;
         }
@@ -102,5 +103,5 @@ public class FileLoader {
         BufferedImage image = null;
         return image = ImageIO.read(file);
     }
-
+//</editor-fold>
 }

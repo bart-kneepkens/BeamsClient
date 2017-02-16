@@ -10,17 +10,32 @@ package game.terrain.texture;
  * @author Blackened
  */
 public class TerrainTexture {
-    
-    private int textureID;
 
-    public TerrainTexture(int textureID) {
-        this.textureID = textureID;
-    }
+    //<editor-fold defaultstate="collapsed" desc="Properties">
+    /**
+     *
+     */
+    private final int textureID;
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    /**
+     *
+     * @return
+     */
     public int getTextureID() {
         return textureID;
     }
-    
-    
-    
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
+    /**
+     *
+     * @param textureID
+     */
+    public TerrainTexture(int textureID) {
+        this.textureID = textureID;
+    }
+//</editor-fold>
+
 }

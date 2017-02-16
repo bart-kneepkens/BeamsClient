@@ -17,8 +17,8 @@ public class FontShader extends ShaderProgram {
 
     @Override
     protected void getAllUniformLocations() {
-        super.uniformLocations.put("location_colour", super.getUniformLocation("colour"));
-        super.uniformLocations.put("location_translation", super.getUniformLocation("translation"));
+        super.getUniformLocations().put("location_colour", super.getUniformLocation("colour"));
+        super.getUniformLocations().put("location_translation", super.getUniformLocation("translation"));
     }
 
     @Override
@@ -28,11 +28,11 @@ public class FontShader extends ShaderProgram {
     }
 
     protected void loadColour(Vector3f colour) {
-        super.loadVector(super.uniformLocations.get("location_colour"), colour);
+        super.loadVector(super.getUniformLocations().get("location_colour"), colour);
     }
 
     protected void loadTranslation(Vector2f translation) {
-        super.load2DVector(super.uniformLocations.get("location_translation"), translation);
+        super.load2DVector(super.getUniformLocations().get("location_translation"), translation);
     }
 
 }

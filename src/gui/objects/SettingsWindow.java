@@ -27,8 +27,11 @@ import gui.lib.MouseInput;
  */
 public class SettingsWindow extends Window {
 
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     private JDialog dialog;
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
     public SettingsWindow(UserInterface userInterface) throws IOException {
         super(userInterface);
 
@@ -85,7 +88,9 @@ public class SettingsWindow extends Window {
         this.addChild(cboxDayNight);
 
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Private Methods">
     private void btnLoadTerrain_Click(Event event) {
         Mouse.setGrabbed(false);
 
@@ -142,5 +147,6 @@ public class SettingsWindow extends Window {
             BeamsClient.getInstance().getScene().getSun().getLight().setAttenuation(new Vector3f(1f, 0, 0));
         }
     }
+//</editor-fold>
 
 }

@@ -26,6 +26,7 @@ import toolbox.Maths;
  */
 public class GUIRenderer extends GUIShader implements Renderer<GUIRenderable> {
 
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
     @Override
     public void render(GUIRenderable element) {
         GL30.glBindVertexArray(element.getGUIElement().getVaoID());
@@ -49,4 +50,6 @@ public class GUIRenderer extends GUIShader implements Renderer<GUIRenderable> {
         GL20.glDisableVertexAttribArray(TEXTURE_COORDS);
         GL30.glBindVertexArray(0);
     }
+//</editor-fold>
+
 }

@@ -13,6 +13,7 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public abstract class Camera {
 
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     /**
      * The exact position of the camera.
      */
@@ -21,7 +22,7 @@ public abstract class Camera {
     /**
      * The vertical angle of the camera.
      */
-    protected float pitch;
+    protected float pitch = 0;
 
     /**
      * The horizontal angle of the camera (around the y-axis).
@@ -31,35 +32,10 @@ public abstract class Camera {
     /**
      * The sideways vertical angle of the camera.
      */
-    protected float roll;
+    protected float roll = 0;
+//</editor-fold>
 
-
-    /**
-     * Increases the position of this camera object by the given amount.
-     *
-     * @param amount A 3D vector that contains the amounts that have to be added
-     * onto the position.
-     */
-    public final void increasePosition(Vector3f amount) {
-        this.position.x += amount.x;
-        this.position.y += amount.y;
-        this.position.z += amount.z;
-    }
-
-    public void changePitch(float amount) {
-        this.pitch += amount;
-    }
-
-    public void changeYaw(float amount) {
-        this.yaw += amount;
-    }
-    
-    public void changeRoll(float amount){
-        this.roll += amount;
-    }
-    
-    public abstract void changeZoomLevel(float amount);
-
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
     /**
      * Getter for the position of this camera object.
      *
@@ -95,10 +71,44 @@ public abstract class Camera {
     public final float getRoll() {
         return roll;
     }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
+    public Camera() {
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
+    /**
+     * Increases the position of this camera object by the given amount.
+     *
+     * @param amount A 3D vector that contains the amounts that have to be added
+     * onto the position.
+     */
+    public final void increasePosition(Vector3f amount) {
+        this.position.x += amount.x;
+        this.position.y += amount.y;
+        this.position.z += amount.z;
+    }
+
+    public void changePitch(float amount) {
+        this.pitch += amount;
+    }
+
+    public void changeYaw(float amount) {
+        this.yaw += amount;
+    }
+
+    public void changeRoll(float amount) {
+        this.roll += amount;
+    }
+
+    public abstract void changeZoomLevel(float amount);
 
     /**
      * Performs all state updates required each frame.
      */
     public abstract void update();
+//</editor-fold>
 
 }

@@ -18,6 +18,7 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class Entity {
 
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     /**
      * For testing purposes only!
      */
@@ -47,62 +48,15 @@ public class Entity {
      * The radius of the collision circle for this entity.
      */
     private final float collisionRadius;
+//</editor-fold>
 
-    /**
-     * Creates a new instance of the Entity class.
-     *
-     * @param name For testing purposes only!
-     * @param model The textured model that is being used by this entity.
-     * @param position The position of the entity.
-     * @param rotation The Euler rotation of the entity.
-     * @param scale The scale of the entity.
-     */
-    public Entity(String name, TexturedModel model, Vector3f position, Vector3f rotation, float scale) {
-        this.model = model;
-        this.position = position;
-        this.rotation = rotation;
-        this.scale = scale;
-        this.name = name;
-        this.collisionRadius = 0.25f;
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
     public String getName() {
         return name;
     }
 
     public float getCollisionRadius() {
         return collisionRadius;
-    }
-
-    /**
-     * Increases the position of the entity.
-     *
-     * @param dx
-     * @param dy
-     * @param dz
-     * <b>Note:</b> this vector can not be normalized!
-     */
-    public void increasePosition(float dx, float dy, float dz) {
-        this.position.x += dx;
-        this.position.y += dy;
-        this.position.z += dz;
-    }
-
-    public Vector3f calculateTranslation(float dx, float dy, float dz) {
-        return new Vector3f(this.position.getX() + dx, this.position.getY() + dy, this.position.getZ() + dz);
-    }
-
-    /**
-     * Increases the rotation of the entity.
-     *
-     * @param x
-     * @param y
-     * @param z
-     */
-    public void increaseRotation(float x, float y, float z) {
-        this.rotation.x += x;
-        this.rotation.y += y;
-        this.rotation.z += z;
     }
 
     /**
@@ -176,7 +130,62 @@ public class Entity {
     public void setScale(float scale) {
         this.scale = scale;
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
+    /**
+     * Creates a new instance of the Entity class.
+     *
+     * @param name For testing purposes only!
+     * @param model The textured model that is being used by this entity.
+     * @param position The position of the entity.
+     * @param rotation The Euler rotation of the entity.
+     * @param scale The scale of the entity.
+     */
+    public Entity(String name, TexturedModel model, Vector3f position, Vector3f rotation, float scale) {
+        this.model = model;
+        this.position = position;
+        this.rotation = rotation;
+        this.scale = scale;
+        this.name = name;
+        this.collisionRadius = 0.25f;
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
+    /**
+     * Increases the position of the entity.
+     *
+     * @param dx
+     * @param dy
+     * @param dz
+     * <b>Note:</b> this vector can not be normalized!
+     */
+    public void increasePosition(float dx, float dy, float dz) {
+        this.position.x += dx;
+        this.position.y += dy;
+        this.position.z += dz;
+    }
+
+    public Vector3f calculateTranslation(float dx, float dy, float dz) {
+        return new Vector3f(this.position.getX() + dx, this.position.getY() + dy, this.position.getZ() + dz);
+    }
+
+    /**
+     * Increases the rotation of the entity.
+     *
+     * @param x
+     * @param y
+     * @param z
+     */
+    public void increaseRotation(float x, float y, float z) {
+        this.rotation.x += x;
+        this.rotation.y += y;
+        this.rotation.z += z;
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Protected Methods">
     protected void checkCollisions() {
         Vector2f ownPosition = new Vector2f(this.getPosition().getX(), this.getPosition().getZ());
 
@@ -218,5 +227,6 @@ public class Entity {
         }
         return false;
     }
+//</editor-fold>
 
 }

@@ -7,7 +7,6 @@ package gui.lib;
 
 import java.util.function.Consumer;
 import rx.Subscription;
-import userInput.MouseState;
 
 /**
  *
@@ -15,6 +14,7 @@ import userInput.MouseState;
  */
 public abstract class MouseActor implements IListener {
 
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     private boolean pressed = false;
 
     /**
@@ -29,21 +29,34 @@ public abstract class MouseActor implements IListener {
     /**
      * The subscription to the mouse state.
      */
-    protected Subscription mouseSubscription;
+    private Subscription mouseSubscription;
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
     /**
      * Getter for the pressed property.
+     *
      * @return True if actor is pressed, false otherwise.
      */
     public boolean isPressed() {
         return pressed;
     }
 
+    protected Subscription getMouseSubscription() {
+        return mouseSubscription;
+    }
+
+    protected void setMouseSubscription(Subscription mouseSubscription) {
+        this.mouseSubscription = mouseSubscription;
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
     /**
-     * 
+     *
      * @param mouseState
      * @param sender
-     * @param value 
+     * @param value
      */
     public void setPressed(MouseState mouseState, Object sender, boolean value) {
         if (value) {
@@ -104,6 +117,13 @@ public abstract class MouseActor implements IListener {
         this.scrollConsumer = consumer;
     }
 
+    @Override
+    public final void unsubscribeToUserInput() {
+        this.mouseSubscription.unsubscribe();
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Protected Methods">
     /**
      * Requests the click consumer to handle the listeners click event, if any.
      *
@@ -142,10 +162,6 @@ public abstract class MouseActor implements IListener {
             scrollConsumer.accept(new Event(mouseState, sender));
         }
     }
-
-    @Override
-    public final void unsubscribeToUserInput() {
-        this.mouseSubscription.unsubscribe();
-    }
+//</editor-fold>
 
 }

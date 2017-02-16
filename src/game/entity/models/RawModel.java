@@ -13,12 +13,39 @@ package game.entity.models;
  */
 public class RawModel {
 
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     private int vaoID;
-    
-    private int vertexCount;
-    
-    private boolean containsInvertedNormals = false;
 
+    private int vertexCount;
+
+    private boolean containsInvertedNormals = false;
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    public boolean doesContainInvertedNormals() {
+        return containsInvertedNormals;
+    }
+
+    /**
+     * Getter for the VAO ID.
+     *
+     * @return The VAO ID of this instance of RawModel.
+     */
+    public int getVaoID() {
+        return vaoID;
+    }
+
+    /**
+     * Getter for the vertex count.
+     *
+     * @return The amount of vertices of this instance of RawModel.
+     */
+    public int getVertexCount() {
+        return vertexCount;
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
     /**
      * Creates a new instance of RawModel.
      *
@@ -42,31 +69,11 @@ public class RawModel {
         this.vertexCount = vertexCount;
         this.containsInvertedNormals = containsInvertedNormals;
     }
+//</editor-fold>
 
-    public boolean doesContainInvertedNormals() {
-        return containsInvertedNormals;
-    }
-    
-    public RawModel containsInvertedNormals(){
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
+    public RawModel containsInvertedNormals() {
         return new RawModel(vaoID, vertexCount, true);
-    }
-
-    /**
-     * Getter for the VAO ID.
-     *
-     * @return The VAO ID of this instance of RawModel.
-     */
-    public int getVaoID() {
-        return vaoID;
-    }
-
-    /**
-     * Getter for the vertex count.
-     *
-     * @return The amount of vertices of this instance of RawModel.
-     */
-    public int getVertexCount() {
-        return vertexCount;
     }
 
     public boolean doesEqual(RawModel other) {
@@ -74,4 +81,6 @@ public class RawModel {
                 && this.vertexCount == other.getVertexCount()
                 && this.containsInvertedNormals == other.doesContainInvertedNormals();
     }
+//</editor-fold>
+
 }

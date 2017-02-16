@@ -29,6 +29,7 @@ import toolbox.Convert;
  */
 public class GUIElementLoader {
 
+    //<editor-fold defaultstate="collapsed" desc="Static Properties">
     /**
      * Keeps track of all VAO's, VBO's and textures, so they can be deleted from
      * memory once the program exits.
@@ -36,7 +37,9 @@ public class GUIElementLoader {
     private static List<Integer> vaos = new ArrayList<>();
     private static List<Integer> vbos = new ArrayList<>();
     private static Map<String, Texture> textures = new HashMap<>();
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Static Methods">
     /**
      * Creates a new VAO, binds the data to one of the attribute lists.
      *
@@ -51,8 +54,8 @@ public class GUIElementLoader {
 
         return vaoID;
     }
-    
-    public static void unloadVAO(GUIElement guiElement){
+
+    public static void unloadVAO(GUIElement guiElement) {
         destroyVAO(guiElement.getVaoID());
     }
 
@@ -87,8 +90,8 @@ public class GUIElementLoader {
         vaos.add(vaoID);
         return vaoID;
     }
-    
-    private static void destroyVAO(int vaoID){
+
+    private static void destroyVAO(int vaoID) {
         GL30.glDeleteVertexArrays(vaoID);
     }
 
@@ -155,5 +158,6 @@ public class GUIElementLoader {
         vbos.forEach(x -> GL15.glDeleteBuffers(x));
         textures.values().forEach(x -> GL11.glDeleteTextures(x.getTextureID()));
     }
+//</editor-fold>
 
 }

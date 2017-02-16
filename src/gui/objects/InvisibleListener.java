@@ -7,9 +7,8 @@ package gui.objects;
 
 import gui.lib.MouseActor;
 import org.lwjgl.util.vector.Vector2f;
-import org.lwjgl.util.vector.Vector3f;
 import rx.Observable;
-import userInput.MouseState;
+import gui.lib.MouseState;
 
 /**
  *
@@ -17,29 +16,31 @@ import userInput.MouseState;
  */
 public class InvisibleListener extends MouseActor {
 
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     private final int width;
     private final int height;
     private final Vector2f position;
-    private final Vector3f rotation;
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
     /**
      * Creates a new instance of the Panel class.
      *
      * @param width The width of the panel in pixels.
      * @param height The height of the panel in pixels.
      * @param position The position of the panel in pixels.
-     * @param rotation The Euler rotation of the panel.
      */
-    public InvisibleListener(int width, int height, Vector2f position, Vector3f rotation) {
+    public InvisibleListener(int width, int height, Vector2f position) {
         this.width = width;
         this.height = height;
         this.position = position;
-        this.rotation = rotation;
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
     @Override
     public void subscribe(Observable<MouseState> inputObservable) {
-        this.mouseSubscription = inputObservable
+        this.setMouseSubscription(inputObservable
                 .subscribe(x -> {
                     // Checks whether the cursor is in range of the panel.
                     if (this.inRange(x)) {
@@ -61,10 +62,12 @@ public class InvisibleListener extends MouseActor {
                         this.setPressed(x, this, false);
                     }
                 },
-                        x -> x.printStackTrace());
+                        x -> x.printStackTrace()));
     }
+//</editor-fold>
 
-    public boolean inRange(MouseState mouseState) {
+    //<editor-fold defaultstate="collapsed" desc="Private Methods">
+    private boolean inRange(MouseState mouseState) {
         if (mouseState.getX() > this.position.x
                 && mouseState.getX() < this.position.x + this.width) {
             return mouseState.getY() > this.position.y
@@ -72,5 +75,6 @@ public class InvisibleListener extends MouseActor {
         }
         return false;
     }
+//</editor-fold>
 
 }

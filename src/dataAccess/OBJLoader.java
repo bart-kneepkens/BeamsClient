@@ -28,8 +28,11 @@ import org.lwjgl.util.vector.Vector3f;
  */
 public class OBJLoader {
 
+    //<editor-fold defaultstate="collapsed" desc="Static Properties">
     private static Map<String, ModelData> modelCache = new HashMap<>();
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Static Methods">
     /**
      * Loads all vertices, normals, texture-coordinates and indices from a file.
      *
@@ -212,4 +215,6 @@ public class OBJLoader {
         normalsArray[currentVertexPointer * 3 + 1] = currentNorm.y;
         normalsArray[currentVertexPointer * 3 + 2] = currentNorm.z;
     }
+//</editor-fold>
+
 }

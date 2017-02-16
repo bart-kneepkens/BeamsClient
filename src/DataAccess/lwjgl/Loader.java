@@ -40,6 +40,7 @@ import toolbox.Settings;
  */
 public class Loader {
 
+    //<editor-fold defaultstate="collapsed" desc="Static Properties">
     /**
      * Keeps track of all VAO's, VBO's and textures, so they can be deleted from
      * memory once the program exits.
@@ -47,7 +48,9 @@ public class Loader {
     private static final List<Integer> vaos = new ArrayList<>();
     private static final List<Integer> vbos = new ArrayList<>();
     private static final Map<String, Integer> textureMap = new HashMap<>();
+    //</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Static Methods">
     /**
      * Creates a new VAO, binds the data to one of the attribute lists.
      *
@@ -255,5 +258,6 @@ public class Loader {
         vbos.forEach(x -> GL15.glDeleteBuffers(x));
         textureMap.values().forEach(x -> GL11.glDeleteTextures(x));
     }
+    //</editor-fold>
 
 }

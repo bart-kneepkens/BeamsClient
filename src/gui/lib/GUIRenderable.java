@@ -5,31 +5,34 @@
  */
 package gui.lib;
 
-
-
 /**
  *
  * @author Blackened
  */
 public interface GUIRenderable {
-    
-    GUIElement getGUIElement();
-    
-    GUIParent getParent();
-    
-    default void load(){
+
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    public GUIElement getGUIElement();
+
+    public GUIParent getParent();
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
+    public default void load() {
         this.getGUIElement().load();
     }
-    
-    default void unload(){
+
+    public default void unload() {
         this.getGUIElement().unload();
     }
-    
-    default void show(){
+
+    public default void show() {
         this.getParent().addChild(this);
     }
-    
-    default void hide(){
+
+    public default void hide() {
         this.getParent().removeChild(this);
     }
+//</editor-fold>
+
 }

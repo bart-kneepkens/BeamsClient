@@ -14,22 +14,40 @@ import renderEngine.ShaderProgram;
  *
  * @author Blackened
  */
-public class GUIShader extends ShaderProgram{
-    
-    
+public class GUIShader extends ShaderProgram {
+
+    //<editor-fold defaultstate="collapsed" desc="Static Properties">
     /**
      * The locations of the shader files.
      */
     private static final String VERTEX_FILE = "src/GUI/lwjgl/vertexShaderGUI.glsl";
     private static final String FRAGMENT_FILE = "src/GUI/lwjgl/fragmentShaderGUI.glsl";
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
     public GUIShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
     }
-    
-    
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
+    /**
+     * Loads a matrix into a uniform variable. Throws an exception if uniform
+     * variable is not found.
+     *
+     * @param uniformName The name of the uniform variable.
+     * @param matrix The matrix to be loaded into the uniform variable.
+     */
+    public void loadUniformMatrix(String uniformName, Matrix4f matrix) {
+        super.loadMatrix(super.getUniformLocations().get(uniformName), matrix);
+    }
 
+    public void loadFloat(String uniformName, float value) {
+        super.loadFloat(super.getUniformLocations().get(uniformName), value);
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Protected Methods">
     /**
      * Binds all attributes to the variable names in the shaders.
      */
@@ -44,23 +62,8 @@ public class GUIShader extends ShaderProgram{
      */
     @Override
     protected void getAllUniformLocations() {
-        uniformLocations.put("transformationMatrix", super.getUniformLocation("transformationMatrix"));
+        super.getUniformLocations().put("transformationMatrix", super.getUniformLocation("transformationMatrix"));
     }
-    
-    /**
-     * Loads a matrix into a uniform variable. Throws an exception if uniform
-     * variable is not found.
-     * @param uniformName The name of the uniform variable.
-     * @param matrix The matrix to be loaded into the uniform variable.
-     */
-    public void loadUniformMatrix(String uniformName, Matrix4f matrix){
-        super.loadMatrix(uniformLocations.get(uniformName), matrix);
-    }
-    
-    public void loadFloat(String uniformName, float value){
-        super.loadFloat(uniformLocations.get(uniformName), value);
-    }
-    
-    
-    
+//</editor-fold>
+
 }

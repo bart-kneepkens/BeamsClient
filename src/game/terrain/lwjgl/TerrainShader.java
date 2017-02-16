@@ -11,33 +11,104 @@ import org.lwjgl.util.vector.Matrix4f;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.ShaderProgram;
 import static toolbox.AttributeListPosition.*;
+
 /**
  *
  * @author Blackened
  */
-public class TerrainShader extends ShaderProgram{
-    
-    private static final int MAX_LIGHTS = 4;
-    
-    private int location_lightPosition[];
-    private int location_lightColour[];
-    private int location_attenuation[];
-    
+public class TerrainShader extends ShaderProgram {
+
+    //<editor-fold defaultstate="collapsed" desc="Static Properties">
     /**
-     * The locations of the shader files.
+     *
+     */
+    private static final int MAX_LIGHTS = 4;
+
+    /**
+     * The location of the vertex shader file.
      */
     private static final String VERTEX_FILE = "src/Game/terrain/lwjgl/vertexShader.glsl";
-    private static final String FRAGMENT_FILE = "src/Game/terrain/lwjgl/fragmentShader.glsl";
-    
-    
 
+    /**
+     * The location of the fragment shader file.
+     */
+    private static final String FRAGMENT_FILE = "src/Game/terrain/lwjgl/fragmentShader.glsl";
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Properties">
+    /**
+     *
+     */
+    private int location_lightPosition[];
+
+    /**
+     *
+     */
+    private int location_lightColour[];
+
+    /**
+     *
+     */
+    private int location_attenuation[];
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
     /**
      * Creates a new instance of the static shader class.
      */
     protected TerrainShader() {
         super(VERTEX_FILE, FRAGMENT_FILE);
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
+    /**
+     *
+     */
+    public void getLightUniformLocations() {
+        location_lightPosition = new int[MAX_LIGHTS];
+        location_lightColour = new int[MAX_LIGHTS];
+        location_attenuation = new int[MAX_LIGHTS];
+
+        for (int i = 0; i < MAX_LIGHTS; i++) {
+            location_lightPosition[i] = super.getUniformLocation("lightPosition[" + i + "]");
+            location_lightColour[i] = super.getUniformLocation("lightColour[" + i + "]");
+            location_attenuation[i] = super.getUniformLocation("attenuation[" + i + "]");
+        }
+    }
+
+    /**
+     * Loads a matrix into a uniform variable. Throws an exception if uniform
+     * variable is not found.
+     *
+     * @param uniformName The name of the uniform variable.
+     * @param matrix The matrix to be loaded into the uniform variable.
+     */
+    public final void loadUniformMatrix(String uniformName, Matrix4f matrix) {
+        super.loadMatrix(super.getUniformLocations().get(uniformName), matrix);
+    }
+
+    /**
+     * Loads the light position and colour to the uniform variable.
+     *
+     * @param lights
+     */
+    public void loadLights(List<Light> lights) {
+        for (int i = 0; i < MAX_LIGHTS; i++) {
+            if (i < lights.size()) {
+                super.loadVector(location_lightPosition[i], lights.get(i).getPosition());
+                super.loadVector(location_lightColour[i], lights.get(i).getColour());
+                super.loadVector(location_attenuation[i], lights.get(i).getAttenuation());
+            } else {
+                super.loadVector(location_lightPosition[i], new Vector3f(0, 0, 0));
+                super.loadVector(location_lightColour[i], new Vector3f(0, 0, 0));
+                super.loadVector(location_attenuation[i], new Vector3f(4, 0, 0));
+            }
+        }
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Protected Methods">
     /**
      * Binds all attributes to the variable names in the shaders.
      */
@@ -53,72 +124,37 @@ public class TerrainShader extends ShaderProgram{
      */
     @Override
     protected void getAllUniformLocations() {
-        uniformLocations.put("transformationMatrix", super.getUniformLocation("transformationMatrix"));
-        uniformLocations.put("projectionMatrix", super.getUniformLocation("projectionMatrix"));
-        uniformLocations.put("viewMatrix", super.getUniformLocation("viewMatrix"));
-        uniformLocations.put("backgroundTexture", super.getUniformLocation("backgroundTexture"));
-        uniformLocations.put("rTexture", super.getUniformLocation("rTexture"));
-        uniformLocations.put("gTexture", super.getUniformLocation("gTexture"));
-        uniformLocations.put("bTexture", super.getUniformLocation("bTexture"));
-        uniformLocations.put("blendMap", super.getUniformLocation("blendMap"));
+        super.getUniformLocations().put("transformationMatrix", super.getUniformLocation("transformationMatrix"));
+        super.getUniformLocations().put("projectionMatrix", super.getUniformLocation("projectionMatrix"));
+        super.getUniformLocations().put("viewMatrix", super.getUniformLocation("viewMatrix"));
+        super.getUniformLocations().put("backgroundTexture", super.getUniformLocation("backgroundTexture"));
+        super.getUniformLocations().put("rTexture", super.getUniformLocation("rTexture"));
+        super.getUniformLocations().put("gTexture", super.getUniformLocation("gTexture"));
+        super.getUniformLocations().put("bTexture", super.getUniformLocation("bTexture"));
+        super.getUniformLocations().put("blendMap", super.getUniformLocation("blendMap"));
 
         this.getLightUniformLocations();
     }
 
-    public void getLightUniformLocations() {
-        location_lightPosition = new int[MAX_LIGHTS];
-        location_lightColour = new int[MAX_LIGHTS];
-        location_attenuation = new int[MAX_LIGHTS];
+    /**
+     *
+     */
+    protected final void connectTextureUnits() {
+        super.loadInt(super.getUniformLocations().get("backgroundTexture"), 0);
+        super.loadInt(super.getUniformLocations().get("rTexture"), 1);
+        super.loadInt(super.getUniformLocations().get("gTexture"), 2);
+        super.loadInt(super.getUniformLocations().get("bTexture"), 3);
+        super.loadInt(super.getUniformLocations().get("blendMap"), 4);
 
-        for (int i = 0; i < MAX_LIGHTS; i++) {
-            location_lightPosition[i] = super.getUniformLocation("lightPosition[" + i + "]");
-            location_lightColour[i] = super.getUniformLocation("lightColour[" + i + "]");
-            location_attenuation[i] = super.getUniformLocation("attenuation[" + i + "]");
-        }
     }
-    
-    protected final void connectTextureUnits(){
-        super.loadInt(uniformLocations.get("backgroundTexture"), 0);
-        super.loadInt(uniformLocations.get("rTexture"), 1);
-        super.loadInt(uniformLocations.get("gTexture"), 2);
-        super.loadInt(uniformLocations.get("bTexture"), 3);
-        super.loadInt(uniformLocations.get("blendMap"), 4);
-        
-    }
-    
-    protected void loadUniformFloat(String uniformName, float value){
-        super.loadFloat(uniformLocations.get(uniformName), value);
-    }
-    
+
     /**
-     * Loads a matrix into a uniform variable. Throws an exception if uniform
-     * variable is not found.
-     * @param uniformName The name of the uniform variable.
-     * @param matrix The matrix to be loaded into the uniform variable.
+     *
+     * @param uniformName
+     * @param value
      */
-    public final void loadUniformMatrix(String uniformName, Matrix4f matrix){
-        super.loadMatrix(uniformLocations.get(uniformName), matrix);
+    protected void loadUniformFloat(String uniformName, float value) {
+        super.loadFloat(super.getUniformLocations().get(uniformName), value);
     }
-    
-    /**
-     * Loads the light position and colour to the uniform variable.
-     * @param lights
-     */
-    public void loadLights(List<Light> lights){
-        for (int i = 0; i < MAX_LIGHTS; i++) {
-            if (i < lights.size()) {
-                super.loadVector(location_lightPosition[i], lights.get(i).getPosition());
-                super.loadVector(location_lightColour[i], lights.get(i).getColour());
-                super.loadVector(location_attenuation[i], lights.get(i).getAttenuation());
-            } else {
-                super.loadVector(location_lightPosition[i], new Vector3f(0,0,0));
-                super.loadVector(location_lightColour[i], new Vector3f(0,0,0));
-                super.loadVector(location_attenuation[i], new Vector3f(4,0,0));
-            }
-        }
-    }
-    
-    
-    
-    
+//</editor-fold>
 }

@@ -13,18 +13,18 @@ import org.lwjgl.util.vector.Vector2f;
  *
  * @author Blackened
  */
-public class Label extends GUIText{
-    
+public class Label extends GUIText {
+
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
     public Label(String text, float fontSize, FontType font, Vector2f position, float maxLineLength, boolean centered) {
         super(
-                text, 
-                fontSize, 
-                font, 
-                position, 
-        maxLineLength, 
-        centered);
+                text,
+                fontSize,
+                font,
+                position,
+                maxLineLength,
+                centered);
     }
-    
-    
-    
+//</editor-fold>
+
 }

@@ -3,58 +3,34 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package userInput;
+package gui.lib;
 
 import org.lwjgl.util.vector.Vector2f;
 
 /**
- * THIS CLASS IS IMMUTABLE!
+ * THIS CLASS IS BULLSHIT AF!
  *
  * @author Blackened
  */
 public class MouseState {
 
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     private boolean button0Down;
     private boolean button1Down;
     private int scroll;
 
     private Vector2f pressOrigin;
-    
 
     private int X;
     private int Y;
-    
+
     private int dX;
     private int dY;
+//</editor-fold>
 
-    public MouseState(boolean button0Down, boolean button1Down, int X, int Y, int dX, int dY, int scroll) {
-        this.button0Down = button0Down;
-        this.button1Down = button1Down;
-        this.X = X;
-        this.Y = Y;
-        this.dX = dX;
-        this.dY = dY;
-        this.pressOrigin = null;
-        this.scroll = scroll;
-    }
-
-    public MouseState(boolean button0Down, boolean button1Down, int X, int Y, int dX, int dY, int scroll, Vector2f pressOrigin) {
-        this.button0Down = button0Down;
-        this.button1Down = button1Down;
-        this.X = X;
-        this.Y = Y;
-        this.dX = dX;
-        this.dY = dY;
-        this.pressOrigin = pressOrigin;
-        this.scroll = scroll;
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
     public Vector2f getPressOrigin() {
         return pressOrigin;
-    }
-
-    public MouseState pressOrigin(Vector2f pressOrigin) {
-        return new MouseState(this.button0Down, this.button1Down, this.X, this.Y, this.dX, this.dY, this.scroll, pressOrigin);
     }
 
     public boolean isButton0Down() {
@@ -84,9 +60,36 @@ public class MouseState {
     public int getdY() {
         return dY;
     }
-    
-    
-    
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
+    public MouseState(boolean button0Down, boolean button1Down, int X, int Y, int dX, int dY, int scroll) {
+        this.button0Down = button0Down;
+        this.button1Down = button1Down;
+        this.X = X;
+        this.Y = Y;
+        this.dX = dX;
+        this.dY = dY;
+        this.pressOrigin = null;
+        this.scroll = scroll;
+    }
+
+    public MouseState(boolean button0Down, boolean button1Down, int X, int Y, int dX, int dY, int scroll, Vector2f pressOrigin) {
+        this.button0Down = button0Down;
+        this.button1Down = button1Down;
+        this.X = X;
+        this.Y = Y;
+        this.dX = dX;
+        this.dY = dY;
+        this.pressOrigin = pressOrigin;
+        this.scroll = scroll;
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
+    public MouseState pressOrigin(Vector2f pressOrigin) {
+        return new MouseState(this.button0Down, this.button1Down, this.X, this.Y, this.dX, this.dY, this.scroll, pressOrigin);
+    }
 
     public MouseState button0Down(boolean value) {
         return new MouseState(value, this.button1Down, this.X, this.Y, this.dX, this.dY, this.scroll, this.pressOrigin);
@@ -103,12 +106,12 @@ public class MouseState {
     public MouseState Y(int value) {
         return new MouseState(this.button0Down, this.button1Down, this.X, value, this.dY, this.dX, this.scroll, this.pressOrigin);
     }
-    
-    public MouseState dX(int value){
+
+    public MouseState dX(int value) {
         return new MouseState(this.button0Down, this.button1Down, this.X, this.Y, value, this.dY, this.scroll, this.pressOrigin);
     }
-    
-    public MouseState dY(int value){
+
+    public MouseState dY(int value) {
         return new MouseState(this.button0Down, this.button1Down, this.X, this.Y, this.dX, value, this.scroll, this.pressOrigin);
     }
 
@@ -122,4 +125,6 @@ public class MouseState {
                 && this.dX == other.dX
                 && this.dY == other.dY;
     }
+//</editor-fold>
+
 }

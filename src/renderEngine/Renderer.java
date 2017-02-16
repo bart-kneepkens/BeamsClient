@@ -13,25 +13,28 @@ package renderEngine;
  */
 public interface Renderer<T> {
 
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
     /**
      * This method will have to be called before rendering is begun.
      */
-    void start();
+    public void start();
 
     /**
      * This method will have to be called after rendering has ended.
      */
-    void stop();
+    public void stop();
 
     /**
      * This method will have to be called when the renderer is no longer used.
      */
-    void cleanUp();
+    public void cleanUp();
 
     /**
      * This method will have to be called to render an object of type T.
+     *
      * @param object The object to be rendered.
      */
-    void render(T object);
+    public void render(T object);
+//</editor-fold>
 
 }

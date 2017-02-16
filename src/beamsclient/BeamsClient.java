@@ -12,11 +12,11 @@ import game.camera.ThirdPersonCamera;
 import game.Scene;
 import dataAccess.FileLoader;
 import dataAccess.OBJLoader;
-import game.camera.FreeCamera;
 import game.entity.Entity;
 import game.entity.Lamp;
 import game.entity.Light;
 import game.entity.Player;
+import game.entity.Wizard;
 import game.entity.models.ModelTexture;
 import game.entity.models.TexturedModel;
 import gui.font.lwjgl.TextMaster;
@@ -33,7 +33,8 @@ import game.terrain.Terrain;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import userInput.InputHandler;
+import userInput.ApplicationInputHandler;
+import userInput.GameInputHandler;
 
 /**
  * This is a main class containing the program loop.
@@ -52,8 +53,8 @@ public class BeamsClient extends GameApplication {
     private final File DEFAULT_LAMP_TEXTURE = new File("res/textures/lampTexture.png");
     private final File DEFAULT_SUN_MODEL = new File("res/models/ball.obj");
     private final File DEFAULT_SUN_TEXTURE = new File("res/textures/WhiteTexture.png");
-    private final File DEFAULT_BULLET_MODEL = new File("res/models/bullet.obj");
-    private final File DEFAULT_BULLET_TEXTURE = new File("res/textures/WhiteTexture.png");
+    public static final File DEFAULT_BULLET_MODEL = new File("res/models/bullet.obj");
+    public static final File DEFAULT_BULLET_TEXTURE = new File("res/textures/WhiteTexture.png");
     //</editor-fold>
 
     /**
@@ -67,6 +68,9 @@ public class BeamsClient extends GameApplication {
      * contains all logic for this 2D space.
      */
     private UserInterface userInterface;
+
+    private GameInputHandler gameInputHandler;
+    private ApplicationInputHandler appInputHandler;
 
     /**
      * The renderer that is responsible for rendering of the scene and user
@@ -117,32 +121,24 @@ public class BeamsClient extends GameApplication {
      * @throws IOException when files are not found.
      */
     public void loadDefaultScene() throws IOException {
-        
+
         //<editor-fold defaultstate="collapsed" desc="Terrain">
         // Loads the default terrain.
         Terrain terrain = FileLoader.loadTerrain(DEFAULT_TERRAIN);
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Entities">
-        // Loads the default bullet textured model.
-        RawModel bulletModel = OBJLoader.loadObjModel(DEFAULT_BULLET_MODEL);
-        ModelTexture bulletTexture = new ModelTexture(Loader.loadTexture(DEFAULT_BULLET_TEXTURE));
-        TexturedModel texturedBulletModel = new TexturedModel(bulletModel, bulletTexture);
-        bulletTexture.setReflectivity(1);
-        bulletTexture.setShineDamper(10);
-
         // Loads the default player entity.
         RawModel playerModel = OBJLoader.loadObjModel(DEFAULT_PLAYER_MODEL);
         ModelTexture playerTexture = new ModelTexture(Loader.loadTexture(DEFAULT_PLAYER_TEXTURE));
         TexturedModel texturedPlayerModel = new TexturedModel(playerModel, playerTexture);
         playerTexture.setReflectivity(0);
         playerTexture.setShineDamper(100);
-        Player player = new Player(
+        Player player = new Wizard(
                 texturedPlayerModel,
                 new Vector3f(15, 0, 15),
                 new Vector3f(0, (float) Math.toRadians(45), 0),
-                0.1f,
-                texturedBulletModel);
+                0.1f);
 
         // Loads the default textured object model.
         RawModel objectModel = OBJLoader.loadObjModel(DEFAULT_OBJECT_MODEL);
@@ -232,7 +228,6 @@ public class BeamsClient extends GameApplication {
         scene.addEntity(entity);
         scene.addEntity(entity1);
         scene.addEntity(entity2);
-        scene.addTexturedModel(texturedBulletModel);
 
         // Adds the lamp entities to the scene.
         scene.addEntity(lamp);
@@ -245,6 +240,7 @@ public class BeamsClient extends GameApplication {
 
     /**
      * Loads default user interface object.
+     *
      * @throws java.io.IOException when files are not found.
      */
     public void loadDefaultUserInterface() throws IOException {
@@ -256,18 +252,25 @@ public class BeamsClient extends GameApplication {
 
     }
 
+    public void loadInputHandlers() {
+        this.gameInputHandler = new GameInputHandler(this.getScene().getCamera(), this.getScene().getPlayer());
+        this.appInputHandler = new ApplicationInputHandler(this);
+    }
+
     /**
-     * Creates the display, and sets up everything that is necessary for 
-     * the game.
+     * Creates the display, and sets up everything that is necessary for the
+     * game.
      */
     @Override
     public void setUp() {
         try {
             DisplayManager.createDisplay();
+
+            this.loadDefaultUserInterface();
+            this.loadDefaultScene();
             Keyboard.create();
             Mouse.create();
-            loadDefaultUserInterface();
-            loadDefaultScene();
+            this.loadInputHandlers();
 
             this.masterRenderer = new MasterRenderer();
         } catch (IOException ex) {
@@ -291,7 +294,8 @@ public class BeamsClient extends GameApplication {
      */
     @Override
     public void handleInput() {
-        InputHandler.handleInput();
+        this.appInputHandler.handleInput();
+        this.gameInputHandler.handleInput();
     }
 
     /**

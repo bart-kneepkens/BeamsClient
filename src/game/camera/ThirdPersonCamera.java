@@ -14,15 +14,16 @@ import game.entity.Player;
  */
 public class ThirdPersonCamera extends Camera {
 
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     /**
      * The normal pitch for this camera object.
      */
-    public float normalPitch = 10;
-    
+    private float normalPitch = 10;
+
     /**
      * The normal angle around player for this camera object.
      */
-    public float normalAngleAroundPlayer = 0;
+    private float normalAngleAroundPlayer = 0;
 
     /**
      * The distance from the camera to the player object.
@@ -48,7 +49,9 @@ public class ThirdPersonCamera extends Camera {
      * The player object that this camera is attached to.
      */
     private Player player;
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
     /**
      * Creates a new instance of the ThirdPersonCamera class.
      *
@@ -58,7 +61,9 @@ public class ThirdPersonCamera extends Camera {
     public ThirdPersonCamera(Player player) {
         this.player = player;
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
     /**
      * Adjusts the zoom level.
      *
@@ -92,6 +97,25 @@ public class ThirdPersonCamera extends Camera {
         }
     }
 
+    @Override
+    public void update() {
+        if (!this.pitchChanged) {
+            this.normalizePitch();
+        }
+        if (!this.yawChanged) {
+            this.normalizeAngleAroundPlayer();
+        }
+
+        float horizontalOffSet = getHorizontalOffSet();
+        float verticalOffSet = getVerticalOffSet();
+        this.calculateCameraPosition(horizontalOffSet, verticalOffSet);
+
+        this.pitchChanged = false;
+        this.yawChanged = false;
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Private Methods">
     /**
      * Calculates the exact horizontal distance between this camera and the
      * player object.
@@ -162,22 +186,6 @@ public class ThirdPersonCamera extends Camera {
         this.position.z = player.getPosition().z - offsetZ;
         this.position.y = player.getPosition().getY() + 1 + verticalOffSet;
     }
-
-    @Override
-    public void update() {
-        if (!this.pitchChanged) {
-            this.normalizePitch();
-        }
-        if (!this.yawChanged) {
-            this.normalizeAngleAroundPlayer();
-        }
-
-        float horizontalOffSet = getHorizontalOffSet();
-        float verticalOffSet = getVerticalOffSet();
-        this.calculateCameraPosition(horizontalOffSet, verticalOffSet);
-
-        this.pitchChanged = false;
-        this.yawChanged = false;
-    }
+//</editor-fold>
 
 }

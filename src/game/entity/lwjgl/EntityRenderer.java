@@ -26,12 +26,15 @@ import toolbox.Maths;
  */
 public class EntityRenderer extends StaticShader implements Renderer<Entity> {
 
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     /**
      * The projection matrix for all entities that will be rendered with this
      * instance.
      */
     private final Matrix4f projectionMatrix;
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
     /**
      * Creates a new instance of the Renderer class. Loads the projection matrix
      * to the vertex shader.
@@ -45,7 +48,9 @@ public class EntityRenderer extends StaticShader implements Renderer<Entity> {
         this.loadUniformMatrix("projectionMatrix", this.projectionMatrix);
         this.stop();
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
     /**
      * Renders a batch of entities with a single textured model.
      *
@@ -85,7 +90,9 @@ public class EntityRenderer extends StaticShader implements Renderer<Entity> {
             GL11.glEnable(GL11.GL_CULL_FACE);
         }
     }
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Private Methods">
     private void prepareTexturedModel(TexturedModel model) {
         RawModel rawModel = model.getRawModel();
         if (rawModel.doesContainInvertedNormals()) {
@@ -116,5 +123,6 @@ public class EntityRenderer extends StaticShader implements Renderer<Entity> {
             GL11.glEnable(GL11.GL_CULL_FACE);
         }
     }
+//</editor-fold>
 
 }

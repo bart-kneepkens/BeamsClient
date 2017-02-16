@@ -21,11 +21,14 @@ import toolbox.Maths;
  */
 public class Terrain {
 
+    //<editor-fold defaultstate="collapsed" desc="Static Properties">
     public static float SIZE = 80;
     public static float BORDER_SIZE = 2;
     public static float MAX_HEIGHT = 20;
     public static float MAX_PIXEL_COLOUR = 256 * 256 * 256;
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     private float xCoord;
     private float zCoord;
 
@@ -39,22 +42,9 @@ public class Terrain {
     private RawModel model;
     private TerrainTexturePack texturePack;
     private TerrainTexture blendMap;
+//</editor-fold>
 
-    public Terrain(float gridX, float gridZ, TerrainTexturePack texturePack, TerrainTexture blendMap, BufferedImage heightMap) {
-        this.xCoord = gridX * SIZE;
-        this.zCoord = gridZ * SIZE;
-        this.rotation = new Vector3f(0, 0, 0);
-        this.texturePack = texturePack;
-        this.blendMap = blendMap;
-        this.model = generateTerrain(heightMap);
-    }
-
-    public Terrain() {
-        this.xCoord = 0;
-        this.zCoord = 0;
-        this.rotation = new Vector3f(0, 0, 0);
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
     public float getX() {
         return xCoord;
     }
@@ -83,6 +73,37 @@ public class Terrain {
         this.heightTable = heights;
     }
 
+    public RawModel getModel() {
+        return model;
+    }
+
+    public TerrainTexturePack getTexturePack() {
+        return texturePack;
+    }
+
+    public TerrainTexture getBlendMap() {
+        return blendMap;
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
+    public Terrain(float gridX, float gridZ, TerrainTexturePack texturePack, TerrainTexture blendMap, BufferedImage heightMap) {
+        this.xCoord = gridX * SIZE;
+        this.zCoord = gridZ * SIZE;
+        this.rotation = new Vector3f(0, 0, 0);
+        this.texturePack = texturePack;
+        this.blendMap = blendMap;
+        this.model = generateTerrain(heightMap);
+    }
+
+    public Terrain() {
+        this.xCoord = 0;
+        this.zCoord = 0;
+        this.rotation = new Vector3f(0, 0, 0);
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
     public float getHeightOfTerrain(float worldX, float worldZ) {
         float terrainX = worldX - this.xCoord;
         float terrainZ = worldZ - this.zCoord;
@@ -97,15 +118,15 @@ public class Terrain {
         float answer;
         if (x <= (1 - z)) {
             answer = Maths.barryCentric(new Vector3f(0, heightTable[gridX][gridZ], 0), new Vector3f(1,
-                            heightTable[gridX + 1][gridZ], 0), new Vector3f(0,
-                            heightTable[gridX][gridZ + 1], 1), new Vector2f(x, z));
+                    heightTable[gridX + 1][gridZ], 0), new Vector3f(0,
+                    heightTable[gridX][gridZ + 1], 1), new Vector2f(x, z));
         } else {
             answer = Maths.barryCentric(new Vector3f(1, heightTable[gridX + 1][gridZ], 0), new Vector3f(1,
-                            heightTable[gridX + 1][gridZ + 1], 1), new Vector3f(0,
-                            heightTable[gridX][gridZ + 1], 1), new Vector2f(x, z));
+                    heightTable[gridX + 1][gridZ + 1], 1), new Vector3f(0,
+                    heightTable[gridX][gridZ + 1], 1), new Vector2f(x, z));
         }
         return answer;
-        
+
     }
 
     /**
@@ -119,19 +140,9 @@ public class Terrain {
         this.rotation.y += vector.y;
         this.rotation.z += vector.z;
     }
+//</editor-fold>
 
-    public RawModel getModel() {
-        return model;
-    }
-
-    public TerrainTexturePack getTexturePack() {
-        return texturePack;
-    }
-
-    public TerrainTexture getBlendMap() {
-        return blendMap;
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="Static Methods">
     public static RawModel generateTerrain(BufferedImage heightMap) {
 
         int VERTEX_COUNT = heightMap.getHeight();
@@ -208,4 +219,6 @@ public class Terrain {
         normal.normalise();
         return normal;
     }
+
+    //</editor-fold>
 }

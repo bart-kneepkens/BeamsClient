@@ -5,7 +5,6 @@
  */
 package gui.objects;
 
-import gui.UserInterface;
 import gui.lib.MouseActor;
 import gui.lib.GUIElement;
 import gui.lib.GUIParent;
@@ -14,7 +13,7 @@ import java.io.IOException;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import rx.Observable;
-import userInput.MouseState;
+import gui.lib.MouseState;
 import gui.lib.GUIRenderable;
 import org.newdawn.slick.opengl.Texture;
 
@@ -26,11 +25,25 @@ import org.newdawn.slick.opengl.Texture;
  */
 public class Button extends MouseActor implements GUIRenderable {
 
-    
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     private GUIParent parent;
 
     private final GUIElement guiElement;
+//</editor-fold>
 
+    //<editor-fold defaultstate="collapsed" desc="Getters and Setters">
+    @Override
+    public GUIElement getGUIElement() {
+        return this.guiElement;
+    }
+
+    @Override
+    public GUIParent getParent() {
+        return this.parent;
+    }
+//</editor-fold>
+
+    //<editor-fold defaultstate="collapsed" desc="Constructors">
     /**
      * Creates a new instance of the Button class.
      *
@@ -41,7 +54,7 @@ public class Button extends MouseActor implements GUIRenderable {
      * @param rotation The Euler rotation of the button.
      */
     public Button(GUIParent parent, int width, int height, Vector2f position, int z_index, Vector3f rotation) {
-        this.guiElement = new GUIElement(width, height, position, z_index,rotation);
+        this.guiElement = new GUIElement(width, height, position, z_index, rotation);
         this.parent = parent;
     }
 
@@ -49,52 +62,12 @@ public class Button extends MouseActor implements GUIRenderable {
         this.guiElement = new GUIElement(width, height, position, z_index);
         this.parent = parent;
     }
+//</editor-fold>
 
-    /**
-     * Changes the buttons active texture to the hover texture.
-     */
-    private void changeToHoverTexture() {
-        this.guiElement.loadTextureCoords(new float[]{
-            this.guiElement.getTexture().getWidth()/ 2, 0,
-            this.guiElement.getTexture().getWidth()/ 2, this.guiElement.getTexture().getHeight() / 2,
-            this.guiElement.getTexture().getWidth(), this.guiElement.getTexture().getHeight() / 2,
-            this.guiElement.getTexture().getWidth(), this.guiElement.getTexture().getHeight() / 2,
-            this.guiElement.getTexture().getWidth(), 0,
-            this.guiElement.getTexture().getWidth()/ 2, 0
-        });
-    }
-
-    /**
-     * Changes the buttons active texture to the main texture.
-     */
-    private void changeToMainTexture() {
-        this.guiElement.loadTextureCoords(new float[]{
-            0, 0,
-            0, this.guiElement.getTexture().getHeight() / 2,
-            this.guiElement.getTexture().getWidth()/ 2, this.guiElement.getTexture().getHeight() / 2,
-            this.guiElement.getTexture().getWidth()/ 2, this.guiElement.getTexture().getHeight() / 2,
-            this.guiElement.getTexture().getWidth()/ 2, 0,
-            0, 0
-        });
-    }
-
-    /**
-     * Changes the buttons active texture to the click texture.
-     */
-    private void changeToClickTexture() {
-        this.guiElement.loadTextureCoords(new float[]{
-            0f, this.guiElement.getTexture().getHeight() / 2,
-            0f, this.guiElement.getTexture().getHeight(),
-            this.guiElement.getTexture().getWidth()/ 2, this.guiElement.getTexture().getHeight(),
-            this.guiElement.getTexture().getWidth()/ 2, this.guiElement.getTexture().getHeight(),
-            this.guiElement.getTexture().getWidth()/ 2, this.guiElement.getTexture().getHeight() / 2,
-            0f, this.guiElement.getTexture().getHeight() / 2
-        });
-    }
-
+    //<editor-fold defaultstate="collapsed" desc="Public Methods">
     @Override
     public void subscribe(Observable<MouseState> inputObservable) {
-        this.mouseSubscription = inputObservable
+        this.setMouseSubscription(inputObservable
                 .subscribe(x -> {
                     if (this.guiElement.inRange(x)) {
                         if (x.isButton0Down() && this.guiElement.inRange(x.getPressOrigin())) {
@@ -114,13 +87,13 @@ public class Button extends MouseActor implements GUIRenderable {
                         this.setPressed(x, this, false);
                     }
                 },
-                        x -> x.printStackTrace());
+                        x -> x.printStackTrace()));
     }
 
     public void loadTextureAtlas(String name) throws IOException {
         Texture texture = GUIElementLoader.loadTexture(name);
         this.guiElement.setTexture(texture);
-        
+
         float[] newTextureCoords = new float[]{
             0, 0,
             0, texture.getHeight(),
@@ -133,15 +106,50 @@ public class Button extends MouseActor implements GUIRenderable {
         this.guiElement.setTextureCoords(newTextureCoords);
         this.changeToMainTexture();
     }
+//</editor-fold>
 
-    @Override
-    public GUIElement getGUIElement() {
-        return this.guiElement;
+    //<editor-fold defaultstate="collapsed" desc="Private Methods">
+    /**
+     * Changes the buttons active texture to the hover texture.
+     */
+    private void changeToHoverTexture() {
+        this.guiElement.loadTextureCoords(new float[]{
+            this.guiElement.getTexture().getWidth() / 2, 0,
+            this.guiElement.getTexture().getWidth() / 2, this.guiElement.getTexture().getHeight() / 2,
+            this.guiElement.getTexture().getWidth(), this.guiElement.getTexture().getHeight() / 2,
+            this.guiElement.getTexture().getWidth(), this.guiElement.getTexture().getHeight() / 2,
+            this.guiElement.getTexture().getWidth(), 0,
+            this.guiElement.getTexture().getWidth() / 2, 0
+        });
     }
 
-    @Override
-    public GUIParent getParent() {
-        return this.parent;
+    /**
+     * Changes the buttons active texture to the main texture.
+     */
+    private void changeToMainTexture() {
+        this.guiElement.loadTextureCoords(new float[]{
+            0, 0,
+            0, this.guiElement.getTexture().getHeight() / 2,
+            this.guiElement.getTexture().getWidth() / 2, this.guiElement.getTexture().getHeight() / 2,
+            this.guiElement.getTexture().getWidth() / 2, this.guiElement.getTexture().getHeight() / 2,
+            this.guiElement.getTexture().getWidth() / 2, 0,
+            0, 0
+        });
     }
+
+    /**
+     * Changes the buttons active texture to the click texture.
+     */
+    private void changeToClickTexture() {
+        this.guiElement.loadTextureCoords(new float[]{
+            0f, this.guiElement.getTexture().getHeight() / 2,
+            0f, this.guiElement.getTexture().getHeight(),
+            this.guiElement.getTexture().getWidth() / 2, this.guiElement.getTexture().getHeight(),
+            this.guiElement.getTexture().getWidth() / 2, this.guiElement.getTexture().getHeight(),
+            this.guiElement.getTexture().getWidth() / 2, this.guiElement.getTexture().getHeight() / 2,
+            0f, this.guiElement.getTexture().getHeight() / 2
+        });
+    }
+//</editor-fold>
 
 }

@@ -8,8 +8,8 @@ package gui.objects;
 import gui.lib.GUIParent;
 import java.io.IOException;
 import org.lwjgl.util.vector.Vector2f;
-import userInput.Event;
-import userInput.MouseInput;
+import gui.lib.Event;
+import gui.lib.MouseInput;
 
 /**
  *

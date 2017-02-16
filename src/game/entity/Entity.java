@@ -95,13 +95,14 @@ public class Entity {
     /**
      * Increases the rotation of the entity.
      *
-     * @param vector The vector that translates the rotation.
-     * <b>Note:</b> this vector can not be normalized!
+     * @param x
+     * @param y
+     * @param z
      */
-    public void increaseRotation(Vector3f vector) {
-        this.rotation.x += vector.x;
-        this.rotation.y += vector.y;
-        this.rotation.z += vector.z;
+    public void increaseRotation(float x, float y, float z) {
+        this.rotation.x += x;
+        this.rotation.y += y;
+        this.rotation.z += z;
     }
 
     /**

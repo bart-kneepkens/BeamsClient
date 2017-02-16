@@ -36,36 +36,36 @@ public class Player extends Entity {
         this.bulletModel = bulletModel;
     }
 
-    public void moveForward() {
-        float dx = (float) (movementSpeed * Math.sin(super.getRotation().getY())) * DisplayManager.getFrameTimeSeconds();
-        float dz = (float) (movementSpeed * Math.cos(super.getRotation().getY())) * DisplayManager.getFrameTimeSeconds();
+    public void moveForward(float amount) {
+        float dx = (float) (movementSpeed * Math.sin(super.getRotation().getY())) * amount;
+        float dz = (float) (movementSpeed * Math.cos(super.getRotation().getY())) * amount;
         Vector3f nextPosition = super.calculateTranslation(dx, 0, dz);
         if (isMovementAllowed(nextPosition)) {
             super.increasePosition(dx, 0, dz);
         }
     }
 
-    public void moveBackward() {
-        float dx = (float) (movementSpeed * Math.sin(super.getRotation().getY())) * DisplayManager.getFrameTimeSeconds();
-        float dz = (float) (movementSpeed * Math.cos(super.getRotation().getY())) * DisplayManager.getFrameTimeSeconds();
+    public void moveBackward(float amount) {
+        float dx = (float) (movementSpeed * Math.sin(super.getRotation().getY())) * amount;
+        float dz = (float) (movementSpeed * Math.cos(super.getRotation().getY())) * amount;
         Vector3f nextPosition = super.calculateTranslation(-dx, 0, -dz);
         if (isMovementAllowed(nextPosition)) {
             super.increasePosition(-dx, 0, -dz);
         }
     }
 
-    public void strafeLeft() {
-        float dx = (float) (movementSpeed * Math.sin(super.getRotation().getY() - 0.5 * Math.PI)) * DisplayManager.getFrameTimeSeconds();
-        float dz = (float) (movementSpeed * Math.cos(super.getRotation().getY() - 0.5 * Math.PI)) * DisplayManager.getFrameTimeSeconds();
+    public void strafeLeft(float amount) {
+        float dx = (float) (movementSpeed * Math.sin(super.getRotation().getY() - 0.5 * Math.PI)) * amount;
+        float dz = (float) (movementSpeed * Math.cos(super.getRotation().getY() - 0.5 * Math.PI)) * amount;
         Vector3f nextPosition = super.calculateTranslation(-dx, 0, -dz);
         if (isMovementAllowed(nextPosition)) {
             super.increasePosition(-dx, 0, -dz);
         }
     }
 
-    public void strafeRight() {
-        float dx = (float) (movementSpeed * Math.sin(super.getRotation().getY() + 0.5 * Math.PI)) * DisplayManager.getFrameTimeSeconds();
-        float dz = (float) (movementSpeed * Math.cos(super.getRotation().getY() + 0.5 * Math.PI)) * DisplayManager.getFrameTimeSeconds();
+    public void strafeRight(float amount) {
+        float dx = (float) (movementSpeed * Math.sin(super.getRotation().getY() + 0.5 * Math.PI)) * amount;
+        float dz = (float) (movementSpeed * Math.cos(super.getRotation().getY() + 0.5 * Math.PI)) * amount;
         Vector3f nextPosition = super.calculateTranslation(-dx, 0, -dz);
         if (isMovementAllowed(nextPosition)) {
             super.increasePosition(-dx, 0, -dz);
@@ -108,21 +108,20 @@ public class Player extends Entity {
     }
 
     private boolean isMovementAllowed(Vector3f nextPosition) {
-        
         return (BeamsClient.getInstance().getScene().getTerrain().getHeightOfTerrain(nextPosition.getX(), nextPosition.getZ()) - this.getPosition().getY() < 0.3) && !this.checkCollisions(nextPosition);
     }
 
-    public void turnRight() {
-        super.increaseRotation(new Vector3f(0, -1 * turnSpeed * DisplayManager.getFrameTimeSeconds(), 0));
+    public void turnRight(float amount) {
+        super.increaseRotation(0, -1 * turnSpeed * amount, 0);
     }
 
-    public void turnLeft() {
-        super.increaseRotation(new Vector3f(0, 1 * turnSpeed * DisplayManager.getFrameTimeSeconds(), 0));
+    public void turnLeft(float amount) {
+        System.out.println("turend!");
+        super.increaseRotation(0, 1 * turnSpeed * amount, 0);
     }
 
     public void update() {
         this.gravitate();
-        this.checkInputs();
         this.checkCollisions();
         if (this.activeSpell != null) {
             if (this.activeSpell.getDeathTime() < DisplayManager.getCurrentTime()) {
@@ -132,44 +131,6 @@ public class Player extends Entity {
             } else {
                 this.activeSpell.update();
             }
-        }
-    }
-
-    private void checkInputs() {
-        if (Keyboard.isKeyDown(Keyboard.KEY_W) || Mouse.isButtonDown(0) && Mouse.isButtonDown(1)) {
-            this.moveForward();
-            if(Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)){
-                this.moveForward();
-            }
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_S)) {
-            this.moveBackward();
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_D)) {
-            if (Mouse.isButtonDown(1)) {
-                this.strafeRight();
-            } else {
-                this.turnRight();
-            }
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_A)) {
-            if (Mouse.isButtonDown(1)) {
-                this.strafeLeft();
-            } else {
-                this.turnLeft();
-            }
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_Q)) {
-            this.strafeLeft();
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_E)) {
-            this.strafeRight();
-        }
-        if (Keyboard.isKeyDown(Keyboard.KEY_SPACE)) {
-            this.jump();
-        }
-        if (Mouse.isButtonDown(1)) {
-            this.increaseRotation(new Vector3f(0, Mouse.getDX() * -0.003f, 0));
         }
     }
 

@@ -6,32 +6,53 @@
 package game.camera;
 
 import game.entity.Player;
-import org.lwjgl.input.Mouse;
 
 /**
  * Camera class for a camera that follows a player object around.
+ *
  * @author Blackened
  */
-public class ThirdPersonCamera extends Camera{
+public class ThirdPersonCamera extends Camera {
+
+    /**
+     * The normal pitch for this camera object.
+     */
+    public float normalPitch = 10;
+    
+    /**
+     * The normal angle around player for this camera object.
+     */
+    public float normalAngleAroundPlayer = 0;
 
     /**
      * The distance from the camera to the player object.
      */
     private float distanceFromPlayer = 6;
-    
+
     /**
      * The horizontal angle of the camera around the player object.
      */
     private float angleAroundPlayer = 0;
 
     /**
+     * Monitors whether the pitch has changed this frame.
+     */
+    private boolean pitchChanged = false;
+
+    /**
+     * Monitors whether the yaw has changed this frame.
+     */
+    private boolean yawChanged = false;
+
+    /**
      * The player object that this camera is attached to.
      */
     private Player player;
-    
+
     /**
      * Creates a new instance of the ThirdPersonCamera class.
-     * @param player The player object the camera object will be 'attached' to 
+     *
+     * @param player The player object the camera object will be 'attached' to
      * <i>(i.e. following)</i>.
      */
     public ThirdPersonCamera(Player player) {
@@ -39,72 +60,43 @@ public class ThirdPersonCamera extends Camera{
     }
 
     /**
-     * Checks for mouse scrolling and adjusts the zoom level.
+     * Adjusts the zoom level.
+     *
+     * @param amount
      */
-    private void calculateZoom() {
-        float zoomLevel = Mouse.getDWheel() * 0.001f;
-        if (zoomLevel > 0) {
-            if (distanceFromPlayer > 4) {
-                distanceFromPlayer -= zoomLevel;
+    @Override
+    public void changeZoomLevel(float amount) {
+        if (amount > 0) {
+            if (distanceFromPlayer - amount > 4) {
+                distanceFromPlayer -= amount;
             }
         } else {
-            if (distanceFromPlayer < 10) {
-                distanceFromPlayer -= zoomLevel;
+            if (distanceFromPlayer - amount < 10) {
+                distanceFromPlayer -= amount;
             }
         }
     }
 
-    /**
-     * Checks for mouse input, and sets the pitch of this camera accordingly.
-     * If there is no current mouse input for changing pitch, and the pitch is 
-     * some amount smaller than the minimum pitch, the pitch will change towards 
-     * the desired minimum pitch.
-     */
-    private void calculatePitch() {
-        if (Mouse.isButtonDown(1) || Mouse.isButtonDown(0)) {
-            float pitchChange = Mouse.getDY() * 0.1f;
-            if (this.pitch - pitchChange > 0 && this.pitch - pitchChange < 90) {
-                this.pitch -= pitchChange;
-            }
-        } else {
-            if (this.pitch < MINIMUM_PITCH - 2) {
-                this.pitch += 2;
-            } else if (this.pitch < MINIMUM_PITCH) {
-                this.pitch = MINIMUM_PITCH;
-            } else if (this.pitch > MINIMUM_PITCH + 2) {
-                this.pitch -= 2;
-            } else if (this.pitch > MINIMUM_PITCH) {
-                this.pitch = MINIMUM_PITCH;
-            }
+    @Override
+    public void changeYaw(float amount) {
+        this.yawChanged = true;
+        this.angleAroundPlayer += amount;
+        this.angleAroundPlayer = this.angleAroundPlayer % ((float) (Math.PI * 2));
+    }
+
+    @Override
+    public void changePitch(float amount) {
+        this.pitchChanged = true;
+        if (this.pitch - amount > 0 && this.pitch - amount < 90) {
+            this.pitch -= amount;
         }
     }
 
     /**
-     * Checks for mouse input, and sets the angle around the player object
-     * accordingly.
-     */
-    private void calculateAngleAroundPlayer() {
-        if (Mouse.isButtonDown(0)) {
-            this.angleAroundPlayer += Mouse.getDX() * -0.003f;
-            this.angleAroundPlayer = this.angleAroundPlayer % ((float)(Math.PI * 2));
-            
-        } else {
-            if (this.angleAroundPlayer < -0.075) {
-                this.angleAroundPlayer += 0.075;
-            } else if (this.angleAroundPlayer < 0) {
-                this.angleAroundPlayer = 0;
-            } else if (this.angleAroundPlayer > 0.075) {
-                this.angleAroundPlayer -= 0.075;
-            } else if (this.angleAroundPlayer > 0) {
-                this.angleAroundPlayer = 0;
-            }
-        }
-    }
-
-    /**
-     * Calculates the exact horizontal distance between this camera and the 
+     * Calculates the exact horizontal distance between this camera and the
      * player object.
-     * @return The horizontal distance between this camera and the player 
+     *
+     * @return The horizontal distance between this camera and the player
      * object.
      */
     private float getHorizontalOffSet() {
@@ -112,8 +104,9 @@ public class ThirdPersonCamera extends Camera{
     }
 
     /**
-     * Calculates the exact vertical distance between this camera and the 
-     * player object.
+     * Calculates the exact vertical distance between this camera and the player
+     * object.
+     *
      * @return The vertical distance between this camera and the player object.
      */
     private float getVerticalOffSet() {
@@ -121,11 +114,43 @@ public class ThirdPersonCamera extends Camera{
     }
 
     /**
-     * Sets the position for this camera based on a given horizontal offset and 
+     * Normalizes the pitch by moving it towards the normal pitch value.
+     */
+    private void normalizePitch() {
+        if (this.pitch < this.normalPitch - 2) {
+            this.pitch += 2;
+        } else if (this.pitch < this.normalPitch) {
+            this.pitch = this.normalPitch;
+        } else if (this.pitch > this.normalPitch + 2) {
+            this.pitch -= 2;
+        } else if (this.pitch > this.normalPitch) {
+            this.pitch = this.normalPitch;
+        }
+    }
+
+    /**
+     * Normalizes the angle around the player by moving it towards the normal
+     * angle around player value.
+     */
+    private void normalizeAngleAroundPlayer() {
+        if (this.angleAroundPlayer < -0.075) {
+            this.angleAroundPlayer += 0.075;
+        } else if (this.angleAroundPlayer < this.normalAngleAroundPlayer) {
+            this.angleAroundPlayer = this.normalAngleAroundPlayer;
+        } else if (this.angleAroundPlayer > 0.075) {
+            this.angleAroundPlayer -= 0.075;
+        } else if (this.angleAroundPlayer > this.normalAngleAroundPlayer) {
+            this.angleAroundPlayer = this.normalAngleAroundPlayer;
+        }
+    }
+
+    /**
+     * Sets the position for this camera based on a given horizontal offset and
      * vertical offset.
-     * @param horizontalOffSet The horizontal distance between this camera 
+     *
+     * @param horizontalOffSet The horizontal distance between this camera
      * object and the player object.
-     * @param verticalOffSet The vertical distance between this camera object 
+     * @param verticalOffSet The vertical distance between this camera object
      * and the player object.
      */
     private void calculateCameraPosition(float horizontalOffSet, float verticalOffSet) {
@@ -140,12 +165,19 @@ public class ThirdPersonCamera extends Camera{
 
     @Override
     public void update() {
-        this.calculateZoom();
-        this.calculatePitch();
-        this.calculateAngleAroundPlayer();
+        if (!this.pitchChanged) {
+            this.normalizePitch();
+        }
+        if (!this.yawChanged) {
+            this.normalizeAngleAroundPlayer();
+        }
+
         float horizontalOffSet = getHorizontalOffSet();
         float verticalOffSet = getVerticalOffSet();
         this.calculateCameraPosition(horizontalOffSet, verticalOffSet);
+
+        this.pitchChanged = false;
+        this.yawChanged = false;
     }
 
 }

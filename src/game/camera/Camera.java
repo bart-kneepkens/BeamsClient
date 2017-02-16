@@ -8,6 +8,7 @@ import org.lwjgl.util.vector.Vector3f;
 
 /**
  * Abstract camera class for viewing a 3D scene.
+ *
  * @author Blackened
  */
 public abstract class Camera {
@@ -23,11 +24,6 @@ public abstract class Camera {
     protected float pitch;
 
     /**
-     * The default pitch for the camera objects.
-     */
-    public static float MINIMUM_PITCH = 10;
-
-    /**
      * The horizontal angle of the camera (around the y-axis).
      */
     protected float yaw = 0;
@@ -37,9 +33,11 @@ public abstract class Camera {
      */
     protected float roll;
 
+
     /**
      * Increases the position of this camera object by the given amount.
-     * @param amount A 3D vector that contains the amounts that have to be added 
+     *
+     * @param amount A 3D vector that contains the amounts that have to be added
      * onto the position.
      */
     public final void increasePosition(Vector3f amount) {
@@ -48,8 +46,23 @@ public abstract class Camera {
         this.position.z += amount.z;
     }
 
+    public void changePitch(float amount) {
+        this.pitch += amount;
+    }
+
+    public void changeYaw(float amount) {
+        this.yaw += amount;
+    }
+    
+    public void changeRoll(float amount){
+        this.roll += amount;
+    }
+    
+    public abstract void changeZoomLevel(float amount);
+
     /**
      * Getter for the position of this camera object.
+     *
      * @return The position of this camera object.
      */
     public final Vector3f getPosition() {
@@ -58,6 +71,7 @@ public abstract class Camera {
 
     /**
      * Getter for the pitch of this camera object.
+     *
      * @return The pitch of this camera object (vertical angle).
      */
     public final float getPitch() {
@@ -66,6 +80,7 @@ public abstract class Camera {
 
     /**
      * Getter for the yaw of this camera object.
+     *
      * @return The yaw of this camera object (horizontal angle).
      */
     public final float getYaw() {
@@ -74,6 +89,7 @@ public abstract class Camera {
 
     /**
      * Getter for the roll of this camera object.
+     *
      * @return The sideways vertical angle of the camera.
      */
     public final float getRoll() {

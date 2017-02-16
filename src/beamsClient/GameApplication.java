@@ -8,12 +8,13 @@ package beamsClient;
 import org.lwjgl.opengl.Display;
 
 /**
- * Abstract class that defines the program loop. 
- * Should be implemented by main class.
+ * Abstract class that defines the program loop. Should be implemented by main
+ * class.
+ *
  * @author Blackened
  */
 public abstract class GameApplication {
-    
+
     /**
      * Determines whether the program should be running. This variable is
      * checked every frame, and triggers a program close if false.
@@ -24,13 +25,14 @@ public abstract class GameApplication {
      * Starts the program loop.
      */
     public final void start() {
-        
+
         setUp();
 
         while (!Display.isCloseRequested() && keepRunning) {
-
-            update();
+            
             handleInput();
+            update();
+
             render();
 
         }

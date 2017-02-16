@@ -18,8 +18,8 @@ import org.lwjgl.input.Mouse;
 import org.lwjgl.util.vector.Vector2f;
 import org.lwjgl.util.vector.Vector3f;
 import renderEngine.DisplayManager;
-import userInput.Event;
-import userInput.MouseInput;
+import gui.lib.Event;
+import gui.lib.MouseInput;
 
 /**
  *

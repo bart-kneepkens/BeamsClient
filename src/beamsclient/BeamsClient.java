@@ -33,8 +33,7 @@ import game.terrain.Terrain;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
-import userInput.KeyboardInput;
-import userInput.MouseInput;
+import userInput.InputHandler;
 
 /**
  * This is a main class containing the program loop.
@@ -292,8 +291,7 @@ public class BeamsClient extends GameApplication {
      */
     @Override
     public void handleInput() {
-        MouseInput.checkInputs();
-        KeyboardInput.checkInputs();
+        InputHandler.handleInput();
     }
 
     /**

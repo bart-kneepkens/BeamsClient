@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package userInput;
+package gui.lib;
 
 import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import rx.subjects.PublishSubject;
+import userInput.MouseState;
 
 /**
  *
@@ -64,7 +65,6 @@ public class MouseInput{
             Mouse.setCursorPosition((int) pressOrigin.x, (int) ((int) Display.getHeight()-pressOrigin.y));
         }
         mouseSubject.onNext(mouseState);
-        //System.gc();
     }
 
     public static PublishSubject<MouseState> getMouseSubject() {

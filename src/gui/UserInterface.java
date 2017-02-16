@@ -21,8 +21,8 @@ import java.util.logging.Logger;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.util.vector.Vector2f;
 import toolbox.Autonomous;
-import userInput.Event;
-import userInput.MouseInput;
+import gui.lib.Event;
+import gui.lib.MouseInput;
 
 /**
  *
@@ -72,7 +72,8 @@ public class UserInterface implements Autonomous, GUIParent {
 
     @Override
     public void update() {
-        //this.gui.getAutonomousElements().forEach(x -> x.update());
+        // Will be changed:
+        MouseInput.checkInputs();
     }
 
     private void buttonExit_Click(Event event) throws IOException {

@@ -7,7 +7,6 @@ package gui.lib;
 
 import java.util.function.Consumer;
 import rx.Subscription;
-import userInput.Event;
 import userInput.MouseState;
 
 /**

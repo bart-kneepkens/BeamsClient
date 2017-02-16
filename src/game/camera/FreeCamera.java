@@ -24,6 +24,11 @@ public class FreeCamera extends Camera{
         this.roll = roll;
         this.yaw = yaw;
     }
+
+    @Override
+    public void changeZoomLevel(float amount) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     
     

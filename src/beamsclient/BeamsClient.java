@@ -7,11 +7,11 @@ package beamsClient;
 
 import gui.UserInterface;
 import renderEngine.DisplayManager;
-import dataAccess.lwjgl.Loader;
+import dataAccess.lwjgl.VAO_Loader;
 import game.camera.ThirdPersonCamera;
 import game.Scene;
-import dataAccess.FileLoader;
-import dataAccess.OBJLoader;
+import dataAccess.fileLoaders.TerrainLoader;
+import dataAccess.fileLoaders.OBJLoader;
 import game.entity.Entity;
 import game.entity.Lamp;
 import game.entity.Light;
@@ -124,13 +124,13 @@ public class BeamsClient extends GameApplication {
 
         //<editor-fold defaultstate="collapsed" desc="Terrain">
         // Loads the default terrain.
-        Terrain terrain = FileLoader.loadTerrain(DEFAULT_TERRAIN);
+        Terrain terrain = TerrainLoader.loadTerrain(DEFAULT_TERRAIN);
         //</editor-fold>
 
         //<editor-fold defaultstate="collapsed" desc="Entities">
         // Loads the default player entity.
         RawModel playerModel = OBJLoader.loadObjModel(DEFAULT_PLAYER_MODEL);
-        ModelTexture playerTexture = new ModelTexture(Loader.loadTexture(DEFAULT_PLAYER_TEXTURE));
+        ModelTexture playerTexture = new ModelTexture(VAO_Loader.loadTexture(DEFAULT_PLAYER_TEXTURE));
         TexturedModel texturedPlayerModel = new TexturedModel(playerModel, playerTexture);
         playerTexture.setReflectivity(0);
         playerTexture.setShineDamper(100);
@@ -142,7 +142,7 @@ public class BeamsClient extends GameApplication {
 
         // Loads the default textured object model.
         RawModel objectModel = OBJLoader.loadObjModel(DEFAULT_OBJECT_MODEL);
-        ModelTexture objectTexture = new ModelTexture(Loader.loadTexture(DEFAULT_OBJECT_TEXTURE));
+        ModelTexture objectTexture = new ModelTexture(VAO_Loader.loadTexture(DEFAULT_OBJECT_TEXTURE));
         TexturedModel texturedObjectModel = new TexturedModel(objectModel, objectTexture);
         objectTexture.setReflectivity(1);
         objectTexture.setShineDamper(10);
@@ -171,7 +171,7 @@ public class BeamsClient extends GameApplication {
         //<editor-fold defaultstate="collapsed" desc="Lamps">
         // Loads the default textured lamp model.
         RawModel lampModel = OBJLoader.loadObjModel(DEFAULT_LAMP_MODEL).containsInvertedNormals();
-        ModelTexture lampTexture = new ModelTexture(Loader.loadTexture(DEFAULT_LAMP_TEXTURE));
+        ModelTexture lampTexture = new ModelTexture(VAO_Loader.loadTexture(DEFAULT_LAMP_TEXTURE));
         TexturedModel texturedLampModel = new TexturedModel(lampModel, lampTexture);
         lampTexture.setReflectivity(1);
         lampTexture.setShineDamper(10);
@@ -197,7 +197,7 @@ public class BeamsClient extends GameApplication {
 
         // Loads the default textured sun model.
         RawModel sunModel = OBJLoader.loadObjModel(DEFAULT_SUN_MODEL).containsInvertedNormals();
-        ModelTexture sunTexture = new ModelTexture(Loader.loadTexture(DEFAULT_SUN_TEXTURE));
+        ModelTexture sunTexture = new ModelTexture(VAO_Loader.loadTexture(DEFAULT_SUN_TEXTURE));
         TexturedModel texturedSunModel = new TexturedModel(sunModel, sunTexture);
         sunTexture.setReflectivity(1);
         sunTexture.setShineDamper(10);
@@ -317,7 +317,7 @@ public class BeamsClient extends GameApplication {
     @Override
     public void cleanUp() {
         TextMaster.cleanUp();
-        Loader.cleanUp();
+        VAO_Loader.cleanUp();
         this.masterRenderer.cleanUp();
         DisplayManager.closeDisplay();
     }

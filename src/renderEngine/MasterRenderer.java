@@ -11,6 +11,7 @@ import gui.lwjgl.GUIRenderer;
 import game.Scene;
 import game.entity.Entity;
 import game.entity.lwjgl.EntityRenderer;
+import game.skybox.lwjgl.SkyboxRenderer;
 import gui.font.lwjgl.FontRenderer;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
@@ -62,6 +63,8 @@ public class MasterRenderer {
      */
     private final TerrainRenderer terrainRenderer;
 
+    private final SkyboxRenderer skyboxRenderer;
+
     private final FontRenderer fontRenderer;
 
     /**
@@ -79,7 +82,8 @@ public class MasterRenderer {
         Matrix4f projectionMatrix = this.createProjectionMatrix();
         this.guiRenderer = new GUIRenderer();
         this.fontRenderer = new FontRenderer();
-
+        
+        this.skyboxRenderer = new SkyboxRenderer(projectionMatrix);
         this.terrainRenderer = new TerrainRenderer(projectionMatrix);
         this.entityRenderer = new EntityRenderer(projectionMatrix);
 
@@ -113,6 +117,10 @@ public class MasterRenderer {
     public void render(Scene scene) {
         this.createViewMatrix(scene);
 
+        this.startSkyboxRendering();
+        this.skyboxRenderer.render();
+        this.stopSkyboxRendering();
+
         this.startTerrainRendering(scene);
         this.render(scene.getTerrain());
         this.stopTerrainRendering();
@@ -121,6 +129,7 @@ public class MasterRenderer {
         this.render(scene.getPlayer());
         scene.getEntities().entrySet().forEach(x -> entityRenderer.renderBatch(x));
         this.stopEntityRendering();
+
     }
 
     /**
@@ -186,6 +195,15 @@ public class MasterRenderer {
     private void stopGUIElementRendering() {
         this.guiRenderer.stop();
         GL11.glDisable(GL11.GL_BLEND);
+    }
+
+    private void startSkyboxRendering() {
+        this.skyboxRenderer.start();
+        this.skyboxRenderer.loadUniformMatrix("viewMatrix", viewMatrix);
+    }
+
+    private void stopSkyboxRendering() {
+        this.skyboxRenderer.stop();
     }
 
     /**

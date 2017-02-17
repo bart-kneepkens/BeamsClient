@@ -7,8 +7,8 @@ package game.entity;
 
 import beamsClient.BeamsClient;
 import static beamsClient.BeamsClient.*;
-import dataAccess.OBJLoader;
-import dataAccess.lwjgl.Loader;
+import dataAccess.fileLoaders.OBJLoader;
+import dataAccess.lwjgl.VAO_Loader;
 import game.entity.models.ModelTexture;
 import game.entity.models.RawModel;
 import game.entity.models.TexturedModel;
@@ -108,7 +108,7 @@ public class Wizard extends Player {
 
         // Loads the default bullet textured model.
         RawModel bulletModel = OBJLoader.loadObjModel(DEFAULT_BULLET_MODEL);
-        ModelTexture bulletTexture = new ModelTexture(Loader.loadTexture(DEFAULT_BULLET_TEXTURE));
+        ModelTexture bulletTexture = new ModelTexture(VAO_Loader.loadTexture(DEFAULT_BULLET_TEXTURE));
         TexturedModel texturedBulletModel = new TexturedModel(bulletModel, bulletTexture);
         bulletTexture.setReflectivity(1);
         bulletTexture.setShineDamper(10);

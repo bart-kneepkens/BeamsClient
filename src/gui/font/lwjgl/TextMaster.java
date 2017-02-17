@@ -5,7 +5,7 @@
  */
 package gui.font.lwjgl;
 
-import dataAccess.lwjgl.Loader;
+import dataAccess.lwjgl.VAO_Loader;
 import gui.font.fontMeshCreator.FontType;
 import gui.font.fontMeshCreator.GUIText;
 import gui.font.fontMeshCreator.TextMeshData;
@@ -31,7 +31,7 @@ public class TextMaster {
     public static void loadText(GUIText text){
         FontType font = text.getFont();
         TextMeshData data = font.loadText(text);
-        int vao = Loader.loadToVAO(data.getVertexPositions(), data.getTextureCoords());
+        int vao = VAO_Loader.loadToVAO(data.getVertexPositions(), data.getTextureCoords());
         text.setMeshInfo(vao, data.getVertexCount());
         List<GUIText> textBatch = texts.get(font);
         if(textBatch == null){

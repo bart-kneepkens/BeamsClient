@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dataAccess;
+package dataAccess.fileLoaders;
 
-import dataAccess.lwjgl.Loader;
+import dataAccess.lwjgl.VAO_Loader;
 import dataAccess.lwjgl.ModelData;
 import java.io.BufferedReader;
 import java.io.File;
@@ -41,7 +41,7 @@ public class OBJLoader {
      */
     public static RawModel loadObjModel(String fileName) {
         if (modelCache.containsKey(fileName)) {
-            return Loader.loadToVAO(modelCache.get(fileName));
+            return VAO_Loader.loadToVAO(modelCache.get(fileName));
         } else {
             FileReader fr = null;
             try {
@@ -117,14 +117,14 @@ public class OBJLoader {
             ModelData modelData = new ModelData(verticesArray, textureArray, normalsArray, indicesArray);
             modelCache.put(fileName, modelData);
 
-            return Loader.loadToVAO(modelData);
+            return VAO_Loader.loadToVAO(modelData);
         }
 
     }
 
     public static RawModel loadObjModel(File file) {
         if (modelCache.containsKey(file.getAbsolutePath())) {
-            return Loader.loadToVAO(modelCache.get(file.getAbsolutePath()));
+            return VAO_Loader.loadToVAO(modelCache.get(file.getAbsolutePath()));
         } else {
             FileReader fr = null;
             try {
@@ -199,7 +199,7 @@ public class OBJLoader {
             ModelData modelData = new ModelData(verticesArray, textureArray, normalsArray, indicesArray);
             modelCache.put(file.getAbsolutePath(), modelData);
 
-            return Loader.loadToVAO(modelData);
+            return VAO_Loader.loadToVAO(modelData);
         }
 
     }

@@ -14,7 +14,7 @@ import org.lwjgl.util.vector.Vector2f;
 import rx.Observable;
 import gui.lib.MouseState;
 import gui.lib.GUIRenderable;
-import dataAccess.lwjgl.Loader;
+import dataAccess.lwjgl.VAO_Loader;
 import gui.font.fontMeshCreator.FontType;
 import java.io.File;
 
@@ -59,7 +59,7 @@ public class Checkbox extends MouseActor implements GUIRenderable {
 
     //<editor-fold defaultstate="collapsed" desc="Public Methods">
     public void setLabel(String text) {
-        FontType font = new FontType(Loader.loadTexture(new File("res/fonts/arial.png")), new File("res/fonts/arial.fnt"));
+        FontType font = new FontType(VAO_Loader.loadTexture(new File("res/fonts/arial.png")), new File("res/fonts/arial.fnt"));
         Label label = new Label(text, 0.65f, font, new Vector2f(this.guiElement.getPosition().getX() + this.guiElement.getWidth() + 10, this.guiElement.getPosition().getY()), 0.5f, false);
         label.setColour(1, 1, 1);
         this.guiElement.setLabel(label);

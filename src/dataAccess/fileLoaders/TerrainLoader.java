@@ -3,9 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package dataAccess;
+package dataAccess.fileLoaders;
 
-import dataAccess.lwjgl.Loader;
+import dataAccess.lwjgl.VAO_Loader;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
@@ -22,7 +22,7 @@ import game.terrain.texture.TerrainTexturePack;
  *
  * @author Blackened
  */
-public class FileLoader {
+public class TerrainLoader {
 
     //<editor-fold defaultstate="collapsed" desc="Static Methods">
     /**
@@ -62,19 +62,19 @@ public class FileLoader {
                     heightTable = Terrain.generateHeightTable(loadBufferedImage(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
                 }
                 if (line.startsWith("BlendMap: ")) {
-                    blendMap = new TerrainTexture(Loader.loadTexture(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
+                    blendMap = new TerrainTexture(VAO_Loader.loadTexture(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
                 }
                 if (line.startsWith("bgTexture: ")) {
-                    bgTexture = new TerrainTexture(Loader.loadTexture(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
+                    bgTexture = new TerrainTexture(VAO_Loader.loadTexture(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
                 }
                 if (line.startsWith("rTexture: ")) {
-                    rTexture = new TerrainTexture(Loader.loadTexture(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
+                    rTexture = new TerrainTexture(VAO_Loader.loadTexture(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
                 }
                 if (line.startsWith("gTexture: ")) {
-                    gTexture = new TerrainTexture(Loader.loadTexture(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
+                    gTexture = new TerrainTexture(VAO_Loader.loadTexture(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
                 }
                 if (line.startsWith("bTexture: ")) {
-                    bTexture = new TerrainTexture(Loader.loadTexture(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
+                    bTexture = new TerrainTexture(VAO_Loader.loadTexture(new File(file.getAbsoluteFile().getParentFile().getAbsolutePath() + "/" + line.split(": ")[1])));
                 }
             }
 
@@ -92,6 +92,8 @@ public class FileLoader {
         }
 
     }
+    
+    
 
     /**
      * Loads a buffered image

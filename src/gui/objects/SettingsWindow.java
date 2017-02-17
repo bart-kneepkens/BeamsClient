@@ -7,7 +7,7 @@ package gui.objects;
 
 import gui.UserInterface;
 import beamsClient.BeamsClient;
-import dataAccess.FileLoader;
+import dataAccess.fileLoaders.TerrainLoader;
 import java.awt.FileDialog;
 import java.io.File;
 import java.io.IOException;
@@ -104,7 +104,7 @@ public class SettingsWindow extends Window {
             System.out.println("You cancelled the choice");
         } else {
             try {
-                BeamsClient.getInstance().getScene().setTerrain(FileLoader.loadTerrain(new File(filename)));
+                BeamsClient.getInstance().getScene().setTerrain(TerrainLoader.loadTerrain(new File(filename)));
             } catch (IOException ex) {
                 dialog.dispose();
                 Logger.getLogger(UserInterface.class.getName()).log(Level.SEVERE, null, ex);
@@ -115,6 +115,7 @@ public class SettingsWindow extends Window {
 
     private void btnResetScene_Click(Event event) throws IOException {
         BeamsClient.getInstance().loadDefaultScene();
+        BeamsClient.getInstance().loadInputHandlers();
         System.out.println("Resetted scene!");
 //        Runtime runtime = Runtime.getRuntime();
 //        String[] args = {"osascript", "-e", "set a to \"java\"\n"

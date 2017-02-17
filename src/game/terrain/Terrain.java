@@ -9,7 +9,7 @@ import dataAccess.lwjgl.ModelData;
 import java.awt.image.BufferedImage;
 import game.entity.models.RawModel;
 import org.lwjgl.util.vector.Vector3f;
-import dataAccess.lwjgl.Loader;
+import dataAccess.lwjgl.VAO_Loader;
 import org.lwjgl.util.vector.Vector2f;
 import game.terrain.texture.TerrainTexture;
 import game.terrain.texture.TerrainTexturePack;
@@ -182,7 +182,7 @@ public class Terrain {
                 indices[pointer++] = bottomRight;
             }
         }
-        return Loader.loadToVAO(new ModelData(vertices, textureCoords, normals, indices));
+        return VAO_Loader.loadToVAO(new ModelData(vertices, textureCoords, normals, indices));
     }
 
     public static float[][] generateHeightTable(BufferedImage heightMap) {

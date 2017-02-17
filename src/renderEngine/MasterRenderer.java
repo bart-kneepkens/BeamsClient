@@ -199,7 +199,7 @@ public class MasterRenderer {
 
     private void startSkyboxRendering() {
         this.skyboxRenderer.start();
-        this.skyboxRenderer.loadUniformMatrix("viewMatrix", viewMatrix);
+        this.skyboxRenderer.loadViewMatrix(viewMatrix);
     }
 
     private void stopSkyboxRendering() {

@@ -6,6 +6,8 @@
 package game.skybox.lwjgl;
 
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
+import renderEngine.DisplayManager;
 import renderEngine.ShaderProgram;
 import static toolbox.AttributeListPosition.TEXTURE_COORDS;
 import static toolbox.AttributeListPosition.VERTEX_POSITIONS;
@@ -25,6 +27,10 @@ public class SkyboxShader extends ShaderProgram {
      * The location of the fragment shader file.
      */
     private static final String FRAGMENT_FILE = "src/game/skybox/lwjgl/fragmentShader.glsl";
+    
+    private static final float ROTATE_SPEED = 1f;
+    
+    private float rotation = 0;
 
     /**
      * Creates a new instance of the static shader class.
@@ -61,6 +67,15 @@ public class SkyboxShader extends ShaderProgram {
      */
     public final void loadUniformMatrix(String uniformName, Matrix4f matrix) {
         super.loadMatrix(super.getUniformLocations().get(uniformName), matrix);
+    }
+    
+    public final void loadViewMatrix(Matrix4f matrix){
+        rotation += ROTATE_SPEED * DisplayManager.getFrameTimeSeconds();
+        Matrix4f copy = new Matrix4f();
+        Matrix4f.load(matrix, copy);
+        Matrix4f.rotate((float) Math.toRadians(rotation), new Vector3f(1,1,0), copy, copy);
+        
+        this.loadUniformMatrix("viewMatrix", copy);
     }
 
 }

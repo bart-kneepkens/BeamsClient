@@ -28,7 +28,7 @@ public class SkyboxShader extends ShaderProgram {
      */
     private static final String FRAGMENT_FILE = "src/game/skybox/lwjgl/fragmentShader.glsl";
     
-    private static final float ROTATE_SPEED = 1f;
+    private static final float ROTATE_SPEED = 0.25f;
     
     private float rotation = 0;
 

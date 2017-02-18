@@ -1,2 +1,2 @@
 language: java
-script: ant -Dnb.internal.action.name=rebuild clean jar
+script: ant -f /home/travis/build/bart-kneepkens/BeamsClient -Dnb.internal.action.name=rebuild clean jar
